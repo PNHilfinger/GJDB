@@ -1,0 +1,163 @@
+
+JDIR = @apphome@
+TOOLSLIB = @complib@
+SRCDIR = @srcdir@
+BINDIR = @bindir@
+LIBDIR = @libdir@
+EMACSDIR = @emacsdir@
+BUILDDIR = @builddir@
+COMPILE= $(JAVAC) $(JFLAGS) -d src $(TOOLSLIB) $(SRC)
+
+SHELL = /bin/sh
+
+JSRCDIR = $(SRCDIR)/src/ucb/gjdb
+
+.PHONY: default clean distclean doc maintainer-clean install tar zip
+
+.SUFFIXES:
+
+DISTFILES = lib/emacs/lisp/gjdb.el \
+	    doc/*.sty doc/*.cls doc/Makefile.in doc/*.tex.in \
+	    configure Makefile.in ChangeLog README NEWS \
+	    bin/gjdb.in bin/meta-gjdb.in \
+	    src/ucb/gjdb/*.java \
+	    src/ucb/gjdb/ExpressionParser.y src/ucb/gjdb/ExpressionLexer.jf \
+	    src/ucb/gjdb/CommandParser.y src/ucb/gjdb/CommandLexer.jf \
+
+# NOTE: Keep the line below formatted exactly as is: "VERSION = version",
+#       left-justified, with no trailing spaces.
+VERSION = 6.1.2
+
+JAR = jar
+JAVAC = $(JDIR)/bin/javac 
+EMACS = emacs
+JAVACC = javacc
+JBISON = jbison
+JFLEX = jflex
+JFLAGS = -g
+
+JARFILE = src/gjdb.jar
+
+SRC =	 $(JSRCDIR)/*.java \
+	 $(GENERATED_SRC) \
+	 Version.java
+
+GENERATED_SRC = $(JSRCDIR)/ExpressionParser.java $(JSRCDIR)/ExpressionLexer.java \
+		$(JSRCDIR)/CommandParser.java $(JSRCDIR)/CommandLexer.java
+
+default: $(JARFILE)
+
+$(JARFILE): $(SRC)
+	$(COMPILE)
+	cd src; \
+	$(JAR) cvf ../$(JARFILE) ucb/gjdb/*.class
+	chmod 644 $(JARFILE)
+
+$(JSRCDIR)/%.java: $(JSRCDIR)/%.y
+	rm -f $@
+	$(JBISON) --output=$@ -v $<
+	chmod a-w $@
+
+$(JSRCDIR)/%.java: $(JSRCDIR)/%.jf
+	rm -f $@
+	$(JFLEX) $<
+	chmod a-w $@
+
+Version.java: Makefile 
+	@echo Making Version.java...
+	@rm -f Version.java; \
+	echo "package ucb.gjdb;" > Version.java; \
+	echo "class Version {" >> Version.java; \
+	echo "    static final String value = \"$(VERSION) (for JDK @jdk@)\";"\
+		 >> Version.java; \
+	echo "}" >> Version.java
+
+doc:
+	cd doc; $(MAKE) pdf
+
+clean: 
+	rm -f src/ucb/gjdb/*.class *~ src/ucb/gjdb/*~ \
+	      src/ucb/gjdb/*.output \
+	      $(JARFILE) Version.java
+	cd doc; \
+	if [ -f Makefile ]; then \
+	    $(MAKE) clean; \
+	else \
+	    $(MAKE) -f Makefile.in clean; \
+	fi
+
+distclean: 
+	if [ ! -f Makefile.in -a -f "$(SRCDIR)/Makefile.in" ]; then \
+	    cd $(SRCDIR); $(MAKE) -f Makefile.in distclean; \
+	else \
+	    $(MAKE) -f Makefile.in clean; \
+	    rm -f Makefile doc/Makefile bin/gjdb bin/meta-gjdb config.status; \
+	fi
+
+maintainer-clean: 
+	if [ ! -f Makefile.in -a -f "$(SRCDIR)/Makefile.in" ]; then \
+	    cd $(SRCDIR); $(MAKE) -f Makefile.in maintainer-clean; \
+	else \
+	    $(MAKE) -f Makefile.in distclean; \
+	    rm -f src/ucb/gjdb/*.java; \
+	fi
+
+install: $(JARFILE)
+	-mkdir -p $(LIBDIR)
+	-cp -p $(JARFILE) $(LIBDIR);
+	-mkdir -p $(BINDIR)
+	-cp bin/gjdb $(BINDIR)/gjdb
+	-cp bin/meta-gjdb $(BINDIR)/meta-gjdb
+	chmod 755 $(BINDIR)/gjdb $(BINDIR)/meta-gjdb
+	-mkdir -p $(EMACSDIR)
+	-cp $(SRCDIR)/lib/emacs/lisp/gjdb.el $(EMACSDIR)
+	-$(EMACS) -batch -f batch-byte-compile $(EMACSDIR)/gjdb.el
+	-chmod 644 $(EMACSDIR)/gjdb.el $(EMACSDIR)/gjdb.elc
+
+install-doc:
+	cd doc; $(MAKE) install
+
+Makefile: $(SRCDIR)/Makefile.in
+	@if [ -r config.status ]; then \
+	  CONFIG_FILE=Makefile; export CONFIG_FILE; . ./config.status; \
+	fi
+
+DIR = .
+
+DISTDIR = gjdb-$(VERSION)
+
+# Run this in the source directory with
+#    make -f Makefile.in DIR=<file> tar
+# or
+#    make -f Makefile.in DIR=<file> zip
+# where <file> is the pathname of the directory that is to contain
+# the resulting compressed archive.
+
+tar:
+	@for f in $(GENERATED_SRC:@srcdir@/%=%); do \
+	    if [ ! -f $$f ]; then \
+	        echo "Must generate $$f first."; \
+	        exit 1; \
+	    fi; \
+        done
+	@tmp=/tmp/gjdb$$$$; \
+	 rm -rf $$tmp; mkdir -p $$tmp/$(DISTDIR); \
+	 tar cf - $(DISTFILES) | (cd $$tmp/$(DISTDIR); tar xf -); \
+	 echo Creating $(DIR)/$(DISTDIR).tgz; \
+	 (cd $$tmp; tar cf - $(DISTDIR) | gzip -c) > $(DIR)/$(DISTDIR).tgz; \
+	 rm -rf $$tmp
+
+zip:
+	@for f in $(GENERATED_SRC:@srcdir@/%=%); do \
+	    if [ ! -f $$f ]; then \
+	        echo "Must generate $$f first."; \
+	        exit 1; \
+	    fi; \
+        done
+	@tmp=/tmp/gjdb$$$$; \
+	 rm -rf $$tmp; mkdir -p $$tmp/$(DISTDIR); \
+	 tar cf - $(DISTFILES) | (cd $$tmp/$(DISTDIR); tar xf -); \
+	 echo Creating $(DIR)/$(DISTDIR).tgz; \
+	 dir=`(cd $(DIR); pwd)`; \
+	 (cd $$tmp; zip -r $$dir/$(DISTDIR).Z $(DISTDIR)); \
+	 rm -rf $$tmp

@@ -1,0 +1,113 @@
+% $Header$
+%
+% 
+% Color
+%
+% A simplified color package.
+%
+% Color commands are essentially declarations whose scope ends with the 
+% enclosing TeX group.  The command
+%     {\pscolor{POSTSCRIPT COMMAND} text}
+% simply executes the given Postscript command (generally a color command)
+% and arranges for it to be re-executed when leaving a subsequent TeX
+% group (which might have reset the color).  
+%
+% The command
+%     {\color{MODEL}{PARAMETERS}
+% sets the current color according to the PARAMETERS, as interpreted in the
+% color model MODEL, which may be rgb, hsb, or cmyk.
+%
+% Other color commands are simply names of colors, as in 
+%     {\Orange text}
+% The commands \black, \white, and \gray{VALUE} give grayscale, which
+% can be overridden by layering directives in the pnhslide package:
+%     \black == \gray{0}
+%     \white == \gray{1}
+% The other named colors are not overridden by colors in these
+% layering directives.
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{pnhcolor}[2003/05/29]
+
+\def\reset@current@color{\special{ps: 0 setgray}}
+
+\DeclareRobustCommand\pscolor[1]{%
+   \def\reset@current@color{\special{ps: #1}}%
+   \reset@current@color\aftergroup\reset@current@color}
+\DeclareRobustCommand\color[2]{\pscolor{#2 set#1color}}
+
+\newcommand{\black}{\pscolor{0 setgray}}
+\newcommand{\white}{\pscolor{1 setgray}}
+\newcommand{\gray}[1]{\pscolor{#1 setgray}}
+
+\newcommand{\GreenYellow}{\color{cmyk}{0.15 0 0.69 0}}
+\newcommand{\Yellow}{\color{cmyk}{0 0 1 0}}
+\newcommand{\Goldenrod}{\color{cmyk}{0 0.10 0.84 0}}
+\newcommand{\Dandelion}{\color{cmyk}{0 0.29 0.84 0}}
+\newcommand{\Apricot}{\color{cmyk}{0 0.32 0.52 0}}
+\newcommand{\Peach}{\color{cmyk}{0 0.50 0.70 0}}
+\newcommand{\Melon}{\color{cmyk}{0 0.46 0.50 0}}
+\newcommand{\YellowOrange}{\color{cmyk}{0 0.42 1 0}}
+\newcommand{\Orange}{\color{cmyk}{0 0.61 0.87 0}}
+\newcommand{\BurntOrange}{\color{cmyk}{0 0.51 1 0}}
+\newcommand{\Bittersweet}{\color{cmyk}{0 0.75 1 0.24}}
+\newcommand{\RedOrange}{\color{cmyk}{0 0.77 0.87 0}}
+\newcommand{\Mahogany}{\color{cmyk}{0 0.85 0.87 0.35}}
+\newcommand{\Maroon}{\color{cmyk}{0 0.87 0.68 0.32}}
+\newcommand{\BrickRed}{\color{cmyk}{0 0.89 0.94 0.28}}
+\newcommand{\Red}{\color{cmyk}{0 1 1 0}}
+\newcommand{\OrangeRed}{\color{cmyk}{0 1 0.50 0}}
+\newcommand{\RubineRed}{\color{cmyk}{0 1 0.13 0}}
+\newcommand{\WildStrawberry}{\color{cmyk}{0 0.96 0.39 0}}
+\newcommand{\Salmon}{\color{cmyk}{0 0.53 0.38 0}}
+\newcommand{\CarnationPink}{\color{cmyk}{0 0.63 0 0}}
+\newcommand{\Magenta}{\color{cmyk}{0 1 0 0}}
+\newcommand{\VioletRed}{\color{cmyk}{0 0.81 0 0}}
+\newcommand{\Rhodamine}{\color{cmyk}{0 0.82 0 0}}
+\newcommand{\Mulberry}{\color{cmyk}{0.34 0.90 0 0.02}}
+\newcommand{\RedViolet}{\color{cmyk}{0.07 0.90 0 0.34}}
+\newcommand{\Fuchsia}{\color{cmyk}{0.47 0.91 0 0.08}}
+\newcommand{\Lavender}{\color{cmyk}{0 0.48 0 0}}
+\newcommand{\Thistle}{\color{cmyk}{0.12 0.59 0 0}}
+\newcommand{\Orchid}{\color{cmyk}{0.32 0.64 0 0}}
+\newcommand{\DarkOrchid}{\color{cmyk}{0.40 0.80 0.20 0}}
+\newcommand{\Purple}{\color{cmyk}{0.45 0.86 0 0}}
+\newcommand{\Plum}{\color{cmyk}{0.50 1 0 0}}
+\newcommand{\Violet}{\color{cmyk}{0.79 0.88 0 0}}
+\newcommand{\RoyalPurple}{\color{cmyk}{0.75 0.90 0 0}}
+\newcommand{\BlueViolet}{\color{cmyk}{0.86 0.91 0 0.04}}
+\newcommand{\Periwinkle}{\color{cmyk}{0.57 0.55 0 0}}
+\newcommand{\CadetBlue}{\color{cmyk}{0.62 0.57 0.23 0}}
+\newcommand{\CornflowerBlue}{\color{cmyk}{0.65 0.13 0 0}}
+\newcommand{\MidnightBlue}{\color{cmyk}{0.98 0.13 0 0.43}}
+\newcommand{\NavyBlue}{\color{cmyk}{0.94 0.54 0 0}}
+\newcommand{\RoyalBlue}{\color{cmyk}{1 0.50 0 0}}
+\newcommand{\Blue}{\color{cmyk}{1 1 0 0}}
+\newcommand{\Cerulean}{\color{cmyk}{0.94 0.11 0 0}}
+\newcommand{\Cyan}{\color{cmyk}{1 0 0 0}}
+\newcommand{\ProcessBlue}{\color{cmyk}{0.96 0 0 0}}
+\newcommand{\SkyBlue}{\color{cmyk}{0.62 0 0.12 0}}
+\newcommand{\Turquoise}{\color{cmyk}{0.85 0 0.20 0}}
+\newcommand{\TealBlue}{\color{cmyk}{0.86 0 0.34 0.02}}
+\newcommand{\Aquamarine}{\color{cmyk}{0.82 0 0.30 0}}
+\newcommand{\BlueGreen}{\color{cmyk}{0.85 0 0.33 0}}
+\newcommand{\Emerald}{\color{cmyk}{1 0 0.50 0}}
+\newcommand{\JungleGreen}{\color{cmyk}{0.99 0 0.52 0}}
+\newcommand{\SeaGreen}{\color{cmyk}{0.69 0 0.50 0}}
+\newcommand{\Green}{\color{cmyk}{1 0 1 0}}
+\newcommand{\ForestGreen}{\color{cmyk}{0.91 0 0.88 0.12}}
+\newcommand{\PineGreen}{\color{cmyk}{0.92 0 0.59 0.25}}
+\newcommand{\LimeGreen}{\color{cmyk}{0.50 0 1 0}}
+\newcommand{\YellowGreen}{\color{cmyk}{0.44 0 0.74 0}}
+\newcommand{\SpringGreen}{\color{cmyk}{0.26 0 0.76 0}}
+\newcommand{\OliveGreen}{\color{cmyk}{0.64 0 0.95 0.40}}
+\newcommand{\RawSienna}{\color{cmyk}{0 0.72 1 0.45}}
+\newcommand{\Sepia}{\color{cmyk}{0 0.83 1 0.70}}
+\newcommand{\Brown}{\color{cmyk}{0 0.81 1 0.60}}
+\newcommand{\Tan}{\color{cmyk}{0.14 0.42 0.56 0}}
+
+\newcommand{\Gray}{\color{cmyk}{0 0 0 0.50}}
+\newcommand{\Black}{\color{cmyk}{0 0 0 1}}
+\newcommand{\White}{\color{cmyk}{0 0 0 0}}
+
+\endinput

@@ -1,0 +1,742 @@
+\documentclass[11pt,twoside]{handout}
+\usepackage{programs1}
+
+\author{P. N. Hilfinger}
+\title{The GJDB Debugger}
+\usepackage{programs1}
+
+\begin{document}
+\makecompacttitle
+
+A {\it debugger\/} is a program that runs other programs, allowing its
+user to exercise
+some degree of control over these programs, and to examine them when
+things go amiss.  
+Sun Microsystems, Inc.\ distributes a  text-based
+debugger, called JDB, with its Java Developer's Kit
+(JDK).    I have
+modified JDB to make its commands look pretty much like GDB, the GNU
+Debugger\footnote{The recursive acronym GNU means ``GNU's Not Unix''
+and refers to a larger project to provide free software tools.},
+which handles C, C++, Pascal, Ada, and a number of 
+other languages.  The result is called GJDB (g'jay dee
+bee)\footnote{This document applies to GJDB version ????.}.  Perhaps
+the most convenient way to use it is through the interface supplied
+with Emacs.  
+
+GJDB is dauntingly chock-full of useful stuff, but for our purposes, a
+small set of its features will suffice.  This document describes them.
+
+\section{Basic functions of a debugger}
+
+When you are executing a program containing errors that manifest
+themselves during execution, there are several things you might want
+to do or know.
+\begin{itemize}
+\item What statement or expression was the program executing at the
+time of a fatal error? 
+\item If a fatal error occurs while executing a function, what line of
+the program contains the call to that function?
+\item What are the values of program variables (including parameters)
+at a particular point during execution of the program?
+\item What is the result of evaluating a particular expression at some
+point in the program?
+\item What is the sequence of statements actually executed in a
+program?
+\item When does the value of a particular variable change?
+\end{itemize}
+These functions require that the user of a debugger be able to {\it examine\/}
+program data, to obtain a {\it traceback\/} (a list of function calls
+that are currently executing sorted by who called whom), to set  {\it
+breakpoints\/} where execution of the program is suspended to allow
+its data to be examined, and to {\it step\/} through the statements of
+a program to see what actually happens.  GJDB provides all these
+functions.  It is a {\it symbolic\/} or {\it source-level\/} debugger,
+creating the fiction that you are executing the Java
+statements in your source program rather than the machine code they have
+actually been translated into.
+
+\section{Preparation}
+A typical Java implementation first compiles (translates) Java
+programs into executable files containing {\it bytecode,\/} a sort of
+machine language for an idealized virtual machine that is 
+considerably easier to execute than the original source text.
+This translation process
+generally loses 
+information about the original Java statements that were translated.  A
+single Java statement usually translates to several machine statements,
+and most local variable names are simply eliminated. Information about
+actual variable
+names and about the original Java statements in your source program is
+unnecessary for simply executing your program.
+Therefore, for a source-level debugger to work properly, the compiler
+must retain some of this superfluous information
+(superfluous, that is, for execution).  
+
+To indicate to our compiler ({\tt javac}) that you intend to debug your
+program, and therefore need this extra information, add the \prog|-g|
+switch during both compilation.  For example, if you are compiling an 
+application whose main class is called {\tt Main}, you
+might compile with 
+\begin{program}
+javac -g Main.java
+\end{program}
+
+This  sample command sequence  produces a {\it class file\/}
+\prog|Main.class| containing the translation of the class {\tt Main},
+and possibly some other class files.  
+
+\section{Starting GJDB}
+To run this under control of \prog|gjdb|, you
+can type
+\begin{program}
+gjdb Main
+\end{program}
+in a shell.  You will be rewarded with the initial command prompt:
+\begin{program}
+[-] 
+\end{program}
+This provides an effective, but unfrilly text interface to
+the debugger.  I don't actually recommend that you do this; it's
+much better to use the Emacs facilities described below.  However, the
+text interface will do for describing the commands.
+
+\section{Threads and Frames}\label{sec:frames}
+When GJDB starts, your program has not started; it won't until
+you tell GJDB to run it (you tell the program is not started from 
+GJDB's prompt, which will be {\tt[-]}). 
+After the program has started and before it exits, GJDB will see a set
+of {\it threads,\/} each one of which is essentially a
+semi-independent program.   If you haven't encountered Java threads
+before, the part of your program that you usually think of as ``the
+program'' will be the 
+{\it main thread,\/} appropriately named {\tt main}.
+However, there will also be a bunch of 
+{\it system threads} (running various support activities), that GJDB
+will tell you about if asked, but which will generally not be of interest.
+GJDB can examine one thread at a time; which one being indicated by the
+prompt:
+\begin{description}
+\item[{[-]}] Means there are no threads; the program has not been
+started.
+\item[{[?]}] Means the program is started, but GJDB is not looking at
+any particular thread.  You'll may see this if you interrupt your program.
+\item[{{\it name\/}[$n\/$]}] Means that GJDB is looking at thread
+{\it name\/}, and at frame \#$n\/$ (see below) within that
+thread.
+\end{description}
+
+At any given time, a particular thread is in the process of executing
+some statement inside a function (method)\footnote{Even when your
+program is initializing a field in a record, which doesn't {\it
+look\/} as if it's inside a method, it is actually executing a part of
+either a constructor or a special ``static initializer'' method (which
+you'll see in certain listings under the name {\tt <clinit>}).}.  To
+arrive inside that method, the program had to execute a method call in
+a statement of some other method (or possibly the same, in the case of
+recursion), and so on back to the mysterious system magic that started
+it all.  In other words, in each thread, there is a sequence of
+currently active method calls, each of which is executing a particular
+statement, and each of which also has a bunch of other associated
+information: parameter values, local variable values and so forth.  We
+refer to each of these active calls as {\it frames,\/} or sometimes
+{\it stack frames,\/} because they come and go in last-in-first-out
+order, like a stack data structure.  Each has a {\it current
+location,\/} which is a statement or piece of a statement that is
+currently being executed in that call (sometimes called a {\it program
+counter\/} or, confusingly, {\it PC}).  The most recent, or {\it
+top\/} frame is the one that is executing ``the next statement in the
+program,'' while each of the other frames is executing a (so-far incomplete)
+method call.  
+
+For example, consider the simple class {\tt Example} on page~\pageref{fig:Example}.
+Suppose we start the program with command-line argument 5, and
+are stopped at statement (E).  Then (for the main thread) GJDB
+sees frames \#0--\#5, as follows:
+
+\medskip
+\begin{tabular}{r | l | c | l}
+\multicolumn{1}{c|}{Frame\#} & 
+\multicolumn{1}{c|}{Method} & 
+Location &
+\multicolumn{1}{c}{Variables} \\
+\hline
+0. & {\tt report} & (E) & {\tt x: 2} \\
+1. & {\tt ilog} & (C) & {\tt x: 1, a: 2} \\
+2. & {\tt ilog} & (D) & {\tt x: 2, a: 1} \\
+3. & {\tt ilog} & (D) & {\tt x: 5, a: 0} \\
+4. & {\tt process} & (B) & {\tt x: "5"} \\
+5. & {\tt main} & (A) & \verb|args: { "5" }|
+\end{tabular}
+
+
+\begin{figure}[t]
+\begin{program}
+class Example {
+  public static void main (String[] args) {
+    for (int i = 0; i < args.length; i += 1)
+      process (args[i]);           // (A)
+  }
+
+  void process (String x) {
+    ilog (Integer.parseInt(x), 0); // (B)
+  }
+
+  void ilog (int x, int a) {
+    if (x <= 1)
+       report (a);	           // (C)
+    else
+       ilog (x/2, a+1);		   // (D)
+  }
+
+  int report (int x) {
+    System.out.println (x);        // (E)
+  }
+}
+\end{program}
+\caption{A sample program to be debugged.  Assume that it is stored in
+    file {\tt Example.java}.}
+\label{fig:Example}
+\end{figure}
+
+\section{GJDB Commands}\label{sec:commands}
+This section describes the commands available under GJDB. Except where
+noted, one
+uses them when the program being debugged by GJDB is stopped.
+You can abbreviate
+most commands with a sufficiently long prefix.  For example, {\tt p} is
+short for {\tt print}, and {\tt b} is short for {\tt break}.
+
+\subsection{Basic Commands}
+The following basic commands give you enough to pinpoint where your
+program blows up, and usually to find the offending bad pointer or
+array index that is the immediate cause of the problem (of course, the
+actual error probably occurred much earlier in the program; that's why
+debugging is not completely automatic.)  Personally, I usually don't
+need more than this; once I know where my program goes wrong, I often
+have enough clues to narrow down my search for the error.  You should
+{\it at least\/} establish the place of a catastrophic error before
+seeking someone else's assistance. 
+
+\begin{description}
+\item[\tt help {\it command}] \ \\
+Provide a brief description of a GJDB command or topic.  Plain {\tt
+help} lists the possible topics.
+\item[\tt run {\it command-line-arguments}] \ \\
+Starts your program as if you had typed
+\begin{program}
+java \{\it Main\} \{\it command-line-arguments\}
+\end{program}
+to a Unix shell.  GJDB remembers the arguments you pass, and plain {\tt
+run} thereafter will restart your program from the top with those
+arguments.  By default, the standard input to your program will come
+from the terminal (which causes some conflict with entering debugging
+commands: see below).  However, you may take the standard input from
+an arbitrary file by using input redirection: adding {\tt < {\it filename\/}}
+to the end of the {\it command-line-arguments\/} uses the contents of
+the named file as the standard input (as it does for the shell).  
+Likewise, adding {\tt> {\it filename\/}} causes the standard output
+from your program to go to the named file rather than to the terminal,
+and
+{\tt >\& {\it filename\/}} causes both the standard output and the 
+standard error output to go to the named file.
+\item[\tt where] \ \\
+Produce a backtrace---the chain of function calls that brought the
+program to its current place.  The commands {\tt bt} and {\tt
+backtrace} are synonyms.
+\item[\tt up] \ \\
+Move the current frame that GJDB is examining to the caller of that
+frame.  Very often, your program will blow up in a library
+function---one for which there is no source code available, such as
+one of the I/O routines.  You will need to do several {\tt up}s to get
+to the last point in your program that was actually executing.
+Emacs (see below) provides the shorthand {\tt C-c<} (Control-C
+followed by less-than), or the function key {\tt f3}.
+\item[\tt up $n\/$] Perform $n\/$ {\tt up} commands ($n$ a positive number).
+\item[\tt down] \ \\
+Undoes the effect of one {\tt up}.  Emacs provides the shorthands {\tt
+C-c>}
+and function key {\tt f4}.
+\item[\tt down $n\/$] Perform $n\/$ {\tt down} 
+	  commands ($n$ a positive number).
+\item[\tt frame $n\/$] Perform {\tt up}s or {\tt downs}s as needed to
+make frame \#$n\/$ the current frame.
+\item[\tt thread $T\/$] Make thread $T\/$ the current thread that GJDB 
+is examining.  $T\/$ may either be the name or the number of a thread
+(as reported by {\tt info
+threads}, below).
+\item[\tt print $E$] \ \\
+prints the value of $E$ in the current frame in the program, where $E$
+is a Java expression (often just a variable).  
+For example
+\begin{program}
+main[0] print A[i]
+A[i] = -14
+main[0] print A[i]+x
+A[i]+Main.x = 17
+\end{program}
+This tells us that the value of \prog|A[i]| in the current frame is -14
+and that when this value is added to \prog|Main.x|, it gives 17.
+Printing a reference value is less informative:
+\begin{program}
+main[0] p args
+args = instance of java.lang.String[3] (id=172)
+\end{program}
+This tells you that {\tt args} contains a pointer to a 3-element array
+of strings, but not what these strings are.  
+\item[\tt print/$n~E$] 
+also prints the value of expression $E$ in the current frame. If
+$E$ is a reference value, however, it also prints the subcomponents
+(fields or array elements) of the
+referenced object to $n$ levels.  Plain {\tt print} without this
+specification is equivalent to {\tt print/0}, and does not print
+subcomponents. {\it Printing subcomponents
+to one level\/} means printing each subcomponent of $E$'s
+value as if by {\tt print/0}.  Printing to two levels prints means
+printing each subcomponent as if by {\tt print/1}, and so forth recursively.
+For example,
+\begin{program}
+main[0] print/1 args
+args = instance of java.lang.String[3] (id=172) {
+"A", "B", "C"
+}
+main[0] p T
+T = instance of Tree(id=176)
+main[0] p/1 T
+T = instance of Tree(id=176) {
+  label: "A"
+  left: null
+  right: instance of Tree(id=178)
+}
+main[0] p/2 T
+T = instance of Tree(id=176) {
+  label: "A"
+  left: null
+  right: instance of Tree(id=178) {
+    label: "B"
+    left: null
+    right: instance of Tree(id=180)
+  }
+}
+\end{program}
+\item[\tt dump $E$] \ \\
+Equivalent to {\tt print/1 $E$}.  
+\item[\tt dump/$n~E$] \ \\
+Equivalent to {\tt print/$n~E$}.  
+\item[\tt call $E$] \ \\
+Evaluate $E\/$ for its side effects, without printing the result.
+\item[\tt info locals] Print the values of all parameters and 
+local variables in the current frame.
+\item[\tt info threads] List all current threads.
+\item[\tt quit] \ \\
+Leave GJDB.
+\end{description}
+
+\subsection{More Advanced Commands}
+
+The next bunch of commands allow you to actively stop a program during
+normal operation.
+\begin{description}
+\item[{\tt suspend} and {\tt C-f}] ~\\
+When a program is run from a Unix shell,  {\tt C-c} will terminate
+its execution (usually).  At the moment, unfortunately, it will
+also do this to GJDB itself.  When debugging, you usually want instead
+to simply stop the debugged program temporarily in order to examine it. 
+When the standard input is redirected from a file (using `{\tt<}'; see 
+the {\tt run} command), you can simply use {\tt suspend} to stop the
+program (and then use {\tt continue} or {\tt resume} to restart).  
+When the program is running and standard input comes from the
+terminal, things get complicated: how does GJDB know a command from
+program input.  If you are using GJDB mode (see \S\ref{sec:emacs}),
+then {\tt C-c C-c} will do the trick in this case.
+Otherwise, if you are running in an ordinary shell, use {\tt C-f}
+following by return.  And finally, if you are running in a shell under
+Emacs, use {\tt C-qC-f} followed by return.
+\item[\tt break {\it place}] \ \\
+Establishes a breakpoint; the program will halt when it gets there.
+The easiest breakpoints to set are at the beginnings of functions, as
+in
+\begin{program}
+[-] break Example.process
+Set breakpoint request Example:8
+\end{program}
+(using the class {\tt Example} from \S\ref{sec:frames}).  Use the
+full method name (complete with class and package qualification), as
+shown.  You will
+either get a confirming message as above (saying that the system set a
+breakpoint at line~8 of the file containing class {\tt Example}),
+or something like 
+\begin{program}
+Deferring BP RatioCalc.main [unresolved].
+\end{program}
+when you set a breakpoint before the class in question has been
+loaded.  
+This means that the breakpoint will be set when (and if) the class in which
+it occurs is loaded.
+A {\it place\/} may also indicate a line number in a class, 
+so that you may break
+on any line of a program.  For example, to place a breakpoint at
+line~13  (point (C)) of the program
+in Figure~\ref{fig:Example}, type
+\begin{program}
+[-] b Example:13
+\end{program}
+(and as you can see, I have abbreviated `{\tt break}' as `{\tt b}'
+just to show it's legal).
+Emacs allows you to set breakpoints of this sort 
+with the mouse (see \S\ref{sec:emacs}).
+
+Breakpoints in anonymous classes are a bit tricky; their names
+generally have the form ``{\tt$C$\$$n$}'' where $C$ is the name of the
+outermost class enclosing them, and $n$ is some integer.  The problem
+is that you don't generally know the value of $n$.  GJDB therefore
+allows ``{\tt$C$.0}'' as a class name, meaning ``any anonymous class
+inside $C$.''
+
+When you run your program and it hits a breakpoint, you'll get a
+message and prompt like this:
+\begin{program}
+Breakpoint hit: thread="main", Example.main(), line=4, bci=22
+main[0] 
+\end{program}
+(Here, ``bci'' indicates a position within the bytecode translation of
+the method; it is not generally very useful).
+\item[{\tt command} $N$]
+    Add (or delete) commands to breakpoint number $N$ that will be
+    executed whenever the breakpoint is hit (assuming any conditions on the 
+    breakpoint are satisfied).  Prompts for commands to be typed in on
+    subsequent lines, ending with a line containing just the word {\tt
+    end.}  To delete commands, simply make this trailing {\tt end} be the
+    only line.
+\item[{\tt command}] As for `{\tt command $N$}', above, using the
+	   latest breakpoint set as $N$.	
+\item[{\tt condition} $N$ {\it cond\/}] Make breakpoint number $N$ 
+	   conditional, so that the program only stops if {\it cond,\/} which
+	   must be a boolean expression, evaluates to true.
+\item[{\tt condition} $N$] Make breakpoint number $N$ unconditional. 
+\item[{\tt clear} {\it place\/}\dots] Undoes one or more {\tt break}s.
+You may also use breakpoint numbers for {\it place}.
+\item[\tt delete] \ \\
+Removes breakpoints, watchpoints, and catches by number.
+This form of the command gives you a choice of 
+breakpoints to delete, and is generally most convenient.
+\item[\tt ignore $I\/$ $N\/$] Cause the breakpoint, watchpoint,
+or catch numbered $I\/$ to be ignored the next $N\/$ times it is hit.
+\item[\tt info break] Lists current breakpoints and any conditions or
+commands on them.
+\item[\tt info watch] Lists current watchpoints (as set by the {\tt
+watch} command).
+\item[\tt info catch] Lists current exceptions intercepted by GJDB, as
+set by the {\tt catch} command.
+\item[\rm{\tt cont} or {\tt continue}]  \ \\
+Continues regular execution of  the program from a breakpoint or other stop.
+\item[\tt step] \ \\
+Executes the current line of the program and stops on the next statement to
+be executed.  
+\item[\tt next] \ \\
+Like {\tt step}, except that if the current line of the program contains a
+function call (so that {\tt step} would stop at the beginning of that
+function), does not stop in that function.    
+\item[\tt finish] \ \\
+Does {\tt next}s, without stopping, until the 
+current method (frame) exits.
+\item[{\tt watch} {\it P.field}] Stop the program whenever
+the indicated field is assigned to by the program. {\it P\/} may either
+be the name of a class, or an expression in parentheses.  If {\it P\/}
+is a class name, then all assignments to the given field (of any
+instance of {\it P\/}) are caught.  If {\it P\/} has the form
+{\tt($E\/$)}, where $E\/$ is a non-null reference-valued expression,
+then $E\/$ is evaluated to yield a reference to an object
+and only assignments to the indicated field of that particular object
+are watched (however, if the indicated field is static, then all
+assignments to the field are watched).  It is the value of $E\/$ at
+the time the {\tt watch} command is entered that matters.    For
+example, after `{\tt watch (L).next},' changes to the variable {\tt L}
+will have no effect on which object is observed.
+\item[{\tt watch access} {\it P.field}] Stop the program whenever
+the indicated field is read by the program (that is, its value is used).
+\item[{\tt watch all} {\it P.field}] Stop the program whenever
+the indicated field is read or assigned to by the program.
+\item[{\tt unwatch}\dots] Same arguments as {\tt watch}, but removes
+the watchpoints set by the corresponding {\tt watch} command.
+\item[{\tt unwatch}] Remove watchpoints. Provides a choice of which to
+remove, as for {\tt delete}.
+\item[{\tt catch} {\it class\/}] Stop the program at the point where
+an exception of type {\it class\/} is thrown. GJDB will
+stop automatically at the throw of any exception that will not be caught.
+It will not normally stop on exceptions that are caught by the
+program.
+The {\tt catch} command directs GJDB to stop on the throw of {\it
+class\/} even if it will be caught.  The {\it class\/} should be fully
+qualified, as in {\tt java.io.IOException}.
+\item[{\tt pass}] Stop catching exceptions.  This form of the
+command gives you a choice of exceptions to ignore.
+\end{description}
+
+\subsection{Attaching to Running Programs}
+The {\tt run} command creates a new Java virtual machine and executes
+a target program from the beginning.  You can also use GJDB on Java
+programs that are already running, if they are prepared to accept
+control by a debugger.  To start a program, {\tt Foo}, so that GJDB
+can gain control of it, use a command such as
+\begin{program}
+java -agentlib:jdwp=transport=dt_socket,server=y Foo
+\end{program}
+This starts program {\tt Foo} and print out a message such as
+\begin{program}
+Listening for transport dt_socket at address: 13901
+\end{program}
+You can use the address 13901 within GJDB to {\it attach\/} to the
+running program.  It is also possible to set things up so that the
+program goes looking for a waiting instance of GJDB:
+\begin{program}
+java -agentlib:jdwp=transport=dt_socket,address=13000 Foo
+\end{program}
+where previously you had told GJDB to listen at address (socket)
+13000.  
+
+The relevant commands in GJDB are as follows:
+\begin{description}
+\item[\tt attach {\it N\/}] Attach to the running process at address
+$N$.
+\item[{\tt listen [{\it N\/}]}] Wait for a Java process to attach on
+port $N$.  When $N$ is defaulted, GJDB selects a port and prints its
+number.
+\item[\tt connect {\it SPEC\/}] Connect to the Java VM specified by
+{\it SPEC}.  This is the most general form of connection, for use by
+experts.
+\item[detach]  Releases the Java VM currently being debugged.  If this
+VM was attached or listened to, it can continue execution.  If it was 
+created by {\tt run}, it will terminate.
+\end{description}
+
+For further details on these topics, see the Sun documentation on 
+``Connection and Invocation Details'' in the on-line documentation for
+``Java Platform Debugger Architecture''.
+
+
+\section{Common Problems}
+\paragraph{Name unknown.} When you see responses like this:
+\begin{program}
+main[0] print x
+Name unknown: x
+main[0] print f(3)
+Name unknown: f
+\end{program}
+check to see if the variable or method in question is static.  A
+current limitation of the debugger is that you must fully qualify such
+names with the class that defines them, as in 
+\begin{program}
+main[0] print Example.f(3)
+\end{program}
+Beware also that fully qualified names include the package name.
+
+\paragraph{Ignoring breakpoints.} For a variety of reasons, it is
+possible for a program to miss a breakpoint that you thought you had
+set.  Unfortunately, GJDB is not terribly good at the moment at
+catching certain errors. In particular, it will tell you that a breakpoint has been deferred, when in
+fact it will never be hit due to a class name being misspelled.
+
+\section{GJDB use in Emacs}\label{sec:emacs}
+While one {\it can\/} use {\tt gjdb} from a shell, nobody in his right
+mind would want to do so.  {\tt Emacs} provides a much better
+interface that saves an enormous amount of typing, mouse-moving, and
+general confusion.  Executing the Emacs command {\tt M-x~gjdb} starts
+up a new window  running {\tt gjdb}, and enables a number of Emacs
+shortcuts, as well as providing a {\bf Debug} menu for issuing many 
+GJDB commands.    This command prompts for a command string (typically
+{\tt gjdb {\it classname\/}}) and (for certain historical reasons)
+creates a buffer 
+named {\tt *gud-{\it classname\/}*}.
+Emacs intercepts 
+output from {\tt gjdb} and interprets it for you.  When you stop at a
+breakpoint, Emacs will take the file and line number reported by {\tt
+gjdb}, and display the file contents, with the point of the breakpoint
+(or error) marked.  As you step through a program, likewise, Emacs will
+follow your progress in the source file.  Other commands allow you to
+set or delete breakpoints at positions indicated by the mouse.  
+
+The
+following table describes the available commands.  On the left, you'll
+find the text command line, as described in \S\ref{sec:commands}.  
+Next comes the {\bf Debug} menu button (if any) that invokes the
+command.  This menu applies both to the GJDB buffer and to buffers
+containing {\tt.java} files.
+Next come the Emacs shortcuts: sequences of keys that run the
+commands.  The shortcuts are slightly different in the GJDB buffer as
+opposed to buffers containing source ({\tt.java}) files, so there are
+two columns of shortcuts.  The last column contains further description.
+Finally, here are a few reminders about Emacs terminology:
+
+\def\Menu#1{{\bf\footnotesize #1}}
+\def\In#1{{\tt #1}}
+\def\Key#1{{\tt #1}}
+
+\begin{itemize}
+\item[1.] In shortcuts, \Key{C-$x\/$} means ``control-$x$,''
+\Key{S-$x\/$} means ``shift-$x$'' and \Key{f$n\/$} refers
+to one of the function keys (typically above the keyboard).
+\item[2.] The {\it point,\/} in Emacs, refers to the location of the
+cursor; there is one for each buffer.  
+You can set the point using the usual motion commands when in the
+buffer, or by simply clicking the mouse at the desired spot.
+\item[3.] The {\it region\/} in any given buffer is a section of text
+(usually shadowed or highlighted so that you can tell where it is).
+One convenient way to set it is by dragging 
+the mouse over the text you want included while holding down the left
+mouse button.
+\end{itemize}
+
+\newpage
+
+\begin{table}
+\caption{Summary of Commands for Program Control}
+
+\vspace{2ex}
+
+\hspace*{-0.5in}{\small
+\begin{tabular}{@{} l | l | l | l | p{2.5in}}
+  &
+\multicolumn{3}{c|}{ Emacs \strut} & \\
+\multicolumn{1}{c|}{Command Line}  &
+\multicolumn{1}{c|}{Menu} &
+\begin{minipage}{0.5in}\begin{center}GJDB \\buffer\strut \end{center}\end{minipage} &
+\begin{minipage}{0.5in}\begin{center}{\tt.java} \\buffer\strut\end{center} \end{minipage} &
+\multicolumn{1}{c}{Description} \\
+\hline
+\In{next} & \Menu{Step Over} & 
+	  \begin{minipage}[t]{0.5in}\Key{f6} or \\ \Key{C-c~C-n}\strut \end{minipage}
+	  & \Key{f6} &
+	  Execute to the next statement of the program;  if this
+	  statement contains function calls, execute them completely
+	  before stopping. [See Note~3, below]\\
+\In{step} & \Menu{Step Into} & 
+	  \begin{minipage}[t]{0.6in}\Key{f5}, or\\ 
+				     \Key{C-c C-s}\strut \end{minipage}& \Key{f5} &
+	  Execute to the next statement of the program;  if this
+	  statement calls a function, stop at its first line.  [See Note~3, below]\\
+\In{finish} & \Menu{Finish Function} & 
+	    	  \begin{minipage}[t]{0.6in} \Key{f7} or \\ \Key{C-c C-f}\strut 
+		  \end{minipage}
+		  & \Key{f7} &
+	  Execute until the current function call returns. \\
+\In{continue} & \Menu{Continue} & \begin{minipage}[t]{0.6in}\Key{f8} or\\ 
+				     \Key{C-c C-r}\strut \end{minipage}& \Key{f8} &
+	  Continue execution of stopped program. \\
+\hline
+\In{suspend} & \Menu{Interrupt} & \Key{C-c C-c} & &
+	  Interrupt execution of program and suspend its threads. \\
+\Key{C-f} & \Menu{Interrupt} & \Key{C-c C-c} & &
+	  Same as {\tt suspend}, but works in cases where the debugged
+	  program is running and GJDB is
+	  passing
+	  input to it from the terminal. \\
+\hline
+\In{break {\it class:line\#\/}} & \Menu{Set Breakpoint} &  
+	  &  {\tt C-x\verb*| |}
+	  & Set a breakpoint at the point (in an Emacs source buffer)
+	  or at the indicated class and line number (command line). \\
+\In{clear {\it class:line\#\/}} & \Menu{Clear Breakpoint} &  & 
+	  & Remove a breakpoint at the point (in an Emacs source
+	  buffer) or at the indicated class and line number. \\
+\In{delete} & & & & Delete selected breakpoints, watchpoints, catches. \\
+\hline
+\In{catch {\it class\/}} & & & & Set program to halt whenever
+			   exception {\it class\/} is thrown. \\
+\In{pass} & & & & Stop catching selected exceptions. \\
+\In{ignore $I~N\/$} & & & & Ignore breakpoint, watchpoint or catch
+\#$I\/$ the next $N\/$ times it is hit. \\
+\hline
+\begin{minipage}{1.6in}
+\begin{math} \left.
+\begin{array}{@{}l}
+\mbox{\In{watch $C.f$}} \\
+\mbox{\In{watch access $C.f$}} \\
+\mbox{\In{watch all $C.f$}} \\
+\mbox{\In{watch ($E\/$).$f\/$}} \\
+\mbox{\In{watch access ($E\/$).$f\/$}} \\
+\mbox{\In{watch all ($E\/$).$f\/$}}
+\end{array} \right\}\end{math}
+\end{minipage}
+& & & & 
+\begin{minipage}{2.5in}
+\strut The first three forms set program to halt when (any
+instance of) field $f\/$ of class $C\/$ is accessed.  Without a
+modifier, only assignments to $f\/$ are tracked.  With the modifier
+{\tt access}, only uses of $f\/$'s value are tracked.  The
+modifier {\tt all} tracks both types of access.   The last three forms
+are the same, but apply only to the object referenced by $E\/$ at the
+time the command is executed.\strut
+\end{minipage}
+\\
+\strut\In{unwatch} & & & & \strut Delete selected watchpoints. \\
+\hline
+\In{run}  & \Menu{Run} & & &
+	  (Re)start the program, using the last set of command-line arguments.
+	  \\
+-         & \Menu{Start Debugger} & & &
+	  Run {\tt gjdb} on the class in this buffer. \\
+\In{quit} & \Menu{Quit} & & &
+	  Leave GJDB.
+\end{tabular}
+}
+\end{table}
+
+\begin{table}
+\caption{Summary of Commands for Examining a Program}
+
+\vspace{2ex}
+
+{\small
+\begin{tabular}{@{} l | l | l | l | p{2.5in}}
+  &
+\multicolumn{3}{c|}{ Emacs \strut} & \\
+\multicolumn{1}{c|}{Command Line}  &
+\multicolumn{1}{c|}{Menu} &
+\begin{minipage}{0.5in}\begin{center}GJDB \\buffer\strut \end{center}\end{minipage} &
+\begin{minipage}{0.5in}\begin{center}{\tt.java} \\buffer\strut\end{center} \end{minipage} &
+\multicolumn{1}{c}{Description} \\
+\hline
+\In{print {\it expr}} & \Menu{Print} & \Key{f9}
+	  & \Key{f9}  & Evaluate {\it expr\/} and print, without showing
+	       any subcomponents of the value.   Emacs commands apply
+	       either to the contents of the region, or if it is
+	       inactive, to the variable or field selection
+	       at or after the point. \\
+\In{dump {\it expr}} & \Menu{Print Details} &  \Key{S-f9}
+	  & \Key{S-f9} & Evaluate {\it expr\/} and print, also printing
+	       any components (array elements or fields).  With Emacs,
+	       gets the expression to print as for \In{print}. \\
+\hline
+\In{up}   & \Menu{View Caller} & 
+          \begin{minipage}[t]{0.5in}\Key{f3} or \\ \Key{C-c <}\strut \end{minipage}
+          & \Key{f3} &
+	  Move the debugger's current focus of attention up one
+	  frame; if looking at frame $n$ at the moment, we switch to 
+	  frame $n-1$.  \\
+\In{down}   & \Menu{View Callee} 
+          & \begin{minipage}[t]{0.5in}\Key{f4} or\\ \Key{C-c >} \strut \end{minipage}
+          & \Key{f4} &
+	  Move the debugger's current focus of attention down one
+	  frame (from frame~$n$ to frame~$n+1$).  Opposite of \In{up}. \\
+\In{where} &  & & & Print a backtrace, showing all active
+			    subprogram calls. \\
+\In{thread $T$} & & & & Make thread $T\/$ be the one that GJDB is 
+		      currently examining, where $T\/$ is a thread
+		      name or thread number. \\
+\hline
+\In{info locals} & & & & Print (as for the {\tt print} command) the
+	 values of all local variables in the current frame. \\
+\In{info threads} & & & & List all threads in the program. \\
+\In{info watch} & & & & List current watchpoints. \\
+\In{info break} & & & & List current breakpoints. \\
+\In{info catch} & & & & List current exceptions intercepted.  \\
+\hline
+-	  & \Menu{Refresh} & & &
+	  Re-arrange Emacs' windows as needed to display the current
+	  source line that GJDB is looking at.
+\end{tabular}
+}
+\end{table}
+\end{document}
+

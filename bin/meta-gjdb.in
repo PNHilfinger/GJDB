@@ -1,0 +1,34 @@
+#!/bin/sh
+
+APPHOME="@apphome@"
+METAGJDBCLASSES="@libdir@/gjdb.jar:@jdilib@"
+JAVA=${APPHOME}/bin/java
+
+SRCDIR="@srcdir@"
+GJDBCLASSES="@builddir@/src/gjdb.jar:@jdilib@"
+
+args=
+optf=
+classes=
+while [ $# -gt 0 ]; do
+    case "$1" in
+    -f)              optf=-f;; 
+    -classpath|-cp)  classes="$2"; shift;;
+    -sourcepath|-sp) SRCDIR="$2"; shift;;
+    -build)          GJDBCLASSES="$2/gjdb.jar:@jdilib@"; shift;;
+    *)               args="$args $1";;
+    esac
+    shift
+done
+if [ "X$classes" = "X" ]; then
+    classes=${CLASSPATH:+"-classpath $CLASSPATH"}
+fi
+
+SRCS="${SRCDIR}/src"
+${JAVA} -classpath "$METAGJDBCLASSES" -Djava.compiler \
+        -Dapplication.home=${APPHOME} \
+    ucb.gjdb.GJDB -classpath "$GJDBCLASSES" -sourcepath "$SRCS" \
+         -prompt "(meta)" $optf \
+         -Djava.compiler -Dapplication.home=${APPHOME} \
+      ucb.gjdb.GJDB $classes $args
+

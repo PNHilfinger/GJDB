@@ -1,0 +1,157 @@
+#!/bin/sh
+
+# Configuration script for GJDB
+
+srcdir="`(cd \`dirname $0\`; pwd)`"
+builddir="`pwd`"
+
+arch=`uname`
+
+doReplace () {
+   echo Creating ./$1/$2 from $srcdir/$1/$2.in
+   sed  -e "s,@apphome@,$apphome,g" \
+	-e "s,@jdilib@,$jdilib,g" \
+        -e "s,@complib@,$complib,g" \
+	-e "s,@srcdir@,$srcdir,g" \
+        -e "s,@builddir@,$builddir,g" \
+        -e "s,@docdir@,$docdir,g" \
+        -e "s,@prefix@,$prefix,g" \
+        -e "s,@libdir@,$libdir,g" \
+	-e "s,@bindir@,$bindir,g" \
+	-e "s,@jdk@,$jdk,g" \
+	-e "s,@compiler@,$compiler,g" \
+	-e "s,@emacsdir@,$emacsdir,g" $srcdir/$1/$2.in > $1/$2
+}
+
+Usage () {
+   echo 'Usage: SRCDIR/configure [OPTIONS] [CONFIG_FILE]
+
+where SRCDIR is the top-level directory for the GJDB distribution and 
+OPTIONS contains the following
+
+	--apphome=DIR    The location at which java is installed.  That is,
+			 java and javac are in DIR/bin, and DIR/lib contains
+			 the compiled standard class libraries.  
+			 This version of gjdb requires jdk1.5 or higher.
+
+	--prefix=DIR     Default directory prefix for installation (see
+			 below).  Default is $HOME.
+
+	--sharedir=DIR   Directory containing architecture-independent code.
+	                 Default is prefix/share/gjdb.
+
+	--docdir=DIR     Directory in which to install gjdb.pdf.  Default
+	                 is sharedir/doc.
+
+	--libdir=DIR     Directory in which to install gjdb.jar.  Default
+			 is sharedir/lib
+
+	--bindir=DIR     Directory in which to install gjdb.  Default is
+			 prefix/bin
+
+	--emacsdir=DIR   Directory in which to install gjdb.el.  Default is
+			 sharedir/emacs/lisp
+
+If CONFIG_FILE is specified, re-creates only that file.
+'
+  exit 1
+}
+
+file=
+config="$0 $@"
+
+prefix=$HOME
+while [ $# -gt 0 ]; do
+   val="`echo $1 | sed 's/^.*=//'`"
+   case $1 in
+	--apphome=*)	apphome="$val";;
+	--prefix=*)	prefix="$val";;
+	--sharedir=*)   sharedir="$val";;
+	--docdir=*)     docdir="$val";;
+	--libdir=*)	libdir="$val";;
+	--bindir=*)	bindir="$val";;
+	--emacsdir=*)	emacsdir="$val";;
+	--*)            Usage;;
+	*)		if [ "X$file" = "X" ]; then file=$1; else Usage; fi;;
+   esac
+   shift
+done
+
+if [ -z "$apphome" ]; then
+    if [ "$arch" = Darwin ]; then
+        apphome="/System/Library/Frameworks/JavaVM.framework/Home"
+    else
+        for dir in `echo $PATH | sed 's/:/ /g'`; do
+	    if [ -x "$dir/javac" ]; then
+	        realdir="`cd $dir; pwd`";
+	        apphome="`dirname $realdir`";
+	        break
+	    fi
+        done
+    fi
+fi
+
+if [ -z "$apphome" -o ! -x "$apphome/bin/java" ]; then
+    echo "Cannot find Java installation"
+    exit 1
+fi
+
+rawjavaversion="`$apphome/bin/java -version 2>&1`"
+majorversion=`echo $rawjavaversion | sed -e '1s/^.*"\([0-9]*\)\.[0-9]*.*$/\1/' -e 1q`
+minorversion=`echo $rawjavaversion | sed -e '1s/^.*"[0-9]*\.\([0-9]*\).*$/\1/' -e 1q`
+jdk=`echo $rawjavaversion | sed -e '1s/^.*"\([-0-9a-zA-Z._]*\)".*$/\1/' -e 1q`
+
+if [ "$majorversion" != "1" -o "0$minorversion" -lt 3 ]; then
+    echo "Error: Unrecognized Java version: \"$rawjavaversion\""
+    exit 1
+else
+    echo "Configuring for JDK version $rawjavaversion"
+fi
+
+if [ "$arch" = Darwin ]; then
+   jdilib=
+   complib=
+else
+   if [ ! -r "${apphome}/lib/tools.jar" ]; then
+    echo "Error: Could not find ${apphome}/lib/tools.jar"
+    exit 1
+   fi
+   jdilib="${apphome}/lib/tools.jar"
+   complib="-classpath $jdilib"
+fi
+compiler=3
+
+sharedir=${sharedir:-${prefix}/share/gjdb}
+libdir=${libdir:-${sharedir}/lib}
+bindir=${bindir:-${prefix}/bin}
+emacsdir=${emacsdir:-${sharedir}/emacs/lisp}
+docdir=${docdir:-${sharedir}/doc}
+
+if [ -z "$file" ]; then
+   if [ ! -d src/ucb/gjdb ]; then
+      mkdir -p src/ucb/gjdb
+   fi
+
+   if [ ! -d bin ]; then
+      mkdir bin
+   fi
+
+   if [ ! -d doc ]; then
+      mkdir doc
+   fi
+fi
+
+if [ -z "$file" ]; then
+    doReplace . Makefile
+    doReplace bin gjdb
+    doReplace bin meta-gjdb
+    doReplace doc Makefile
+    rm -f config.status
+    echo "$config" >config.status
+    echo "Configuration complete.  Compile with 'make'; install with 'make install'"
+else
+    doReplace `dirname $file` `basename $file`
+fi
+
+exit 0
+

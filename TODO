@@ -1,0 +1,254 @@
+* Especially when stdout is large, can lose some output.  Race condition?
+  Is this real?
+
+* Handle breakpoint line specifications that yield multiple PCs.
+
+* Object operations on arrays (clone, etc.)
+
+* Why does next sometimes not stop on next statement (and 
+  cause oo loop instead when in a loop).  Apparently happens when the
+  code generated for a statement in a loop jumps directly back to the top
+  of the loop without first hitting a later statement at the end of the loop.
+
+* Let breakpoint commands with "*" wildcards match multiple things, not just
+  first?
+
+* XEmacs interface?
+
+* Windows changes?
+
+* Wait for output of print on application termination. Is this a real need?
+
+* When stepping over a recursive function call from a conditional breakpoint
+  for the function, end up in wrong instantiation of function.
+
+* Why does package detection sometimes fail in Emacs?
+
+---------
+
+CLEAN-UPS
+
+* Maybe use command-args package to process command args
+
+* More comments!
+
+---------
+
+REJECTED
+
+* Protect against evaluation (all evaluation?) when top frame is native
+  method.  [Is this really necessary?]
+
+* Check type designation for multi-dimensional arrays under p/0.
+  [Confusing, but consistent in a sense:  all N-element arrays of type T[]
+  display as T[N], including those created by new T[N][M].
+
+---------
+
+
+DONE
+
+
+* Menu needs enhancing.  Also mouse stuff.
+
+* Option to use function keys??
+
+* Make deleting breakpoints nicer
+
+* Redirected input.
+
+* Acknowledge setting breakpoints.
+
+* Function key reminders on menu.
+
+* Check C-x blank
+
+* EOF on stdin
+
+* Check for stopping program in case of loop (priorities right??)
+
+* Generate gjdb.elc?
+
+* Less junk in command window when stepping.
+
+* Merge versions for JDK 1.2.2 and JDK 1.3.
+
+* Handling of stderr in print, eval, etc.? 
+
+* Lots of binary expressions unimplemented.
+
+* Try using default class (for static functions, fields)? Well, no: only
+  time this matters is before execution, at which time nothing it loaded.
+
+* .length field of arrays.
+
+* Do conditional expressions, ||, && right.
+
+* Assignment operations.
+
+* Arithmetic exceptions during print
+
+* new TYPE[] { ... } syntax, also plain new TYPE[].
+
+* Be smarter about restarting GJDB when already running.
+
+* Allow restarting gjdb in GJDB buffer from menu.
+
+* Enhance dumping of multidimensional arrays.
+
+* Argument matching when formal is supertype of actual's dynamic type.
+
+* More implicit java.lang qualification.  E.g. System.out.  
+
+* Make sure windows are right when starting, restarting gjdb from menu
+
+* Make "Quit" menu item clean up more.
+
+* .super?
+
+* instanceof
+
+* instanceof, array construction could be more robust wrt unknown types.
+
+* Limit long stack traces.
+
+* Better decision on pretty-printing objects.
+
+* Multi-level print with arrays.
+
+* Nested classes.
+
+* Make print et al., perform better, so that prompts tend to come out AFTER
+  printed results.
+
+* USE saved values!
+
+* Documentation. 
+	- (*.foo notation for omitting package names).
+
+* Do something with anonymous nested classes.
+
+* Don't give 'A' choice when only one (bpts delete).
+
+* Check 'use' command w/o args.
+
+* Conditional breakpoints
+
+* Fix gjdb.el for cases where an ordinary new foo() intervenes (making
+  it think it's in an anonymous class).
+
+* Allow quoted strings in 'run' command.
+
+* Bogus inner class detection for BP selection in gjdb.el
+
+* Dumping strings (delimiting quotes get doubled sometimes).
+
+* Recover from ArrayIndex exception in expression evaluation.
+
+* In Emacs: change directory of gud buffer when re-starting to current
+  directory of buffer where command issued.
+
+* Fix "comint filter" problem on restart.
+
+* info break (as well as break)
+
+* Display breakpoint number on 'break XXX' command.
+
+* condition command w/o BP number applies to last BP.
+
+* Handle X+Y, where X or Y is an object.
+
+* Frame # is not getting reset to 0 when job continued.
+
+* When some Threads are not .started, info threads blows up.  Why?
+
+* Improve 'exclude' so that we don't lose excludes unless we ask explicitly.
+  Also improve documentation to show that wildcards allowed.
+
+* Print BP # when stopping on BP.
+
+* Why does info threads sometimes print 0s for thread #s?
+
+* Command option on breakpoints, like gdb.
+
+* Make smarter about knowing when a class name is bogus (rather than just
+  saying that resolution is deferred).
+
+* Bug in watch causes crash with 'watch all'.
+
+* Need info watch.
+
+* Make deleting watchpoints more like deleting breakpoints.
+
+* Make deleting caught exceptions more like deleting breakpoints.
+
+* Select threads by name?
+
+* Choose reasonable thread?
+
+* Watch instance variables of only a specified object?
+
+* Check operation with JDK 1.4.
+
+* Get confirmation when explicitly quitting with running process?
+
+* Make sourcepath, etc., aware of ~.
+
+* Whenever interrupt stops in known source, display when in Emacs mode.
+
+* GDB abbreviations for commands.
+
+* Document "call" properly.
+
+* Erroneous "< file" redirection seems to persist.
+
+* Allow 'a' for 'y' in breakpoint deletion confirmation.  
+
+* Process escape characters in strings.
+
+* Print static members of object (p/N) optionally.
+
+* Double quotes in "" + Obj?  [Now prints ""x"" for "x", e.g.].
+
+* Allow multiple BP numbers in delete.
+
+* When breakpoint-setting fails, delete the offending breakpoint.
+
+* Set classpath within debugger?
+
+* Emacs menu item for info locals.
+
+* 'Print' menu item seems not to find variable according to spec.
+
+* "clear" IS a valid GDB command!
+
+* Add command for loading classes (converts to java.lang.Class.forName 
+  call?).
+
+* Name of Emacs buffer when there are optional arguments to gjdb
+
+* Hex, octal literals
+
+* Convenient hex, octal, binary output
+
+* Java 1.5
+
+* Darwin port
+
+* Implement attach, detach, connect, listen.
+
+* Maybe redo Commands.java and GJDB.java to use javacc?? [Chose jflex/jbison 
+  instead].
+
+* Add numeric argument to step, next, stepi.
+
+* Add 'ignore' command as in GDB.
+
+* Abbreviate printing of circular structures.
+
+* Looks like we have more ClassPrepareRequests than we really need---one for
+  every unresolved breakpoint.  We aren't using filtering on the 
+  ClassPrepareRequests, so we only really need one.
+
+* Set should allow assignment.
+

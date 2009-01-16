@@ -1,0 +1,89 @@
+		GJDB Version 3
+
+
+DESCRIPTION
+-----------
+
+This directory contains GJDB, a GDB-like modification (and partial
+bug fixing) of Sun's jdb, for use with Sun's JDK 1.3, or JDK 1.2.x + JDI 1.0.
+
+GJDB differs from jdb in that 
+
+(1) Some broken features now work,
+
+(2) It is possible to send System.in input to the debugged program.  GJDB
+    passes input from the terminal to your program when the program is
+    not stopped.
+
+(3) The commands have been made GDB-like and there is an Elisp file defining
+    a gjdb command (analogous to gdb) for Emacs.
+
+Unlike gjdb version 1, this JDI-based version can compute a large and useful
+subset of the Java expression language.  For example
+
+	(gjdb) print x + 1
+
+or 
+
+	(gjdb) print x.f ()
+
+At the moment, proper documentation is missing.  Type 'help' in the debugger.
+
+INSTALLATION
+------------
+
+To configure, use
+
+	DIR/configure OPTIONS
+
+in the directory in which you want to build, where DIR designates the 
+directory in which you have unpacked the source (can be .).  Use
+
+	DIR/configure --help
+
+to see the options.
+
+Next, you can simply type
+
+	make
+
+to build,
+
+	make install
+
+to install, and 
+
+	make install-doc
+
+to compile and install the documentation file gjdb.pdf.
+
+To recreate some of the sources (see the definition of JAVACCSRC in the 
+makefile), you will need the JavaCC compiler-compiler, which is 
+distributed by Metameta, at http://www.metamata.com.
+
+Finally, to use gjdb from Emacs, arrange to load it in your initialization
+(.emacs) file with the command
+
+	(load "DIR/gjdb")
+	
+where DIR is the directory in which 'make install' put gjdb.el (see the 
+output of configure --help), or just
+
+	(load "gjdb")
+
+if you have put DIR on Emacs's load path.
+   
+
+DIRECTORIES
+-----------
+
+src:  Contains Java class sources, Bison sources, and JFlex sources.
+
+lib: Contains the Emacs definitions supporing gjdb mode.
+
+doc: gjdb.tex and supporting LaTeX definition files (from the introductory
+          data-structures course CS61B).
+
+bin: Supporting shell scripts.
+
+

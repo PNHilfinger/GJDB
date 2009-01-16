@@ -1,0 +1,1976 @@
+2008-12-10  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (VERSION): Bump to 6.1.2.
+	
+	* src/ucb/gjdb/CommandException.java (ERROR): Should return the
+	exception, not throw it.
+	* src/ucb/gjdb/CommandParser.y (execute): Split into two, one of which
+	allows for passing up CommandExceptions.
+	(syntax): Use check_connect in more places.
+	* src/ucb/gjdb/Commands.java (commandRepeat): Allow exception to halt
+	repetitions.
+
+2008-11-17  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (VERSION): Bump to 6.1.1.
+	
+	* src/ucb/gjdb/CommandParser.y: Fix argument parsing for classpath,
+	sourcepath, source.
+
+2008-03-12  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (VERSION): Bump to 6.1.0.
+	Update NEWS.
+	
+	* src/ucb/gjdb/CommandParser.y (tildeConvert): New function.
+	(shellConvert): New function.
+	(run_args, file_spec rules): Convert leading ~ notations, as for 
+	shell.
+
+2008-02-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (VERSION): Make 5.12.4 into 6.0.0. 
+	Update NEWS.
+
+	* Makefile.in (VERSION): Bump to 5.12.4.
+
+	* src/ucb/gjdb/CommandParser.y: Correct error that caused file_specs
+	to get thrown away.
+
+2007-12-13  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* src/ucb/gjdb/EventHandler.java:  Various changes in formatting 
+	and coding style.  Add comments.
+
+2007-12-12  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (VERSION): Bump to 5.12.3.
+
+	* src/ucb/gjdb/EventHandler.java (eventThread): Reformat.
+	(classPrepareEvent): Reformat and simplify.
+
+	* src/ucb/gjdb/EventRequestSpec.java (resolve): Remove ClassPrepare
+	request handling.
+
+	* src/ucb/gjdb/EventRequestSpecList.java (resolve): Check to see if 
+	ClassPrepareRequest is no longer needed.
+	(resolveAll): Ditto.
+	(unresolveAll): Conservatively enable ClassPrepareRequest.
+	(addEagerlyResolve): Ditto.
+	(add): Ditto.
+
+	* src/ucb/gjdb/Env.java (setClassPrepareEnabled): New function.
+
+	* src/ucb/gjdb/VMConnection.java (setClassPrepareEnabled): New function.
+	(setEventRequests): Enable a ClassPrepareRequest.
+
+	* src/ucb/gjdb/PatternReferenceTypeSpec.java (createPrepareRequest): 
+	Remove.
+	(checkClassName): Add check for name plausibility.
+
+	* src/ucb/gjdb/ReferenceTypeSpec.java (createPrepareRequest): Remove.
+
+	* Makefile.in (VERSION): Bump to 5.12.2.
+
+	* src/ucb/gjdb/CommandParser.y: Add 'set variable' command.
+	* src/ucb/gjdb/CommandLexer.jf: Add "variable" keyword.
+	Refactor keyword() out of command().
+	* src/ucb/gjdb/GJDB.java (helpMsgs): Document 'set variable'.
+
+2007-12-10  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (VERSION): Bump to 5.12.1.
+
+	* src/ucb/gjdb/VMConnection.java (notifyOutputComplete): Stylistic 
+	change. 
+	(waitForOutputComplete): Ditto.
+
+	* src/ucb/gjdb/Commands.java (trim): New method to trim Strings
+	properly (i.e., remove ONLY whitespace, not random control characters).
+	(TRIMMER): New constant used by trim.
+	(getUserSelections, run, commandCommand): Use new trim method.
+	(commandPrint): Remove waitValue.
+
+2007-12-06  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* src/ucb/gjdb/EventRequestSpecList.java (createExceptionCatch): 
+	Allow java.lang abbreviation.
+
+	* src/ucb/gjdb/PatternReferenceTypeSpec.java (<constructor>): Add 
+	flag for checking for classes in java.lang.
+	(matches): Allow for abbreviation of types in java.lang.
+
+2007-11-28  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* Makefile.in ($(JARFILE)): Add meta-gjdb.in installation, cleanup.
+
+	* configure: Add meta-gjdb.in configuration.  
+	Add @builddir@ substitution.
+
+	* bin/meta-gjdb.in: New file.
+
+2007-11-23  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* testing/test-01: Add tests for literals and printing formats.
+
+	* src/ucb/gjdb/ExpressionLexer.jf: Correct list of escape characters
+	for char literals.
+
+	* src/ucb/gjdb/LValue.java (formattedString): Correct typo to return
+	right string.
+
+	* src/ucb/gjdb/Commands.java (doPrint): Correct comment and improve
+	parameter name.
+
+2007-11-22  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* src/ucb/gjdb/ExpressionLexer.jf: Add error case.
+	(unicodeConvert): New function.
+	(ExpressionLexer): Call unicodeConvert on input.
+	* src/ucb/gjdb/CommandLexer.jf: Add error case.
+
+	* src/ucb/gjdb/LValue.java (formattedInt): Add s, c cases.
+	(formattedString): New function.
+	(formattedInt): New function.
+	(toString(Value, char)): Format characters, strings.
+	(toString()): Produce some reasonable value.
+	* src/ucb/gjdb/GJDB.java (helpMsgs): Add new print format letters.
+
+	* src/ucb/gjdb/ExpressionParser.y (evaluate): Check for non-null VM.
+	(yylex): Pass on CommandExceptions.
+	* src/ucb/gjdb/CommandParser.y (yylex): Pass on CommandExceptions.
+	Allow more printing format characters.
+	
+	* testing/Makefile: Spruce up.
+	* testing/test-01: Add tests for literals and formatted printing 
+	of objects.
+	
+2007-11-22  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* src/ucb/gjdb/ExpressionParser.y: Remove unnecessary %token 
+	definitions.
+	(LONGLIT,CAST): Remove unused terminals.
+	Add precedence to "^=" token.
+	Give syntax for ^=, &=, and |=.
+	Correct semantics of post-increment/decrement operators.
+	Replace use of DIM with "[]".
+
+	* testing/runscript.py: Close streams, just to be tidy.
+	* testing/makescript.py: Ditto.
+	Speed up getOutput using 'select'.
+	Pass through comments.
+	Add ??? and ?? markers to indicate expected output to makescript.
+	* testing/Prog1.java: Add boolean variable.
+	* testing/test-01: Add expected output indications as sanity check
+	for makescript.
+	Add assignment tests.
+	Add precedence tests.
+	Add structure-printing test.
+	
+2007-11-20  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* src/ucb/gjdb/Commands.java (ERROR_VALUE): Remove.
+	(doPrint,doSave): Remove test for ERROR_VALUE and handle
+	CommandException instead.
+	(evaluate): Add uncommentedSrc argument.
+	(doPrint): Print version of expression that has comments stripped.
+		* src/ucb/gjdb/LValue.java (toString): Change message.
+	(operation): Handle unary ops on floating-point types.
+
+	* src/ucb/gjdb/ExpressionLexer.jf: Replace license statement.
+	Modify comment handling to remove comments from source.
+	(uncommentedSource): New function.
+	(uncommentedSrc, charsRemoved): New fields to supported 
+	uncommentedSource.
+	
+	* src/ucb/gjdb/CommandLexer.jf: Ditto.
+	* src/ucb/gjdb/ExpressionParser.y: 
+	Correct rule for parenthesized expression.
+	Correct code for && and ||.
+	Add comment explaining use of precedence to disambiguate names, 
+	primaries, and postfixes.
+	Correct code for method calls.
+	Add syntax for simple call 'IDENT params'.
+	(evaluate): Add uncommentedSrc argument.
+	
+	* testing/Prog1.java: New file
+	* testing/makescript.py: New file
+	* testing/runscript.py: New file
+	* testing/test-01: New file
+	* testing/Makefile: New file
+
+2007-11-18  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* doc/gjdb.tex.in: Update documentation with new commands.
+	Adjust some formatting.
+
+	* src/ucb/gjdb/Commands.java (dump): Add new parameter to keep track
+	of what's already been printed and abbreviate, as for printing
+	circular structures in Lisp.
+	Use Java 1.5 for loops.
+	(commandLoadClass,doPrint): Use new dump interface.
+
+	* src/ucb/gjdb/CommandLexer.jf (lastCommand): New field.
+	(command): Save last command found.
+	* src/ucb/gjdb/CommandParser.y (yyerror): Produce more informative
+	error message.
+	* src/ucb/gjdb/GJDB.java (commandUsageMsgs): New function.
+
+	* cc-classes/ucb/tools/CommandParser.y:	
+	Move to directory src/ucb/gjdb
+	* cc-classes/ucb/tools/CommandLexer.jf: Ditto.
+	* cc-classes/ucb/tools/ExpressionParser.y: Ditto.
+	* cc-classes/ucb/tools/ExpressionLexer.jf: Ditto.
+	* Makefile.in: Update to get rid of cc-classes, and substitute
+	directory src for classes.
+	* classes: Rename directory to src.
+	* configure: Update to use 'src' rather than 'classes'.
+	* All .java files: Change package to ucb.gjdb and move files
+	to src/ucb/gjdb accordingly.
+	
+2007-11-17  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+	
+	* GJDB.LICENSES: New file.
+	* classes/ucb/tools/GJDB.java: Replace copyright notice
+	* classes/ucb/tools/CommandException.java: Ditto.
+	* classes/ucb/tools/Commands.java: Ditto.
+	* classes/ucb/tools/WatchpointSpec.java: Ditto.
+	* classes/ucb/tools/VMNotConnectedException.java: Ditto.
+	* classes/ucb/tools/ThreadIterator.java: Ditto.
+	* classes/ucb/tools/ThreadGroupIterator.java: Ditto.
+	* classes/ucb/tools/ReferenceTypeSpec.java: Ditto.
+	* classes/ucb/tools/SourceMapper.java: Ditto.
+	* classes/ucb/tools/PatternReferenceTypeSpec.java: Ditto.
+	* classes/ucb/tools/ModificationWatchpointSpec.java: Ditto.
+	* classes/ucb/tools/BadMemberNameException.java: Ditto.
+	* classes/ucb/tools/LineNotFoundException.java: Ditto.
+	* classes/ucb/tools/ExceptionSpec.java: Ditto.
+	* classes/ucb/tools/EventNotifier.java: Ditto.
+	* classes/ucb/tools/AmbiguousMethodException.java: Ditto.
+	* classes/ucb/tools/AccessWatchpointSpec.java: Ditto.
+	* classes/ucb/tools/VMConnection.java: Ditto.
+	* classes/ucb/tools/Env.java: Ditto.
+	* classes/ucb/tools/EventRequestSpecList.java: Ditto.
+	* classes/ucb/tools/EventRequestSpec.java: Ditto.
+	* classes/ucb/tools/BreakpointSpec.java: Ditto.
+	* classes/ucb/tools/EventHandler.java: Ditto.
+	* classes/ucb/tools/ThreadInfo.java: Ditto.
+	* classes/ucb/tools/LValue.java: Ditto.
+	* classes/ucb/tools/QuiescenceMonitor.java: Ditto.
+	* cc-classes/ucb/tools/CommandParser.y: Ditto.
+	* cc-classes/ucb/tools/CommandLexer.jf: Ditto.
+	* classes/ucb/tools/CommandLineSpec.java: Ditto.
+	* classes/ucb/tools/GetFrame.java: Ditto.
+
+2007-11-17  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/GJDB.java: Rename old "delete" command to 
+	"clear".
+	Use "delete" as a new command that deletes all kinds of stop request.
+	Rename old "ignore" command to "pass".
+	Use "ignore" as a new command that sets a skip counter on a breakpoint,
+	catch, or watchpoint (as in GDB).
+
+	* cc-classes/ucb/tools/CommandParser.y: Ditto.
+	* cc-classes/ucb/tools/CommandLexer.y: Ditto.
+	* classes/ucb/tools/Commands.java: Rewrite several places to 
+	use 1.5 features.
+	Move code for event handlers.
+	(vmInterrupted): Add EventRequestSpec list argument.
+	(commandClear): Renamed from former commandDelete.
+	(commandDelete): New versions that handle request numbers only (of
+	all types).
+	(commandIgnore): New function.
+	(commandLoadClass): Make this print something reasonable and print
+	prompt when done.
+	(deleteRequestedEvents): Allow null argument.
+	
+	* classes/ucb/tools/EventNotifier.java: New interface for
+	vmInterrupted.
+	* classes/ucb/tools/EventRequestSpecList.java (eventRequestSpecs):
+	Allow null argument.
+	
+	* classes/ucb/tools/WatchpointSpec.java: Rewrite toString to use
+	Java 1.5 stuff.
+	* classes/ucb/tools/ExceptionSpec.java: Ditto.
+	* classes/ucb/tools/BreakpointSpec.java (condition, commands)
+	(getCondition,getCommands,setCommands,setCondition): Move to
+	EventRequestSpec.java.
+	(<constructor>): Change interface to use unerased types.
+	(toString): Use 1.5 features.
+	(conditionSatisfied): Use getCondition().
+	* classes/ucb/tools/EventRequestSpec.java (condition, commands)
+	(getCondition,getCommands,setCommands,setCondition): Move here from
+	BreakpointSpec.java.
+	(resetCount): New method.
+	
+	* classes/ucb/tools/Env.java (noticeln): Pass the additional arguments
+	to printf also.
+	
+	* classes/ucb/tools/EventHandler.java (setEnables): Update to use
+	1.5 features.
+	(run): Collect and pass additional argument to vmInterrupted.
+	(breakpointEvent): Use resetCount.
+	(watchpointEvent): Ditto.
+	(exceptionEvent): Ditto.
+	
+	* cc-classes/ucb/tools/CommandParser.y: Remove unnecessary %token
+	declarations.
+	
+	* lib/emacs/lisp/gjdb.el (gjdb-remove): Send "clear" to inferior 
+	rather than "delete".
+	
+2007-11-13  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/GJDB.java (STOP_COMMAND,COMMAND_DELIMITERS): Remove
+	(handler,annotate,input,monitorCommands,monitorCount)
+	(inputLine,yorn,shutdown,vmStartEvent,breakpointEvent)
+	(fieldWatchEvent,stepEvent,exceptionEvent,methodEntryEvent)
+	(methodExitEvent,otherEvent,needsLoc,vmInterrupted,printPrompt)
+	(printCurrentLocation,checkConnect,monitorCommand,unmonitorCommand)
+	(readCommand,readCommandFile,readCommandStream,run,annotatePosn): Move 
+	to Commands.java or Env.java.
+	(expandCommand): Remove
+	(executeCommand,makeCommandStream): Remove; now part of 
+	CommandParser.y, CommandLexer.jf.
+	(findConnector): Move to VMConnection.java
+	
+	* classes/ucb/tools/CommandException.java (ERROR): New functions, 
+	centralized here.
+	(getThrowable): New function.
+	(CommandException): Add provisions for extended messages, additional
+	Throwable argument.
+
+	* classes/ucb/tools/Commands.java: Implements EventNotifier
+	Introduce some Java 1.5 syntax, generics.
+	(COMMA,COMMA_AND_WHITE,BREAK_SEP,ARGLIST,ARGLIST_SEP): Remove.
+	(ERROR): Move all function to CommandException.
+	(evaluate): Change error reporting.
+	Make all overloadings package private.
+	(infoCmds,commandSendInput): Remove.
+	(printCurrentLocation,checkConnect,monitorCommand,unmonitorCommand):
+	Move here from GJDB.java
+	(commandBreak,commandBytecodes,commandCatch,commandCatchException)
+	(commandClass,commandClasspath,commandClasspathInfo,commandCommand)
+	(commandCond,commandCont,commandDelete,commandDisableGC)
+	(commandEnableGC,commandExclude,commandExcludeClear)
+	(commandExcludeSet,commandFields,commandFinish,commandFrame)
+	(commandIgnore,commandIgnoreException,commandInfo,commandInterrupt)
+	(commandKill,commandLine,commandLines,commandList,commandLoadclass)
+	(commandLock,commandMethods,commandMonitor,commandNext)
+	(commandPrint,commandPtype,commandRead,commandResume,commandRun)
+	(commandSave,commandSendInput,commandSet,commandSetArgs)
+	(commandSetClass,commandStep,commandStepi,commandSuspend)
+	(commandThread,commandThreadGroup,commandThreadlocks)
+	(commandThreadlocksAll,commandThreads,commandTrace,commandUnmonitor)
+	(commandUntrace,commandUnwatch,commandUp,commandUse,commandVersion)
+	(commandWatch,commandWhere,doDisableGC,doSave,doPrint,doLock)
+	(doEnableGC):
+	Remove all Tokenizer arguments and parsing (now done in 
+	CommandParser and CommandLexer).
+	(commandRun): Adjust message.
+	(commandStep): Add repetition argument.
+	(parseExceptionSpec,parseBreakpointSpec,parseWatchpointSpec): Remove.
+	Functionality is now in CommandParser.
+	(inputLine,yorn,shutdown,vmStartEvent,breakpointEvent)
+	(fieldWatchEvent,stepEvent,exceptionEvent,methodEntryEvent)
+	(methodExitEvent,otherEvent,needsLoc,vmInterrupted,printPrompt):
+	Move here from GJDB.
+	
+	* classes/ucb/tools/GetFrame.java: Extract from parser.
+	* classes/ucb/tools/Tokenizer.java: Remove.
+	* classes/ucb/tools/ParseException.java: Remove.
+	
+	* classes/ucb/tools/CommandLineSpec.java: New file
+	* cc-classes/ucb/tools/CommandLexer.jf: New file.
+	* cc-classes/ucb/tools/CommandParser.y: New file, containing 
+	parsing from Commands.java.
+	Add count argument to next, step, stepi.
+	
+	* cc-classes/ucb/tools/VMConnection.java (parseCommandLine): Remove.
+	(VMConnection): Change API to use CommandLineSpec.
+	
+	* cc-classes/ucb/tools/Env.java: Various updates to Java 1.5
+	(annotate): Move here from GJDB.
+	(cmdArgs): Remove, and replace with
+	(commandLine): New field.
+	(lastBreakpointSet): Move to Commands.
+	(error,errorln,notice,noticeln): Add String.format-style arguments.
+	(splitToList): Remove.
+	(setExcludes,addExcludes): Change API.
+	
+	* cc-classes/ucb/tools/EventRequestSpecList.java: Various 
+	updates to Java 1.5
+	
+	* cc-classes/ucb/tools/BreakpointSpec.java: Various 
+	updates to Java 1.5
+	(evaluate): Remove reference to ParseException.
+	
+	* cc-classes/ucb/tools/EventHandler.java: Moake more fields private.
+
+	* cc-classes/ucb/tools/LValue.java (invokeWith,setValue0,setValue)
+	(memberLValue,superLValue,interiorGetValue,arrayElementLValue)
+	(invokeMethod,newInstance,invokeWith,LValueInstanceMember,getValue)
+	(LValueStaticMember,make,makeInteger,makeString,makeNull,makeThisObject)
+	(JVM_typeName,arrayClass,classByName,instanceOf,makeNewObject)
+	(makeArray,makeSimpleArray,nFields,makeName,stringValue,doAssign)
+	(booleanOperation,castPrimitive,operation):
+	Remove mentions of ParseException and update error reporting.
+	(ERROR): Move to CommandException.
+	(PERIOD): Remove.
+	(formattedInt): Change interface.
+	(toString): Simplify, change interface of some overloadings.
+	* Makefile.in: Add new files.
+	Update 'clean' definitions.
+
+2007-11-02  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+	* cc-classes/ucb/tools/ExpressionLexer.jf (symbol): New function.
+	(regexps): Use symbol to compute return value.
+	Use yycharat where applicable, rather than yytext().charAt.
+	Add newline at end of file.
+	* cc-classes/ucb/tools/ExpressionParser.y (tokenMap): New mapping
+	from token denotations to syntactic categories.
+	(findQuotedToken): Find category for given "..."-style token.
+	(<static initializer>): Initialize tokenMap.
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): numerous corrections
+	for consistency in description of operands.
+
+2007-10-31  Paul Hilfinger  <hilfingr@new-tully.CS.Berkeley.EDU>
+
+        * Makefile.in: Set version to 5.11.1.
+	
+	Redo expression parsing entirely.
+	* cc-classes/ucb/tools/expr.jj: Remove.
+	* cc-classes/ucb/tools/ExpressionParser.y: New file.
+	* cc-classes/ucb/tools/ExpressionLexer.jf: New file.
+	* classes/ucb/tools/ProgramException.java: New file.
+	* classes/ucb/tools/LValue.java: Remove all uses of old Token
+	class; use String instead.
+	* Makefile.in: Add new ExpressionParser and ExpressionLexer
+	files above, and remove expr.jj.
+	Change target 'all' to 'default'
+	Update *clean entries to be more robust.
+	* configure: Give srcdir full path name.
+	* doc/Makefile.in: Use srcdir instead of fsrcdir.
+	
+2007-10-26  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.10.2.
+
+	* configure: By default, install architecture-independent files 
+	under PREFIX/share/gjdb.
+
+	* doc/pnhcolor.sty: Add file.
+	
+2007-10-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* README: Mention install-doc.
+	* configure: Update comment on --apphome.
+	Configure docdir.
+	* Makefile.in: Add install-doc target.
+	* doc/Makefile.in (gjdb.dvi): Change rm to rm -f.
+	Add install target.
+	Add .PHONY target.
+	Define DOCDIR.
+	* doc/handout.cls: Update to newer version.
+	* doc/programs1.sty: Ditto.
+	
+2007-10-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.10.1.
+	
+        Changes for attach, listen, connect, detach commands.
+	
+	* classes/ucb/tools/Env.java (relayInput): Make private.
+	(init): Augment spec with javaArgs and class path only when it is a
+	launch.
+	Use requestInputRelay.
+	(requestInputRelay): New method.
+	(shutdown): Use requestInputRelay.
+	* classes/ucb/tools/VMConnection.java (IOFromDebuggerPossible): 
+	New field.
+	(allowsIO): New function.
+	(VMConnection constructor): Set IOFromDebuggerAllowed.
+	Set up arguments differently when launched vs. attached.
+	(disposeVM): Use .exit only for launched VMs.
+	(supportsSharedMemory,addressToSocketArgs): Moved here from
+	GJDB.java.
+	* classes/ucb/tools/Commands.java (getThread): Make private.
+	(typedName): Make private.
+	(checkPriorConnection): New function.
+	(commandRun): Use checkPriorConnection.
+	Remove handling of non-launching connectors.
+	(doAttach): New function refactored from code for -attach, 
+	-listen[any], -connect for use in new attach, listen, connect
+	commands.
+	(commandAttach,commandListen,commandConnect,commandDetach): New 
+	functions.
+	(commandSuspend,commandCont,commandStep,commandStepi,commandNext): 
+	Use requestInputRelay.
+	* classes/ucb/tools/GJDB.java (helpMsgs): Document new attach,
+	listen, connect, and detach commands.
+	(vmInterrupted): Use requestInputRelay.
+	(allCmds): Add attach, listen, connect, detach.
+	(executeCommand): Add attach, listen, connect, detach.
+	(usage): Remove -attach, -listen[any], -connect.
+	(usageError): Use Env.noticeln.
+	(supportsSharedMemory, addressToSocketArgs): Move to VMConnection.
+	(main): Remove -attach, -listen[any], -connect.
+	Remove computation of connectSpec.  This is now handled by run, 
+	 attach, listen, connect commands.
+	* doc/Makefile.in (.PHONY): Add target.
+	(docs): Change to doc.  Modify to produce gjdb.tex in current
+	directory.
+	* doc/gjdb.tex: Rename to gjdb.tex.in.
+	Add subsection on attach, listen, connect.
+	* Makefile.in (DISTFILES): Change doc/*.tex to doc/*.tex.in.
+	
+2007-10-24  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/WatchpointSpec.java: Adjust indentation style 
+	and remove tabs.
+	* classes/ucb/tools/AccessWatchpointSpec.java: Ditto.
+	* classes/ucb/tools/AmbiguousMethodException.java: Ditto.
+	* classes/ucb/tools/BadMemberNameException.java: Ditto.
+	* classes/ucb/tools/BreakpointSpec.java: Ditto.
+	* classes/ucb/tools/CommandException.java: Ditto.
+	* classes/ucb/tools/Commands.java: Ditto.
+	* classes/ucb/tools/Env.java: Ditto.
+	* classes/ucb/tools/EventHandler.java: Ditto.
+	* classes/ucb/tools/EventNotifier.java: Ditto.
+	* classes/ucb/tools/EventRequestSpec.java: Ditto.
+	* classes/ucb/tools/EventRequestSpecList.java: Ditto.
+	* classes/ucb/tools/ExceptionSpec.java: Ditto.
+	* classes/ucb/tools/GJDB.java: Ditto.
+	* classes/ucb/tools/LValue.java: Ditto.
+	* classes/ucb/tools/LineNotFoundException.java: Ditto.
+	* classes/ucb/tools/ModificationWatchpointSpec.java: Ditto.
+	* classes/ucb/tools/PatternReferenceTypeSpec.java: Ditto.
+	* classes/ucb/tools/QuiescenceMonitor.java: Ditto.
+	* classes/ucb/tools/ReferenceTypeSpec.java: Ditto.
+	* classes/ucb/tools/SourceMapper.java: Ditto.
+	* classes/ucb/tools/ThreadGroupIterator.java: Ditto.
+	* classes/ucb/tools/ThreadInfo.java: Ditto.
+	* classes/ucb/tools/ThreadIterator.java: Ditto.
+	* classes/ucb/tools/Tokenizer.java: Ditto.
+	* classes/ucb/tools/VMConnection.java: Ditto.
+	* classes/ucb/tools/VMNotConnectedException.java: Ditto.
+	* classes/ucb/tools/WatchpointSpec.java: Ditto.
+	
+2006-03-31  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Env.java (insertExcludes, setIncludes)
+	(addExcludes, excludesString): Clean up and use	Java 1.5 syntax.
+	(exclude): Remove method.  Initialize class variable in 
+	static block instead.
+
+2006-03-29  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.9.3
+	
+	* classes/ucb/tools/GJDB.java (usage): Add version ID to usage message
+	also.
+
+	* configure: Remove use of CONFIG_FILE environment variable and
+	document use as trailing configure parameter.
+
+2006-03-19  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.9.2
+	
+	* configure: Changes for Darwin.
+	* Makefile.in: Changes for Darwin
+	* bin/gjdb.in: Modify JDICLASSES to account for case on Darwin where
+	no library is needed.
+
+2005-10-24  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.9.1
+	
+	* classes/ucb/tools/LValue.java (toString): Handle null value
+	correctly.
+
+2005-10-11  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.9
+	
+	* classes/ucb/tools/GJDB.java (helpMsgs): Document new formatting
+	option on print.
+	(executeCommand): Add format option for calls to commandPrint.
+
+	* classes/ucb/tools/Commands.java (dump): Add format argument for 
+	integer numeric formats.
+	(doPrint): Ditto.
+	(commandPrint): Ditto, and add parsing for format option after "/".
+	(PRINT_OPTIONS_PATN): Pattern for print options.
+
+	* classes/ucb/tools/LValue.java (makeInteger): Handle octal
+	and hexdecimal literals correctly.
+	(decode): New function.
+	(toString): New overloadings for printing formatted numeric values.
+	(formattedInt): New function.
+	
+
+2005-08-02  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.8
+	
+	* lib/emacs/lisp/gjdb.el (gjdb-find-expr): Modify to look only for 
+	surrounding variable or field selection when region is inactive.
+	(gjdb-locals): New function.
+	(gjdb-init): Add info locals to menu.
+	Correct label on Print Details menu entry.
+	Correct name of buffer when there are extra parameters.
+	* doc/gjdb.tex: Correction description of "Print" menu item.
+	
+	* classes/ucb/tools/Env.java (classPath): New variable (separate from
+	connectSpec).
+	(javaArgs): Ditto.
+	(init): Add Java options now, rather than before constructing
+	VMConnection.
+	* classes/ucb/tools/Commands.java (commandClasspathInfo): Renamed
+	from old commandClasspath.
+	(commandInfo): Use renamed commandClasspathInfo.
+	(commandClasspath): New function (old function of same name renamed to
+	commandClasspathInfo).
+	(commandLoadclass): New function.
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Document new classpath
+	command.  
+	Document new loadclass command.
+	Document new clear command (as synonym for delete).
+	Slight format change to sourcepath.
+	(allCmds): Add classpath, clear, loadclass.
+	(executeCommand): Add classpath command.
+	Add clear command (synonym for delete).
+	Add loadclass command.
+	(main): Handle classpath argument separately from other arguments
+	to java command.
+	Separate setting of initial values (style).
+	
+2005-07-31  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.7
+	
+	* classes/ucb/tools/LValue.java (stringValue): Remove extraneous
+	parentheses from Object + String and String + Object cases.
+	* classes/ucb/tools/Commands.java (commandDelete): Allow multiple
+	BP specifications in one delete command.
+	* classes/ucb/tools/GJDB.java (helpMsgs): Update delete command
+	documentation.
+	* classes/ucb/tools/EventRequestSpecList.java (resolve): Remove
+	invalid specifications from event request list.
+	(addEagerlyResolve): Ditto.
+
+2005-03-20  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.6
+	* classes/ucb/tools/GJDB.java (allCmds): Add dumpall, da commands.
+	(helpMsgs): Documents dumpall, da commands.  Indicate that print 
+	does not print static fields.
+	(executeCommand): Add dumpall, da commands.
+	Use new parameter to evaluator.commandPrint.
+	* classes/ucb/tools/Commands.java (dump): Add wantStatics
+	argument, and print static fields only if true.
+	(doPrint): Add wantStatics parameter.
+	(commandPrint): Add wantStatics parameter.
+	
+2004-12-03  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.5.
+	* classes/ucb/tools/PatternReferenceTypeSpec.java 
+	(ANONYMOUS_TAIL): Correct pattern.
+	(anonymousBaseName): Correct substring returned.
+
+2004-10-20  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.4.
+	* classes/ucb/tools/GJDB.java (allCmds): Add "source" to the list.
+	
+2004-10-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.3.
+	* classes/ucb/tools/LValue.java (makeString): Use parseCharsToken.
+	(makeCharacter): Ditto.
+	(parseCharsToken): New function to convert string and character
+	literal escapes.
+	
+2004-09-03  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (zip): New target.
+	Set version to 5.2.
+
+	* configure: Remove jdilib parameter.
+	Juice up the automated search for apphome a bit.
+
+2004-08-28  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Set version to 5.1.
+
+	* classes/ucb/tools/GJDB.java (main): Update command-line
+	arguments for Java 1.5.
+	Update copyright notice.
+	
+2004-05-13  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Commands.java (commandClasses): Update copyright
+	notice.
+
+	* classes/ucb/tools/PatternReferenceTypeSpec.java: Updates for 
+	Java 1.5 changes in anonymous class names.
+	Update copyright date.
+	(anonymousBaseName): New function.
+	(isAnonymousClassSuffix): Use Patterns and Matchers.
+	(matches): Use anonymousBaseName.
+	
+2004-05-07  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.54
+
+	Update for Java 1.5: specifically, need changes for
+	new version of javacc:
+	  ASCII_UCodeESC_CharStream => JavaCharStream.
+	Also clear out javacc-generated sources before recreating.
+	
+2004-01-06  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.53.
+	
+	* classes/ucb/tools/Commands.java (getUserSelections): Allow "a"
+	or "A" for "yes", and "0" for "no".
+
+	* classes/ucb/tools/GJDB.java (yorn): Add generalized version that
+	allows additional one-character synonyms for "yes" and "no".
+	(yorn): Use generalized version for one-argument version.
+
+	* classes/ucb/tools/VMConnection.java (displayRemoteOutput): 
+	No longer cause fatal error on IOException from child.
+
+2002-10-15  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.51.
+	
+	* classes/ucb/tools/LValue.java (booleanOperation): Handle the case
+	where at least one operand is null.
+
+2002-09-25  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Document 'call'.	
+	* doc/gjdb.tex: Ditto.
+
+	* classes/ucb/tools/Commands.java (commandRun): Always shutdown
+	and re-initialize to assure things are clean.
+
+2002-08-12  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.50.
+	
+	* lib/emacs/lisp/gjdb.el (gjdb-format-command): Correct a type
+	problem with Emacs 21.
+
+	* README: Add instructions for loading gjdb.el in .emacs.
+
+	* lib/emacs/lisp/gjdb.el (gjdb-init): Use 'split-string' instead
+	of 'gud-chop-words'.
+
+	* classes/ucb/tools/Commands.java (infoCmds): Add "stack".
+	(commandInfo): Ditto.
+
+	* classes/ucb/tools/GJDB.java (allCmds): Add special-case 
+	abbreviations from GDB, such as 's', 'n', 'c', 'bt', etc.
+	Add backtrace, info stack.
+	(executeCommand): Ditto.
+	(helpMsgs): Add documentation for new abbreviations and aliases.
+	
+2002-02-28  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* NEWS: New file.
+	* Makefile.in: Add NEWS entry to distributed files.
+	Distribute only gjdb.el from elisp library.
+	
+2002-02-26  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.49.
+	
+	* classes/ucb/tools/Commands.java (commandSuspend): Print 
+	and annotate current position if we switch to the main thread.
+
+	* classes/ucb/tools/GJDB.java (usage): Add comment about "~" in 
+	directories.
+
+	* classes/ucb/tools/SourceMapper.java (SourceMapper): Replace 
+	initial "~" with home directory, if possible.
+
+2002-02-22  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.48_1.
+	
+	* Makefile.in (EMACSDIR): Remove cruft accidently appended to 
+	emacsdir definition.
+
+2002-01-16  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* doc/gjdb.tex: Use proper font for { } braces.
+
+	* Makefile.in: Version 3.48.
+	
+	* Makefile.in (docs): Don't pass VERSION any more.  
+	Document fixed format of VERSION definition.
+
+	* doc/Makefile.in (gjdb.dvi): Depend on ../Makefile.in and 
+	Makefile.in to track version changes.
+	Get version number from "VERSION =" line in ../Makefile.in,
+	rather than from environment (allows building from the subdirectory).
+
+	* classes/ucb/tools/GJDB.java (executeCommand): Confirm before 
+	quitting if currently connected.
+
+2002-01-14  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* configure: Revise selection of version to accommodate Java 
+	versions > 1.3.
+	* Makefile.in: Ditto.
+
+	* Makefile.in: Version 3.47.
+
+	* doc/gjdb.tex: Change version number ???? for replacement from 
+	../Makefile.in
+	* doc/Makefile.in (gjdb.dvi): Insert version number from VERSION.
+	* Makefile.in (docs): Add VERSION definition.
+
+	* classes/ucb/tools/Commands.java (commandCont): Clear previous before
+	continuing. There appears to be some problem with count filters on
+	step events.
+
+	* Makefile.in: Version 3.46.
+	
+        * doc/gjdb.tex: Document changes to 'watch'. 
+	Add version number.
+	Correct description of break (can't mention file).
+	
+	* classes/ucb/tools/EventHandler.java (fieldWatchEvent): Check that
+	right object being changed.
+
+	* classes/ucb/tools/BreakpointSpec.java 
+	(BreakpointSpec): Malformed => Bad. 
+	(getTypeDescription): Remove public qualifier.
+
+	* classes/ucb/tools/EventRequestSpec.java (isTransient): New function.
+	(getTypeDescription): Remove public qualifier.
+
+	* classes/ucb/tools/EventRequestSpecList.java (resolve): New format for
+	message.
+	(resolveAll): Ditto.
+	(addEagerlyResolve): Ditto.
+	(removeTransients): New function.
+	(createBreakpoint): Malformed => Bad.  Minor reformating.
+	(createAccessWatchpoint): Ditto & handle object-specific watchpoint.
+	(createModificationWatchpoint): Ditto.
+	(deleteAllBreakpoints): Remove unused function.
+	
+	* classes/ucb/tools/Env.java (init): Remove transient request 
+	specs first, since they don't make sense from one execution to the 
+	next.
+
+	* classes/ucb/tools/ExceptionSpec.java (getTypeDescription): Remove
+	public qualifier.
+
+	* classes/ucb/tools/ModificationWatchpointSpec.java
+	(ModificationWatchPointSpec): Malformed => Bad.
+	Add new overloading of constructor for object-specific watchpoint.
+	(toString): Remove (now done in WatchpointSpec).
+	(getTypeDescription): New function
+	
+	* classes/ucb/tools/AccessWatchpointSpec.java
+	(AccessWatchPointSpec): Malformed => Bad.
+	Add new overloading of constructor for object-specific watchpoint.
+	(toString): Remove (now done in WatchpointSpec).
+	(getTypeDescription): New function
+	
+	* classes/ucb/tools/WatchpointSpec.java (obj): New field.
+	(WatchpointSpec): Malformed => Bad.
+	Add new overloading of constructor for object-specific watchpoint.
+	(equals): Take new obj field into account.
+	(getTypeDescription): Remove public qualifier.
+	(isTransient): New function.
+	(toString): New format.
+	(rightObject): New function.
+	(toRefSpec): New function.
+	
+	* classes/ucb/tools/Commands.java (ERROR_VALUE): New field.
+	(evaluate): Handle exceptions rather than propagating them.
+	(doKill): Let evaluate handle exceptions.
+	(doPrint): Ditto.
+	(doLock): Ditto.
+	(doDisableGC): Ditto.
+	(doEnableGC): Ditto.
+	(doSave): Ditto.
+	(resolveNow): Change format of message.
+	(commandBreak): Let "resolved" message get printed elsewhere.
+	(parseWatchpointSpec): Handle object-specific watchpoints.
+	(doSave): Distinguish error from null.
+	
+	* classes/ucb/tools/MalformedMemberNameException: Rename to
+	BadMemberNameException to indicate wider meaning.
+	
+2002-01-13  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Commands.java (commandSuspend): If no current
+	thread, switch to "main" if it exists.
+
+	* doc/gjdb.tex: Modify 'thread' documentation to indicate that thread
+	names may be used.
+
+2002-01-11  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.45.
+	
+	* classes/ucb/tools/WatchpointSpec.java: Add dummy
+	default constructor and exemplar.
+	* classes/ucb/tools/ExceptionSpec.java: Ditto
+	* classes/ucb/tools/BreakpointSpec.java: Ditto
+
+	* classes/ucb/tools/WatchpointSpec.java (getTypeDescription): 
+	New function.
+	* classes/ucb/tools/ExceptionSpec.java: Ditto
+	* classes/ucb/tools/BreakpointSpec.java: Ditto
+	* classes/ucb/tools/EventRequestSpec.java: Ditto
+
+	* classes/ucb/tools/WatchpointSpec.java: Make non-abstract.
+	(resolveEventRequest): Add dummy definition.
+
+	* classes/ucb/tools/Env.java (eventRequestSpecs): New function.
+	
+	* classes/ucb/tools/Commands.java (commandInfo): Add "catch" 
+	subcommand.
+	(listBreakpoints): Remove; subsumed in listEventSpecs.
+	(listWatchpoints): Ditto.
+	(listCaughtExceptions): Ditto.
+	(listEventSpecs): New function.
+	(deleteRequestedEvents): New function.
+	(commandDelete): Use deleteRequestedEvents.
+	(commandIgnore): Ditto.
+	(commandUnwatch): Ditto.
+	
+	* classes/ucb/tools/EventRequestSpecList.java 
+	(breakpointSpecs): Remove; subsumed by eventRequestSpecs.
+	(watchpointSpecs): Ditto.
+	(eventRequestSpecs): Add exemplar argument to filter request.
+	
+2002-01-10  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.44.
+	(Makefile): Add directory to config.status.
+	* doc/Makefile.in: Correct setting of TEXINPUTS in the case where
+	it is not set initially.
+
+	* classes/ucb/tools/GJDB.java (fieldWatchEvent): Disable access 
+	watchpoints while trying to read field's value (works around 
+	apparent JDI bug).
+	(helpMsgs): Update 'delete' documentation.
+	Add documentation for plain unwatch and for info watch.
+
+	* classes/ucb/tools/Commands.java (commandInfo): Add info watch.
+	(listBreakpoints): Make private.  
+	(parseBreakpointSpec): Update to use new idToSpec.
+	(getUserSelections): New function.
+	(commandDelete): Use getUserSelections.
+	(commandUnwatch): Modify to act like commandDelete when given no
+	arguments.
+	(listWatchpoints): New function.
+
+	* classes/ucb/tools/EventRequestSpec.java (getId, idToSpec): 
+	Move getId, idToSpec and related fields and initialization 
+	to EventRequestSpec from BreakpointRequestSpec.
+	* classes/ucb/tools/BreakpointRequestSpec.java: Ditto.
+	* classes/ucb/tools/ModificationWatchpointSpec.java (toString):
+	Change format; add id.
+	* classes/ucb/tools/AccessWatchpointSpec.java (toString): Ditto.
+	
+	* doc/gjdb.tex: Correct font on 'quit' entry.
+	Add documentation of 'watch'.
+	Add some more sectioning and re-arrange introductory material for
+	command descriptions.
+	Break up and re-arrange final table.
+	Correct example of print.
+
+2002-01-09  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.43.
+	
+	* classes/ucb/tools/VMConnection.java (listenTarget): Fix apparently
+	inadvertant use of global variable 'vm'.
+	(classPath): New field to hold VM's class path, if available.
+	(open): initialize classPath field.
+	(classMayExist): New function.	
+	(containsClass): New function.
+	
+	* classes/ucb/tools/PatternReferenceTypeSpec.java 
+	(createPrepareRequest): Add additional check for plausibility of 
+	class names.
+	(classIsPlausible): New function related to above change.
+	
+	* classes/ucb/tools/Env.java (classMayExist): New function.
+	
+2001-12-12  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.42
+	
+	* classes/ucb/tools/BreakpointSpec.java (commands): New field.
+	(getCommands): New function.
+	(setCommands): New function.
+	(toString): Print commands attached to breakpoint.
+
+	* classes/ucb/tools/Commands.java (commandCommand): New command.
+
+	* classes/ucb/tools/GJDB.java (vmInterrupted): Allow for commands on
+	breakpoints.
+	Use 'for' for iterators (stylistic).
+	(helpMsgs): Add documentation for 'command' command.
+	(allCmds): Add 'command' command.
+	(executeCommand): Ditto.
+	Add more parameters to allow reading of commands from input stream.
+	(vmInterrupted): Change parameter list to executeCommand.
+	(run): Ditto.
+	(readCommandStream): New function.
+	(readCommandFile): Change to use readCommandStream.
+	
+2001-12-07  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* lib/emacs/lisp/gjdb.el (gjdb-get-containing-class-name): Add 
+	comments, edit indentation.
+
+2001-12-04  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.41
+	
+	* classes/ucb/tools/ThreadInfo.java (updateThreads): New function.
+
+	* classes/ucb/tools/Commands.java (commandThreads): Use updateThreads
+	first to get more recent list of threads.
+	
+2001-12-04  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* classes/ucb/tools/Commands.java (evaluate(2)): New function.
+	move waiting code here.
+	(evaluate(1)): Use evaluate(2).
+	* classes/ucb/tools/Commands.java (doPrint): Use new evaluate(2).
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Update description of 
+	<thread id>
+
+2001-12-03  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.40
+	
+	* classes/ucb/tools/ThreadInfo.java (getThread): Add capability to
+	find threads by name.
+	* classes/ucb/tools/ThreadInfo.java (getThreadByName): New function.
+
+	* classes/ucb/tools/BreakpointSpec.java (getId): Move to more 
+	logical place in file.
+
+	* classes/ucb/tools/GJDB.java (breakpointEvent): Print BP number.
+
+	* Makefile.in: Version 3.39
+	
+	* classes/ucb/tools/Env.java (setStandardExcludes): New function.
+	(insertExcludes): Renamed from addExcludes.
+	(addExcludes): Ditto.
+	(excludes): Use setStandardExcludes.
+	
+	* classes/ucb/tools/GJDB.java (executeCommand): Don't need to 
+	  checkConnect for 'exclude' command.  Also, implement 'reset'
+	  argument and leading '+'.
+	(helpMsgs): Update 'exclude' documentation.
+	
+2001-12-02  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.38
+	
+	* classes/ucb/tools/Env.java (getStatus): Protect against unstarted
+	threads, which cause a bogus JDI exception.
+	* classes/ucb/tools/Commands.java (printThreadGroup): Ditto.
+
+2001-11-02  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.37
+	
+	* classes/ucb/tools/LValue.java (memberLValue): allow method calls on 
+	arrays. (Seems to be bug in JDI though; not recognized).
+
+2001-11-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Commands.java (commandCont): Invalidate the frame
+	before continuing.
+
+2001-10-31  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Commands.java (commandCatchException): Clean
+	up commented-out code, now that I understand.
+
+2001-10-30  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.36
+	
+	* classes/ucb/tools/Tokenizer.java (PUNCTUATION): Remove whitespace.
+	(hasMoreTokens,nextToken,peek): Allow 'returnDelims' parameter.
+
+	* classes/ucb/tools/Commands.java (COMMA,COMMA_AND_WHITE,BREAK_SEP,
+	ARGLIST, ARGLIST_SEP): Make static
+	(commandBreak): Record lastBreakpointSet.
+	(commandDelete): Null out lastBreakpointSet, if deleted.
+	(commandCond): Allow 'condition (<cond>)' syntax.
+
+	* ucb/tools/GJDB.java (help): Update description of 'condition'
+	command.
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Add documentation
+	for bare 'break' and for 'info break'.
+
+	* classes/ucb/tools/Commands.java (infoCmds): Add 'break' subcommand.
+	(commandInfo): Ditto.
+	(commandBreak): Print BP number on setting resolved BP spec.
+
+2001-10-26  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.35
+	
+	* classes/ucb/tools/LValue.java (stringValue): Have + on general
+	objects & Strings be more informative when toString crashes.
+
+	* Makefile.in: Version 3.34
+	
+	* cc-classes/ucb/tools/expr.jj (AdditiveExpression): Add frameGetter
+	argument to 'operation'.
+	* classes/ucb/tools/LValue.java (operation): Ditto.  Use frameGetter
+	argument for calling StringValue.
+	(stringValue): Add frameGetter & vm arguments so as to handle
+	case of non-String Object + String or String + non-String Object.
+
+	* classes/ucb/tools/Commands.java (commandClasspath): Add a 
+	more helpful message for 'info classpath' in absence of VM.
+
+	* lib/emacs/lisp/gjdb.el (gjdb-init): Prompt for switching
+	directories if restarted in a different one.
+	(gjdb-clean-buffer-process): Fix process deletion to remove 
+	annoying error message on process restart.
+
+2001-10-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.33
+	
+	* classes/ucb/tools/EventHandler.java (run): Try speeding up
+	start up by using a different kludge to combat apparent race 
+	condition.
+
+2001-10-24  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.32
+	
+	* cc-classes/ucb/tools/expr.jj (ExpressionParser): Handle array
+	indexing error in expression evaluator.
+
+	* classes/ucb/tools/Commands.java (dump): Fix so that strings don't
+	get double-quoted when level > 0.
+
+	* lib/emacs/lisp/gjdb.el (gjdb-get-containing-class-name): Fix to
+	avoid confusion with random 'new' commands that are not for anonymous
+	classes.
+	(gjdb-class-search-limit): New function.
+
+	* Makefile.in: Version 3.31
+	
+	* classes/ucb/tools/VMConnection.java (parseCommandLine): Fix for
+	proper handling of quoted arguments.
+
+2001-09-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* lib/emacs/lisp/gjdb.el (gjdb-init): Make comint-prompt-regexp
+	and paragraph-start local to buffer.
+
+2001-09-18  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* lib/emacs/lisp/gjdb.el (get-containing-class-name): Fix to handle
+	ordinary 'new' properly.
+
+2001-05-28  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.30.
+	
+	* doc/gjdb.tex: Document anonymous classes, conditional breakpoints.
+
+	* classes/ucb/tools/PatternReferenceTypeSpec.java (toString): Add 
+	any-anonymous-class marker.
+
+	* classes/ucb/tools/BreakpointSpec.java (id): Add breakpoint number 
+	field.
+	(nextBreakpointId): Add breakpoint count to give id.
+	(BreakpointSpec): Assign id.
+	(setCondition): Trim argument first.
+	(idToSpec): New function.
+	(toString): Put in more information: id, condition, better class.
+	(getId): New function.
+	
+	* classes/ucb/tools/Commands.java (listBreakpoints): Change list
+	format to give breakpoint number, condition, and better class.
+	(parseBreakpointSpec): Add mayExist argument; update Usage message.
+	(commandCond): New function.
+	
+	* classes/ucb/tools/GJDB.java (helpMsgs): Document 'condition'
+	command; add documentation for 'if <cond> clause on 'break'; 
+	document numeric argument to 'delete'.
+	(allCmds): Add "condition".
+	(executeCommand): Add 'condition' command.
+	
+
+2001-05-27  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/EventHandler.java (breakpointEvent): Handle 
+	conditional breakpoints.
+
+	* classes/ucb/tools/Commands.java (commandBreak): Remove crud for
+	undocumented syntax.
+	
+	* classes/ucb/tools/EventRequestSpecList.java (getRequestSpec): New
+	functions.
+
+	* classes/ucb/tools/BreakpointSpec.java (condition): New field to
+	provide conditional breakpoints.
+	(getCondition): New function.
+	(setCondition): New function.
+	(conditionSatisfied): New function.
+	(evaluate): New function.
+
+2001-05-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.29.
+	
+	* configure (javaversion): Indicate version of JDK used.
+
+	* Makefile.in (JFLAGS): Make -g default.
+
+	* classes/ucb/tools/Commands.java: Remove bogus sourcePath field.
+	(commandUse): Use Env.getSourcePath().
+
+	* classes/ucb/tools/SourceMapper.java (getSourcePath): New function.
+	* classes/ucb/tools/Env.java (getSourcePath): New function.
+
+	* classes/ucb/tools/Commands.java (commandDelete): When no 
+	arguments, give y/n choice when only one breakpoint to delete.
+	* configure: Allow configuration of single file.
+	* Makefile.in: Makefile target.
+	* doc/Makefile.in: Ditto.
+
+2001-05-25  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* Makefile.in: Version 3.31x.
+	
+	* classes/ucb/tools/EventHandler.java (run): Insert mystery delay 
+	code into EventSet dequeueing to overcome bug in 1.3.1 installations
+	on Linux.
+
+2001-05-24  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.30x.
+	
+	* classes/ucb/tools/QuiescenceMonitor.java: Reindent.
+	Add copyright notice.
+
+	* Makefile.in: No more modified-sun-classes.
+	* README: Ditto.
+	
+	* classes/ucb/tools/BreakpointSpec.java: Add copyright notice.
+	(resolveEventRequest): Allow location to be null for 
+	any-anonymous-class case.
+	(location): Return null; don't throw LineNotFoundException here.
+
+	* classes/ucb/tools/EventRequestSpec.java (refSpec): Make protected 
+	to convey intent.
+	(resolve): Allow resolveEventRequest to return null.
+
+	* classes/ucb/tools/PatternReferenceTypeSpec.java: Add copyright 
+	notice.
+	(isAnyAnonymous): New function for anonymous inner classes.
+	(anonymous): New field.
+	(PatternReferenceTypeSpec): Set anoymous, and trim .0 from classId.
+	(matches): Handle .0 suffix.
+	(checkClassName): Allow anonymous classes.
+	(isAnonymousClassSuffix): New function.
+	
+	* classes/ucb/tools/ReferenceTypeSpec.java: Add copyright notice.
+	(isAnyAnonymous): New function spec.
+
+	* lib/emacs/lisp/gjdb.el (get-containing-class-name): Handle
+	anonymous inner classes.
+
+	* Move all .java files out of modified-sun-classes into classes.
+
+	* classes/ucb/tools/EventHandler.java (run): Stop application if
+	ANY handler requests it, rather than if ALL handlers request it.
+	* classes/ucb/tools/PatternReferenceTypeSpec.java 
+	(createPrepareRequest): Don't filter here; filter on receiving 
+	ClassPrepareEvents.
+	* classes/ucb/tools/EventRequestSpec.java (resolve): Resolve only if
+	type matches refSpec.
+
+2001-05-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.28
+
+	* classes/ucb/tools/Env.java (printPrompt): Handle promptPrefix.
+	(promptPrefix): New field, added for -prompt option.
+
+	* classes/ucb/tools/GJDB.java (main): Handle -prompt option.
+	(usage): Document -prompt.
+
+2001-05-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.27
+
+	* classes/ucb/tools/PatternReferenceTypeSpec.java 
+	(equals,matches,PatternReferenceTypeSpec): Add transClassId, 
+	init stem from that.
+
+	* Makefile.in: Add JFLAGS.
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Elaborate more on
+	'save'. Add description of leading '*'.	
+
+2001-05-21  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* Makefile.in: Version 3.26
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Add documentation for 'save'.
+
+	* cc-classes/ucb/tools/expr.jj (INTERNALVAR): New token
+	(IDENTIFIER): Exclude identifiers beginning with '$'.
+	(PrimaryPrefix): Allow INTERNALVAR as alternative.
+	
+
+2001-05-20  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.25
+
+	* classes/ucb/tools/QuiescenceMonitor.java: New file.
+
+	* classes/ucb/tools/VMConnection.java (activeIOMonitor): New field
+	to support waiting on output quiescence.
+	(waitOutputQuiet): New method, ditto.
+	(disposeVM): Stop quiescence monitor thread.
+	(dumpStream): Add monitor parameter, and kick it on each output.
+	(displayRemoteOutput): Add monitoring.
+	(dumpFailedLaunchInfo): Add parameter for dumpStream.
+
+	* classes/ucb/tools/Commands.java (doPrint): while => if.  Wait
+	for output to be quiet before printing value and subsequent prompt.
+
+	* classes/ucb/tools/GJDB.java (run): Don't fiddle with priority.
+	
+
+2001-05-18  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.24
+
+	* classes/ucb/tools/Commands.java (commandClasses): Convert '$' to
+	'.' in listings.
+
+	* lib/emacs/lisp/gjdb.el (get-containing-class): Deal with nested
+	classes.
+
+	* classes/ucb/tools/LValue.java (makeName): Use Tokenizer rather than
+	StringTokenizer.  Modify to allow for static members of nested 
+	classes. 
+	(nFields): Use Tokenizer rather than StringTokenizer.
+
+	* classes/ucb/tools/PatternReferenceTypeSpec.java: Moved from
+	modified-sun-classes directory.
+	(matches): Treat '$' and '.' as the same character, to allow '.'
+	notation for nested classes.
+
+2001-04-08  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* Makefile.in: Version 3.23
+
+	* classes/ucb/tools/GJDB.java (helpMsg): Add 'set max-frames' 
+	documentation.
+
+	* classes/ucb/tools/Env.java (maxStackFrames): New parameter.
+
+	* classes/ucb/tools/Commands.java (commandSet): Add 'set max-frames'.
+
+2001-04-03  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.22.
+
+	* classes/ucb/tools/GJDB.java (executeCommand): Handle case of 
+	null initial command.
+	(COMMAND_DELIMITERS): Prune set.
+	(run): Handle "!!" as first command.
+
+2001-04-02  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.21.
+	
+	* classes/ucb/tools/GJDB.java (COMMAND_DELIMITERS): New definition.
+	(executeCommand): Delimit commands with COMMAND_DELIMITERS.
+
+	* Makefile.in: Version 3.20.
+	
+	* cc-classes/ucb/tools/expr.jj (evaluate): Disable event handling
+	  while evaluating.
+	
+	* classes/ucb/tools/LValue.java (instanceOf): Check for java.lang.
+	  Better error message for unknown type.
+
+	* classes/ucb/tools/EventHandler.java (setEnables): new methods.
+
+	* classes/ucb/tools/EventRequestSpec.java (resolve): delete
+	  prepareRequest, not just disable.
+	(resolveEagerly): Ditto.
+
+	* classes/ucb/tools/Commands.java (commandUntrace): Delete 
+	  requests, not just disable.
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): can't give untrace a thread.
+	(executeCommand): Do checkConnect for trace, untrace.
+	
+2001-04-02  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* Makefile.in: Version 3.19.
+
+	* classes/ucb/tools/LValue.java (superLValue): New methods.
+	(invokeMethod): Add options argument.
+	(makeThisObject): Replace token argument with errString, and use in
+	  error message.
+	(instanceOf): New method.
+	class LValueInstanceMember: Add options field.
+	(LValueInstanceMember): New overloading of constructor to handle
+	   super.
+	
+	* cc-classes/ucb/tools/expr.jj (RelationalExpression): Change (...)* to
+	  [...].
+	(PrimaryPrefix): Implement super.
+	(Type): remove definition
+	(ReferenceType): New definition.
+	(InstanceOfExpression): Implement.
+	
+2001-04-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.18.
+
+	* classes/ucb/tools/LValue.java (getValue): qualify invokeMethod and
+	ERROR to get around bug in javac 1.2.2.  
+
+	* lib/emacs/lisp/gjdb.el (gjdb-restart): Rename from restart-gjdb for
+	 consistency.
+	Change buffer-handling so that both source buffer and GJDB buffer
+	 show.
+	(gjdb-quit): Modify to kill current debugging process and bury buffer.
+	(gjdb-init): Move in most code from gjdb.
+	(gjdb): Move most code to gjdb-init.  Just set buffers after calling 
+	gjdb-init.
+	
+2001-04-01  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* classes/ucb/tools/LValue.java (interiorGetValue): Remove
+	InvalidTypeException case.
+	(invokeMethod): New functions.
+	(newInstance): New function.
+	(resolveOverload): Remove.
+	(getValue): Remove InvalidTypeException case, add ParseException.
+	(makeNewObject): Resolve constructor in newInstance.
+	(makeName): Check for java.lang. implicit qualification.
+	class LValueInstanceMember:
+	Remove matchingMethod field.
+	(getValue): Use invokeMethod routine to resolve
+	overloading.
+	(setValue0): Change test for method.
+	(invokeWith): Ditto.
+	Don't resolve overloads.
+	class LValueStaticMember: Same changes as for LValueInstanceMember.
+	
+2001-03-29  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.17.
+	(clean) Add Version.java.
+
+	* doc/gjdb.tex (args): Update for print/n and dump/n.
+
+	* classes/ucb/tools/Commands.java (dump): Remove unnecessary type
+	arguments and provide for arbitrary depths.
+
+2001-03-29  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* classes/ucb/tools/Commands.java: 
+	(commandPrint): Provide for depth specification (/<d>).
+
+	* classes/ucb/tools/GJDB.java: 
+	(run): Put in message for unknown command.
+	(helpMsgs): Add documentation for print depth control.
+	(executeCommands): Delimit command verb at punctuation, not just 
+	whitespace.
+	
+	* classes/ucb/tools/Env.java (indent): New function.
+
+2001-03-28  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Tokenizer.java: New file, replacing 
+	BufferedStringTokenizer.java.
+	GJDB.java: Convert uses of StringTokenizer and BufferedStringTokenizer
+	  to use Tokenizer.
+	Commands.java: Ditto.
+	Also, move toArray to Tokenizer class.
+	(parseBreakpointSpec): Remove.
+
+2001-03-28  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* Makefile.in: Version 3.16.
+	
+	* lib/emacs/lisp/gjdb.el (gjdb-default-command): New function.
+	(restart-gjdb): Use gjdb-default-command.
+	(gjdb): Ditto.
+	(gjdb-from-source): Use gjdb-default command to get classpath when
+	not running from anonymous package.
+	
+2001-03-27  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Add copyright notices to many files.
+	
+	* classes/ucb/tools/GJDB.java (run): Don't print error message on
+	receiving STOP_COMMAND if VM is not connected.
+
+	* lib/emacs/lisp/gjdb.el (gjdb-init): New function.
+	(gjdb-clean-buffer-process): New function.
+	(restart-gjdb): New function.
+	(gjdb): Add restart menu item.  
+	Use gjdb-init, so as to handle cleanup of old debugging sessions
+	better.
+	Be sure to position at end of buffer.	
+	
+	* classes/ucb/tools/LValue.java (ERROR): New function.
+	Change "throw new ParseException" throughout to throw ERROR().
+	* cc-classes/ucb/tools/expr.jj (ERROR): New function.
+	Change "throw new ParseException" throughout to throw ERROR().
+	
+	* Makefile.in: Distribute KNOWN-PROBLEMS.
+	
+	* KNOWN-PROBLEMS: New file.
+	
+	* classes/ucb/tools/LValue.java (makeSimpleArray): New function.
+	
+	* cc-classes/ucb/tools/expr.jj (Dims): New non-terminal.
+	(ArrayInitializer): Ditto.
+	(ArrayItem): Ditto.
+	(AllocationExpression): Add array initializers.
+	(CastExpression): Use Dims().
+	(Type): Ditto.
+
+2001-03-27  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* cc-classes/ucb/tools/expr.jj (AllocationExpression): Extend to 
+	general array types.
+
+	* classes/ucb/tools/LValue.java (fullTypeName): New function.
+	(makeArray): Change from makePrimArray.  Extend to non-primitive arrays.
+	(JVM_typeName): Extend to non-primitive types.
+	
+
+2001-03-27  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/LValue.java
+	(JVM_typeName): New function.
+	(arrayClass): New function.
+	(makePrimArray): New function.
+	(doAssign): Use makeConstant.
+
+	* cc-classes/ucb/tools/expr.jj 
+	(AllocationExpression): Allow primitive array creation.
+	(ArrayDimensions): Ditto.
+	
+2001-03-26  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/LValue.java: Add some comments.
+	(setValue): Clean up message a little.
+	(memberLValue): Remove vm parameter.
+	(nFields): Ditto.
+	(doAssign): New function.
+	(castPrimitive): New function.
+	(operation): Catch arithmetic exceptions.
+	(excpMessage): New function.
+	(fieldByName): Remove obsolete (?) comment.
+	(makeConstant): New function.
+	
+	* cc-classes/ucb/tools/expr.jj: Remove vm argument from calls to
+	memberLValue.
+	(PrimitiveType): Simplify.
+	(Assignment): Make it work for all assignment operators.
+	(PreIncrementExpression): Make it work.
+	(PreDecrementExpression): Ditto.
+	(PostfixExpression): Ditto.	
+	
+	* classes/ucb/tools/Commands.java: Define PRINT_TYPE.
+	(doPrint): Handle PRINT_TYPE.
+	Some general cleanup.
+	(commandPtype): New function.	
+
+	* classes/ucb/tools/GJDB.java (disconnectCmds): Remove, and put
+	individual tests with appropriate commands.
+	(isDisonnectedCmd): Ditto.
+	(allCmds): Add ptype command.
+	(executeCommand): Ditto.
+	Use checkConnect rather than isDisconnectedCmd.
+	(checkConnect): New function.
+
+	* cc-classes/ucb/tools/expr.jj: Add eval flag to allow evaluation to
+	be suppressed.
+	Conditionalize all evaluation on eval flag.
+	Correct ?:, &&, || operators.
+
+2001-03-26  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* Makefile.in: Version 3.15.
+	
+	* classes/ucb/tools/LValue.java (makeName): Allow for unqualified use
+	of static field names in static method.
+	(memberLValue): Handle .length of arrays.  
+	Add vm argument to both overloadings to allow for formation of result.
+	(nFields): Add vm argument.
+	
+	* cc-classes/ucb/tools/expr.jj: Allow pass .vm argument in all cases
+	of field references (in case of arrays).
+	
+2001-03-25  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.14.
+	
+	* cc-classes/ucb/tools/expr.jj: New file, copied from Sun files
+	and modified:
+	Placed in ucb.tools package.
+	Converted deprecated uses of StringBufferInputStream to use Readers.
+	Produce semantic value from PrimitiveType.
+	Support |, &, ^, %, ~, !, <<, >>, >>>, unary +, unary -, and casts.
+
+	* classes/ucb/tools/LValue.java: New file, copied from Sun files
+	and modified:
+	Placed in ucb.tools package.
+	(fieldByName): Allow look up of both static and instance variables.
+	(methodsByName): Allow look up of both static and instance methods.
+	(LValueInstanceMember): Look up both fields, overloads in both
+	static and instance members.
+	(makeInteger): Correct to allow long suffixes.
+	(makeLong): Remove.
+	(makeFloat): Handle both float and double.
+	(makeDouble): Remove.
+	(operation): Rename operands so that the poor reader does not confuse
+	left and right!
+	Support numerous missing operations.
+	(booleanOperation): Ditto.
+	(castPrimitive): New function.
+	(operation): New overloading for unary functions.
+
+	Makefile.in: Accomodate new files.
+	Add maintainer-clean target.
+
+	README: Update with parser info.
+
+	doc/gjdb.tex: Format changes.
+	
+2001-03-24  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.13.
+	
+	* lib/emacs/lisp/gjdb.el (gjdb-get-some-class): New function.
+	(gjdb-from-source): New interactive function.
+	(gjdb-get-package): New function.
+	(gjdb-program): New configurable variable.
+	(gjdb-source-to-command-map): New variable.
+	(gjdb-set-local-sourcefile-map): Add "Start Debugger" item.
+	
+2001-03-23  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.12.
+	
+	* lib/emacs/lisp/gjdb.el: Cause Quit menu item to put ^F first,
+	in case application is running.
+
+	* classes/ucb/tools/Env.java (endl): Define.
+	* classes/ucb/tools/GJDB.java: Add greeting message
+
+	* configure: Create doc directory, doc/Makefile.  
+	Add @fsrcdir@ substitution
+	* doc/Makefile.in: New file.
+	
+	* Makefile.in: Version 3.11.
+	
+	* classes/ucb/tools/Commands.java: Redact indentation.
+	* classes/ucb/tools/GJDB.java: Ditto.
+	
+	* classes/ucb/tools/Commands.java: Replace uses of 'out' field with 
+	calls to Env.notice* and Env.error* as appropriate.
+	* classes/ucb/tools/GJDB.java: Ditto.
+	
+	* classes/ucb/tools/GJDB.java (run): New method; replaces bogus use
+	of constructor.
+
+	* Makefile.in: Version 3.10.
+	(Version.java): Put in directory . rather than classes/ucb/tools to
+	avoid duplication in source list.
+	(dist): New target for making tar file.
+
+	* doc/gjdb.tex: New file: documentation.
+
+2001-03-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Commands.java: Make some messages about 
+	"nothing suspended" more accurate and informative.
+	(commandRun): Invalidate all ThreadInfo first.
+	
+	* lib/emacs/lisp/gjdb.el (gjdb-refresh): New function.
+	(gjdb): Remove set and clear breakpoint commands. 
+	Add Refresh menu item.
+	Change Terminal EOF item to use comint-send-eof.
+	(gjdb-intr) Use C-f ('\006') for command.
+	
+	* classes/ucb/tools/GJDB.java (helpMsgs): Add info threads.
+	Re-arrange info commands to be alphabetically ordered.
+	Correct description of <thread id>.
+	(makeCommandStream): New function.
+	(GJDB): When relaying input, handle EOF on command stream by 
+	sending EOF to debugged process and then continuing.
+	Remove CLOSE_COMMAND.
+	Use C-f ('\006') for STOP_COMMAND.
+	
+2001-03-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Version 3.9.
+		
+	* classes/ucb/tools/VMConnection.java (displayRemoteOutput): Add
+	an output stream parameter.
+	(parseCommandLine): Rework to allow output redirection specs as well.
+	(dumpStream): Ditto.
+	(VMConnection): Allow for output & error streams.
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Augment help message for 
+	run to describe output redirection.
+
+2001-03-20  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* lib/emacs/lisp/gjdb.el: Add run, quit commands.  
+	Correct	parentheses.
+	Change creation of local map in gjdb buffer so as to get a primary
+	menu rather than a submenu.
+
+2001-03-18  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* lib/emacs/lisp/gjdb.el (gjdb): Bind f9 to gjdb-print and S-f9 to
+	gjdb-dump.
+	(gjdb-set-local-sourcefile-map): Ditto.
+
+2001-03-16  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+ 	* Makefile.in: Version 3.8.
+	
+	* lib/emacs/lisp/gjdb.el: Set java-mode-hooks for local key mapping.
+	(gjdb-call): Adapt from gud.el with new name to prevent interference. 
+	(gjdb-format-command): Ditto.  Also, modify %e to use gjdb-find-expr.
+	(gjdb-find-expr): Adapted from gud-find-c-expr.  If there is a region,
+	uses it to find expression.
+	(gjdb-set-local-sourcefile-map): New function.
+	(gjdb-find-file): Move map setting to gjdb-set-local-sourcefile-map.
+	(gjdb): Add printing.
+
+ 	* Makefile.in: Version 3.7.
+	
+	* configure: Move creation of config.status to end.
+
+	* bumpversion: Remove.
+	
+	* classes/ucb/tools/GJDB.java: Remove version definition.  Define
+	instead in generated file Version.java.
+
+2001-03-15  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* configure: Handle either JDK1.2 or JDK1.3.
+	* Makefile.in: Ditto.
+	Generate Version.java
+	
+ 	* classes/ucb/tools/GJDB.java: Version 3.6.
+
+	* lib/emacs/lisp/gjdb.el: Modify creation of menus to avoid redundant
+	computation and interference with existing menus.
+	Change some menu labels.
+
+ 	* classes/ucb/tools/GJDB.java: Version 3.5.
+	
+	* classes/ucb/tools/GJDB.java (needsLoc): New function.
+	(vmInterrupted): Change to take EventSet, used to determine how much
+	information needs to be printed. 
+	Suppress prompt when stepping in Emacs mode.
+	(printCurrentLocation): Change to print location string only when
+	requested.
+	
+	* classes/ucb/tools/EventNotifier.java: Move here from 
+	modified-sun-classes.  
+	(vmInterrupted): Add EventSet argument.
+
+2001-03-14  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in: Arrange to compile gjdb.el on installation.
+
+	* classes/ucb/tools/VMConnection.java (closeOutputToRemote): new
+	function.
+	(disposeVM): Use closeOutputToRemote.
+
+	* lib/emacs/lisp/gjdb.el (gjdb-menu-item): Clean up and list all
+	key bindings.
+	(gjdb-change-menu-title): New function.
+	(describe-accel): New function.
+	(ascii-keys-p): New function.
+	(function-key-p): New function.
+	(gjdb): Better menu title.
+	Add input close item.
+	(gjdb-find-file): Change name from gud-gjdb-find-file.
+	Better menu title.
+
+	* classes/ucb/tools/GJDB.java (STOP_COMMAND, CLOSE_COMMAND): 
+	Introduce symbolic names for special commands from Emacs interface
+	(GJDB): Provide for closing stdin from terminal.
+
+2001-03-13  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+ 	* classes/ucb/tools/GJDB.java: Version 3.4.
+	
+	* lib/emacs/lisp/gjdb.el: Remove redundant functions.
+
+2001-03-12  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* lib/emacs/lisp/gjdb.el: Make function key bindings show up in 
+	menus.
+
+	* Makefile.in (distclean): Remove config.status
+
+	* configure (srcdir): Record configuration parameters in
+	config.status
+
+ 	* classes/ucb/tools/GJDB.java: Version 3.3.
+
+2001-03-09  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* classes/ucb/tools/EventRequestSpec.java: 
+	(resolveAgainstPreparedClasses): Protect against no VM.
+	(resolveEagerly): Ditto.
+
+	* classes/ucb/tools/Env.java (printPrompt): Distinguish no VM from
+	no current thread.
+
+2001-03-08  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* classes/ucb/tools/Commands.java (commandSet): Add 'set stdin'.
+
+	* classes/ucb/tools/GJDB.java (helpMsgs): Document 'set stdin'.
+
+	* classes/ucb/tools/Env.java (noStdin): New variable.
+	(relayingInput): Add ! noStdin test.
+
+2001-03-12  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+	
+ 	* classes/ucb/tools/GJDB.java: Version 3.2.
+
+	* bumpversion: Correct extraction of minor version.
+	
+2001-03-08  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/Commands.java: Use Env.resumeVM throughout for 
+	resuming all threads.
+	(commandResume): Don't start relaying input.
+	* classes/ucb/tools/Env.java (resumeVM): New function.
+
+2001-03-08  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+        * classes/ucb/tools/Env.java (relayingInput): New function.
+	(printPrompt): Change format when no current thread.
+	
+	* classes/ucb/tools/VMConnection.java (inputTransferThread, 
+	inputFileName): new fields for input redirection.
+	(parseCommandLine): New function
+	(VMConnection): Extract input redirection.
+	(hasRedirectedInput): New function
+	(disposeVM): Clean up input redirection thread.
+	(transferInput): New function
+	(launchTarget): Do input redirection.
+	
+	* classes/ucb/tools/GJDB.java (inputLine): New function.
+	(yorn): Use inputLine.
+	(helpMsgs): Document input redirection.  Correct multi-line comments.
+	(printPrompt): relayInput -> relayingInput ()
+	(executeCommand): cont -> continue.
+	(GJDB): Exit after command stream closes.
+	Always convert "stop!!" to suspend.
+	
+	* classes/ucb/tools/EventRequestSpecList.java (breakpointSpecs): New 
+	function.
+	(delete): Protect from case where application not running.
+	(deleteAllBreakpoints): Ditto.
+
+	* lib/emacs/lisp/gjdb.el: Add function key bindings.
+	Add menu entries for step, next, continue
+
+	* classes/ucb/tools/Commands.java (listBreakpoints): Add breakpoint
+	numbers to listing and return list of breakpoint events.
+	(commandDelete): Inquire of user when no breakpoints listed.
+	(commandRun): Don't relay input if connection can't be opened.
+	
+
+2001-03-07  Paul N. Hilfinger  <hilfingr@otisco.mckusick.com>
+
+	* classes/ucb/tools/Commands.java: Define NO_PRINT, PRINT, EXAMINE.
+	(toArray): New function.
+	(commandRun): Don't take first 'run' argument as the class.
+	(dump): Dump arrays.
+	(doPrint): Allow for three levels of printing, including none.
+	(commandPrint): Ditto.
+	(commandSet): Change entirely to set GJDB parameters.
+	
+	* classes/ucb/tools/GJDB.java: Update version and its format.
+	(helpMsgs): Update documentation of run.
+	Document new 'set' subcommands.
+	(allCmds): Add 'call' command.
+	(executeCommand): Ditto.
+	New 'set' subcommands.
+	Use new interface for commandPrint.
+	
+	* classes/ucb/tools/Env.java: Add printing parameters.
+		
+2001-02-18  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* classes/ucb/tools/GJDB.java: Update version.
+	* classes/ucb/tools/Commands.java: Bulletproof the version command.
+
+2001-02-12  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* configure: Remove old 1.2.2 stuff.
+
+2001-02-11  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* README: New file.
+
+	* Makefile.in: Correct javac command not to include -Xdepend.
+
+	* classes/ucb/tools/GJDB.java: Update version in greeting.
+
+	* configure (jdilib): Change default to tools.jar for JDK 1.3.
+
+	* Version 3 for JDK 1.3.
+
+	* Add copyright notices.
+
+	* classes/ucb/tools/VMConnection.java: Correct handling of output
+	stream from debugged application so that we don't wait for ends
+	of lines.
+
+2001-02-09  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	*  New version, packaged with 'configure' script et al.

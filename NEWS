@@ -1,0 +1,172 @@
+Release 6.1:
+ * Added ~ conversion on arguments to run and exec-args.
+
+Release 6.0:
+ * This is the initial 6.0 version, copied from last 5.12 version.
+ * Updated license notices: software is now distributable without evident
+   encumbrance.
+
+Release 5.12:
+
+ * (Internal): Re-implemented command parsing with a jbison-based command
+   parser.
+ * Renamed old 'ignore' command to 'pass'.  The new 'ignore' command, as in
+   GDB, allows one to skip a breakpoint (or watchpoint or exception) a given
+   number of times.
+ * Added numeric parameter to step, next, stepi, indicating number of steps to
+   take.
+ * Modified printing so that GJDB prints shared objects just once (including
+   those that form circular structures), and thereafter prints just unique
+   object identifiers.
+ * Introduce new print-format characters for string/character formatting
+    s, c, r.
+ * Process Unicode in expressions.
+ * Add meta-gjdb executable for debugging of gjdb.
+ * Add 'set variable' command, as in GDB.
+
+Release 5.11:
+
+ * Removed old Sun source code for the expression parser, and replaced with
+   a jflex lexer and a jbison parser under a much less restrictive license.
+
+Release 5.10:
+
+ * Now handles attach, listen, connect, and detach.  These are commands.
+   The old -attach, -listen, and -connect arguments (which didn't work)
+   have been removed.
+
+ * Installation directory structure has been re-organized for greater 
+   orthodoxy.
+
+Release 5.9:
+
+ * Now handles hexadecimal and octal literals.
+
+Release 5.8:
+
+ * Updated to handle Java 1.5 (but raw types only: no template arguments).
+
+ * Many new commands: backtrace, info stack, dumpall, clear, loadclass, 
+   classpath, 
+
+ * Add info locals entry to Emacs menu.
+
+ * Various bug fixes.
+
+Release 3.49:
+
+ * Transmit source position properly to Emacs when stopped via Ctrl-C
+   (Ctrl-F).
+
+ * Handle "~" in sourcepath command.
+
+Release 3.48:
+
+ * Confirm before quitting when currently connected.
+
+ * Various improvements to build procedure.
+
+ * Allow configuration with JDK 1.4 and higher.
+
+Release 3.47:
+
+ * Fix bug that sometimes make continue command behave like next or step.
+
+ * Internal adjustment: handle version differently.
+
+Release 3.46:
+	
+ * Object-specific watch points.
+
+ * Switch to main thread when there is no current thread at program 
+   stops (esp., interrupts).
+
+ * Document that thread names may be used, not just numbers.
+
+Release 3.45:
+
+ * Make unwatch and ignore work like delete.
+
+Release 3.44: 
+
+ * Fix bug that causes 'watch' to fail if both access and change is watched.
+
+ * info watch command.
+
+ * Documentation fixes.
+
+
+Release 3.43:
+
+ * Add additional checks for plausibility of class names in breakpoints,
+   etc. (for more timely error messages).
+
+Release 3.42:
+
+ * Add 'command' command to attach commands to breakpoints.
+
+Release 3.41:
+
+ * Fix bug that caused some threads not to be seen.
+
+Release 3.40:
+
+ * Add named threads.
+
+ * Print breakpoint number at breakpoint.
+
+Release 3.39:
+
+ * Add 'reset' and '+' features to 'exclude' command.
+
+Release 3.38:
+
+ * Protect against crash from listing unstarted threads.
+	
+Release 3.37:
+
+ * Invalidate frame before continuing so that we come back to frame 0.
+
+Release 3.36:
+
+ * Default breakpoint positions added.
+
+ * Print breakpoint number when set.
+
+Release 3.35:
+	
+ * Have + on general objects & Strings be more informative when 
+   toString crashes.
+
+Release 3.34:
+	
+ * Handle General Object+String, String + General Object expressions.
+
+ * Help message updates.
+
+ * Emacs: prompt when gjdb command would change directories.
+
+ * Clean up better when debugging process restarted.
+
+Release 3.33:
+	
+ * Speed up start-up.
+
+Release 3.32:
+	
+ * Handle array indexing error better.
+
+ * Don't double-quote strings on dump.
+
+ * Emacs: improve handling of anonymous classes.
+
+Release 3.31
+	
+ * Handle quoted arguments better for 'run'.
+
+ * Emacs: fix class determination
+
+Release 3.30:
+	
+ * Conditional breakpoints.
+

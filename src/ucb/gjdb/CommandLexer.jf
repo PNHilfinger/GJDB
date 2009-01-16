@@ -1,0 +1,350 @@
+/* -*-Fundamental-*- */
+
+/* Copyright (c) 2007, by Paul N. Hilfinger.  All Rights Reserved.
+ * For licensing terms, see the file GJDB.LICENSES, Part 2, which must
+ * accompany any redistribution of this file. */
+
+package ucb.gjdb;
+
+import java.util.*;
+import java.io.StringReader;
+
+import static ucb.gjdb.CommandParser.*;
+import static ucb.gjdb.CommandException.ERROR;
+
+%%
+
+%class CommandLexer
+%integer
+%unicode
+
+%{
+    CommandLexer (String src) {
+	this (new StringReader (src));
+    }
+
+    String lexeme;
+    String lastCommand, lastRecognizedKeyword;
+    CommandParser parser;
+
+    private int parens;
+    private boolean balanceParens;
+    StringBuilder buffer = new StringBuilder ();
+
+    int scan () throws java.io.IOException {
+	int s0 = yystate ();        
+	int tok = yylex ();
+        if (parser != null && parser.yydebug > 0) {
+	    System.err.printf ("scan: %d->%d => %d/'%s'%n", 
+			       s0, yystate (), tok, lexeme);
+        }
+        return tok;
+    }
+
+    void toDefaultMode () {
+	yybegin (DEFAULTARGS);
+    }
+
+    void toBreakMode () {
+	yybegin (BREAK); 
+    }
+
+    void toBalancedCollectMode () {
+	yybegin (COLLECT);
+	buffer.setLength (0);
+	balanceParens = true;
+	parens = 0;
+    }
+
+    void toCollectMode () {
+	yybegin (COLLECT);
+	buffer.setLength (0);
+	balanceParens = false;
+	parens = 0;
+    }
+
+    void toRunArgsMode () {
+	yybegin (RUNARGS); 
+    }
+
+    void toPrintMode () {
+	yybegin (PRINT);
+    }
+
+    private void setVal (String val) {
+	lexeme = val;
+    }
+
+    private int symbol (String val) {
+        setVal (val);
+	return CommandParser.findQuotedToken (val);
+    }
+
+    private int command () {
+	int result = keyword (commandList, WORD);
+	lastCommand = lastRecognizedKeyword;
+	return result;
+    }
+
+    private int keyword (String[][] keywordList, int defaultVal) {
+         int i, j;
+	 int N = yylength ();
+         i = j = 0;
+	 while (i < keywordList.length && j < N) {
+	     if (j >= keywordList[i][0].length ()
+		 || yycharat (j) > keywordList[i][0].charAt (j))
+		 i += 1;
+	     else if (yycharat (j) == keywordList[i][0].charAt (j))
+		 j += 1;
+	     else 
+		 break;
+          }
+	  if (j == N
+	      && yymatch (keywordList[i][0])
+	      && (N == keywordList[i][0].length ()
+		  || i + 1 >= keywordList.length 
+		  || !yymatch (keywordList[i+1][0]))) {
+	       lastRecognizedKeyword = keywordList[i][keywordList[i].length-1];
+	       return symbol (lastRecognizedKeyword);
+	  }
+          setVal (yytext ());
+	  return defaultVal;
+     }
+	     
+     /** True iff the first N characters of yytext () match S. */
+     private boolean yymatch (String S) {
+	if (S.length () < yylength ())
+	    return false;
+	for (int i = yylength () - 1; i >= 0; i -= 1)
+	    if (S.charAt (i) != yycharat (i))
+		return false;
+	return true;
+     }
+
+    /* NOTE: These commands do not require a connected VM. 
+       "?", 
+       "attach",
+       "break", 
+       "catch", "classpath", "clear", "command", "condition", "connect",
+       "delete", "exclude", 
+       "exec-args", "exec-class", "exit",
+       "help",
+       "info",
+       "listen",
+       "pass",
+       "quit", 
+       "run", 
+       "set", "source", "sourcepath",
+       "unwatch", "use", 
+       "version", 
+       "watch"
+    */
+
+     private static final String[][] commandList =
+	{ { "?", "help" },
+	  { "attach" },
+          { "b", "break" },
+    	  { "backtrace" },
+    	  { "break" },
+	  { "bt", "backtrace" },
+	  { "bytecodes" },
+	  { "c", "continue"},
+	  { "call" },
+	  { "catch" },
+	  { "classpath" },
+	  { "clear" },
+	  { "command" },
+	  { "condition" },
+	  { "connect" },
+	  { "continue" },
+	  { "d", "delete"},
+	  { "da", "dumpall"},
+	  { "delete" },
+	  { "detach" },
+	  { "disablegc" },
+	  { "down" },
+	  { "dump" },
+	  { "dumpall" },
+	  { "enablegc" },
+	  { "eval", "print" },
+	  { "exclude" },
+	  { "exec-args" },
+	  { "exec-class" },
+	  { "exit", "quit"},
+	  { "f", "finish"},
+	  { "finish" },
+	  { "frame" },
+	  { "gc" },
+	  { "help" },
+	  { "ignore" },
+	  { "info" },
+	  { "interrupt" },
+	  { "kill" },
+	  { "l", "list"},
+	  { "lines" },
+	  { "list" },
+	  { "listen" },
+	  { "loadclass" },
+	  { "lock" },
+	  { "memory" },
+	  { "monitor" },
+	  { "next" },
+	  { "p", "print"},
+	  { "pass" },
+	  { "print" },
+	  { "ptype" },
+	  { "quit" },
+	  { "read" },
+	  { "resume" },
+	  { "run" },
+	  { "s", "step"},
+	  { "save" },
+	  { "set" },
+	  { "si", "stepi"},
+	  { "source" },
+	  { "sourcepath" },
+	  { "step" },
+	  { "stepi" },
+	  { "suspend" },
+	  { "thread" },
+	  { "threadgroup" },
+	  { "trace" },
+	  { "unmonitor" },
+	  { "untrace" },
+	  { "unwatch" },
+	  { "up" },
+	  { "use", "sourcepath"},
+	  { "version" },
+	  { "watch" },
+	  { "where", "backtrace"},
+	  { "wherei" }
+	};
+
+%}
+
+WS = [ \t\n\r\f]
+COMMENT = ("//".*|"/*"([^*]|"*"+[^*/])*"*/")
+
+ID = ([a-zA-Z_][a-zA-Z0-9$_]*)
+COMMANDID = ([a-zA-Z][-a-zA-Z0-9]*)
+LOOSEID = ([-.a-zA-Z0-9_$@~!%=,;]+)
+
+INTNUM = ([0-9]+)
+OCTNUM = (0[0-7]+)
+HEXNUM = (0[xX][a-fA-F0-9]+)
+
+CMDSTRCHR = (\\[\"\\]|[^\\\"\n\r])
+
+%x BREAK COLLECT COMMAND DEFAULTARGS RUNARGS PRINT 
+
+%init{
+    yybegin (COMMAND);
+    lastCommand = lastRecognizedKeyword = null;
+%init}
+
+%%
+
+<BREAK,COMMAND,DEFAULTARGS,PRINT,RUNARGS>{
+    {WS}	  	{ }
+    {COMMENT} 		{ }
+}
+
+<COMMAND,DEFAULTARGS>{
+    {OCTNUM}[lL]?	|
+    {HEXNUM}[lL]?	|
+    {INTNUM}[lL]?	{ setVal (yytext ()); return INTLIT; }
+    \"{CMDSTRCHR}*\"	{ setVal (yytext ().substring (1, yylength () - 1)); 
+			  return WORD; }
+}
+
+<RUNARGS>{
+    [^\"<> \t\n\r\f]+	{ setVal (yytext ()); return WORD; }
+    [<>]		{ return yycharat (0); }
+    \"{CMDSTRCHR}*\"	{ setVal (yytext ()); return WORD; }
+}
+    
+<COMMAND>{
+    "\006"		{ yybegin (DEFAULTARGS); return symbol ("^F"); }
+    "?"			|
+    {COMMANDID}		{ yybegin (DEFAULTARGS); return command (); }
+}
+
+<DEFAULTARGS>{
+    "all"		{ return symbol ("all"); }
+    "break"		{ return symbol ("break"); }
+    "class"		{ return symbol ("class"); }
+    "classes"		{ return symbol ("classes"); }
+    "classpath"		{ return symbol ("classpath"); }
+    "compressed"	{ return symbol ("compressed"); }
+    "elements"		{ return symbol ("elements"); }
+    "fields"		{ return symbol ("fields"); }
+    "locals"		{ return symbol ("locals"); }
+    "max-frames"	{ return symbol ("max-frames"); }
+    "methods"		{ return symbol ("methods"); }
+    "off"		{ return symbol ("off"); }
+    "on"		{ return symbol ("on"); }
+    "pretty"		{ return symbol ("pretty"); }
+    "print"		{ return symbol ("print"); }
+    "stack"		{ return symbol ("stack"); }
+    "stdin"		{ return symbol ("stdin"); }
+    "threadgroups"	{ return symbol ("threadgroups"); }
+    "threadlocks"	{ return symbol ("threadlocks"); }
+    "threads"		{ return symbol ("threads"); }
+    "run"		{ return symbol ("run"); }
+    "var"		{ return symbol ("variable"); }
+    "variable"		{ return symbol ("variable"); }
+    "watch"		{ return symbol ("watch"); }
+    {LOOSEID}		{ setVal (yytext ()); return WORD; }
+
+    [/:+()*]		{ return yycharat (0); }
+}
+
+<BREAK>{
+    "access"		{ return symbol ("access"); }
+    "all"		{ return symbol ("all"); }
+    "go"		{ return symbol ("go"); }
+    "if"		{ return symbol ("if"); }
+    "none"		{ return symbol ("none"); }
+    "reset"		{ return symbol ("reset"); }
+    "thread"		{ return symbol ("thread"); }
+    {ID}    		{ setVal (yytext ()); return IDENT; }
+    "."{WS}*"0"		{ return symbol (".0"); }
+    "[]"		{ return symbol ("[]"); }
+    {INTNUM}		{ setVal (yytext ()); return INTLIT; }
+    [*()\[\].,:+]	{ return yycharat (0); }
+}
+
+<PRINT>{
+    "/"	    { yybegin (DEFAULTARGS); return '/'; }
+    .	    { yypushback (1); yybegin (COLLECT); }
+    <<EOF>> { setVal (""); return TEXT; }
+}
+
+<COLLECT>{
+    "("	    { buffer.append ("("); parens += 1; }
+    ")"     { if (parens <= 0 && balanceParens) {
+	          yybegin (DEFAULTARGS);
+		  yypushback (1);
+		  setVal (buffer.toString ().trim ());
+		  return TEXT;
+	      } else {
+		  buffer.append (")");
+		  parens -= 1;
+	      }
+	    }
+    .       { buffer.append (yycharat (0)); }
+    <<EOF>> { if (parens != 0) 
+		  throw ERROR ("unbalanced parentheses");
+	      String text = buffer.toString ().trim ();
+	      yybegin (DEFAULTARGS); 
+	      if (text.length () > 0) {
+	          setVal (text);
+	          return TEXT; 
+	       }
+	     }
+}
+
+<BREAK,COLLECT,COMMAND,DEFAULTARGS,RUNARGS,PRINT>. {
+		  throw ERROR ("Unknown symbol: '%c'", yycharat (0)); }
+
+({WS}|.)+	{ throw ERROR ("Internal error: lexer in improper state."); }

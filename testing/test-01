@@ -1,0 +1,216 @@
+# Literals and primitive types
+
+%gjdb Prog1		
+>b Prog1.main
+>run
+>p 10000000000L
+>p 'x'
+>p '\\'
+>p '\''
+>p '\b'
+>p '\n'
+>p '\r'
+>p '\t'
+>p '\f'
+>p/s 'x'
+>p/s '\\'
+>p/s '\''
+>p/s '\b'
+>p/s '\n'
+>p/s '\r'
+>p/s '\t'
+>p/s '\f'
+>p "Escapes: \b\f\n\r\t\"\\"
+>p/s "Escapes: \b\f\n\r\t\"\\"
+>p/r "Escapes: \b\f\n\r\t\"\\"
+>p (int) "\b".charAt (0)
+>p (int) "\f".charAt (0)
+>p (int) "\n".charAt (0)
+>p (int) "\r".charAt (0)
+>p (int) "\t".charAt (0)
+>p (int) "\\".charAt (0)
+>p/s "\141"
+>p/s "\040"
+>p/s "\u0061"
+>p/x '\u1234'
+>p 3.14159265
+>p 314159265.0e-8
+>p 0.00314159265e3
+>p 3.14159265f
+>p 314159265.0e-8f
+>p 0.00314159265e3f
+>p null
+>p true
+>p false
+
+??? (?m)\A.*(?:main\[0\]|= true)\s*$
+
+# Basic logical and relational expressions
+% gjdb Prog1
+>b Prog1.main	// ?? BP \[1\]
+>run		// ?? Breakpoint 1:
+>print 1 == 1
+>prin 1 != 1	// ?? = false
+>pri 1 > 1	// ?? = false
+>pr 1 < 1	// ?? = false
+>p 1 >= 1
+>p 1 <= 1
+>p 1 == 2	// ?? = false
+>p 1 != 2
+>p 1 > 2	// ?? = false
+>p 1 < 2
+>p 1 >= 2	// ?? = false
+>p 1 <= 2
+>p true && true 
+>p true && false  // ?? = false
+>p false && true  // ?? = false
+>p false && false // ?? = false
+>p true || true
+>p true || false
+>p false || true
+>p false || false // ?? = false
+>p false && 0/0 == 1  // ?? = false
+>p true || 0/0 == 1
+>p ! true	// ?? = false
+>p ! false
+>quit		// ?? Terminate current program\?
+>y		// ?? 
+
+# Arithmetic, string expressions
+% gjdb Prog1
+>b Prog1.main   // ?? BP \[1\]
+>run		// ?? Breakpoint 1:
+>next 4		// ?? 26\s*Prog1\[\] a1 =
+>p xi + yi == 22
+>p xi + yi == 21	// ?? = false
+>p xd + yd == 1.0625
+>p (s1 + s2).equals ("Hello, world!\n")
+>p (s1 + xi).equals ("Hello,3")
+>p (xi + s1).equals ("3Hello,")
+>p xi + xd == 4.125
+>p xi - yi == -16
+>p xd - yd == 1.1875
+>p xi * yi == 57
+>p xd * yd == -7.03125e-2
+>p yi / xi == 6
+>p xi / yi == 0
+>p xd / yd == -18
+>p xi % yi == 3
+>p yi % xi == 1
+>p xd % 0.5 == 0.125
+>p yi << xi == 19*8
+>p -yi >>> xi == 536870909
+>p/x -yi >>> xi     // ?? = 0x1ffffffd
+>p/o -yi >>> xi     // ?? = 03777777775
+>p -yi >> xi == -3
+>p (xi & yi) == 3
+>p (xi | yi) == 19
+>p (xi ^ yi) == 16
+>p ~xi == (-1 << 2)
+>p (xi > yi ? xi + 3 : yi + 3) == 22
+>p (yi > xi ? xi + 3 : yi + 3) == 6
+
+# Assignments
+>call xi += 1 + 7
+>p xi == 11
+>call xi *= 2 + 3
+>p xi == 55
+>call xi /= 5
+>p xi == 11
+>call xi -= 1 + 7
+>p xi == 3
+>call xi %= 2
+>p xi == 1
+>call xi <<= 2
+>p xi == 4
+>call xi >>= 1
+>p xi == 2
+>call xi = -2
+>call xi >>= 1 
+>p xi == -1
+>call xi = -4
+>call xi >>>= 1
+>p xi == 0x7ffffffe
+>call xi &= 15
+>p xi == 14
+>call xi ^= 2
+>p xi == 12
+>call xi |= 6
+>p xi == 14
+>p xi++ == 14
+>p xi == 15
+>p ++xi == 16
+>p xi == 16
+>p xi-- == 16
+>p xi == 15
+>p --xi == 14
+>p xi == 14
+>p xi = 3		// ?? \s= 3
+
+# Precedence
+>p 4 + 9 * 3 == 31
+>p 4 - 9 + 3 == -2
+>p 4 - 9 * 3 == -23
+>p 4 + 9 / 3 == 7
+>p -4 + 9 == 5
+
+>p 5 << 3 + 2 == 160
+>p 160 >> 3 + 2 == 5
+>p 160 >>> 3 + 2 == 5
+>p 1 << 2 < 5
+>p 1 < 2 == 3 < 4
+>p 1 == 2 == false
+>p 1 == 2 != true
+>p 1 < 2 & 3 < 4
+>p false & false ^ true
+>p true ^ false & false
+>p false & false | true
+>p true | false & false
+>p true | true ^ true
+>p true ^ true | true
+>p !(true | false && false)
+>p !(false && false | true)
+>p true || false && false
+>p false && false || true
+>p !(b = true && false)
+>p !b
+
+>q		// ?? Terminate current program\?
+>y		// ??
+
+# Array and class expressions
+% gjdb Prog1
+>b Prog1.main	// ?? BP \[1\]
+>run this is a test  // ?? Breakpoint 1:
+>p args		// ??
+>p/1 args	// ??
+>p args[0]	// ??
+>p args[0] instanceof java.lang.String
+>p !(args[0] instanceof java.lang.String[])
+>p args instanceof java.lang.String[]
+>p !(args instanceof java.lang.String)
+
+>b Prog1.total()	// ?? BP \[2\]
+>cont			// ?? Breakpoint 2:
+>p this.ai == 8
+>p ai == 8
+>cond 2 (ai == 15)	// ?? if \(ai == 15\)
+>cont			// ?? Breakpoint 2:
+>p ai == 15
+>bt			// ?? \[0\] Prog1\.total \(Prog1\.java:11\)
+>where			// ?? \[0\] Prog1\.total \(Prog1\.java:11\)
+>backtrace		// ?? \[0\] Prog1\.total \(Prog1\.java:11\)
+>frame 4		// ?? main\[4\]\s*$
+>p ai == 8
+>b Prog1:43		// ?? BP \[3\]
+>cont			// ?? Totals:
+>p a1			// ?? a1 = instance
+>p/1 a1			// ?? a1 = \{
+>p/2 a1			// ?? a1 = \{
+>p/3 a1			// ?? a1 = \{
+>p/10 a1		// ?? a1 = \{
+>p/10x a1		// ?? a1 = \{
+>p/x10 a1		// ?? a1 = \{
+>q			// ??
+>y			// ??
+

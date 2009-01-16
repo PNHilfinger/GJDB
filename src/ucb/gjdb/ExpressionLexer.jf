@@ -1,0 +1,150 @@
+/* Copyright (c) 2007, by Paul N. Hilfinger.  All Rights Reserved.
+ * For licensing terms, see the file GJDB.LICENSES, Part 2, which must
+ * accompany any redistribution of this file. */
+
+package ucb.gjdb;
+
+import java.util.*;
+import java.io.StringReader;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+import static ucb.gjdb.ExpressionParser.*;
+import static ucb.gjdb.CommandException.ERROR;
+
+%%
+
+%class ExpressionLexer
+%integer
+%unicode
+%char
+
+%{
+    ExpressionLexer (String src) {
+	this (unicodeConvert (src), false);
+    }
+
+    private ExpressionLexer (String src, boolean dummy) {
+	this (new StringReader (src));
+	uncommentedSrc = new StringBuilder (src);
+	charsRemoved = 0;
+    }
+
+    String lexeme;
+
+    private void setVal (String val) {
+	lexeme = val;
+    }
+
+    private int symbol (String val) {
+        setVal (val);
+	return ExpressionParser.findQuotedToken (val);
+    }
+
+    String uncommentedSource () {
+	return uncommentedSrc.toString ().trim ();
+    }
+
+    private StringBuilder uncommentedSrc;
+    private int charsRemoved;
+
+    private static Pattern UNICODE_ESCAPE = 
+	Pattern.compile ("\\\\[uU]+([0-9a-fA-F]{4})");
+
+    static String unicodeConvert (String S) {
+	Matcher m = UNICODE_ESCAPE.matcher (S);
+	if (!m.find ())
+	    return S;
+	StringBuilder R = new StringBuilder ();
+	int start;
+	start = 0;
+        do {
+	    R.append (S.substring (start, m.start ()));
+	    R.append ((char) Integer.parseInt (m.group (1), 16));
+	    start = m.end ();
+	} while (m.find ());
+	R.append (S.substring (start));
+	return R.toString ();
+    }
+
+%}
+
+WS = [ \t\n\r\f]
+COMMENT = ("//".*|"/*"([^*]|"*"+[^*/])*"*/")
+
+ID = ([a-zA-Z_][a-zA-Z0-9$_]*)
+INTNUM = ([0-9]+)
+OCTNUM = (0[0-7]+)
+HEXNUM = (0[xX][a-fA-F0-9]+)
+EXP    = ([eE][-+]?[0-9]+)
+
+STRCHR = (\\[rntbf\"\\]|\\[0-7][0-7]?|\\[0-3][0-7][0-7]|[^\\\"\n\r])
+CHRCHR = (\\[rntbf'\\]|\\[0-7][0-7]?|\\[0-3][0-7][0-7]|[^\\'\n\r])
+
+%%
+
+{WS}	  	{ }
+{COMMENT} 	{ uncommentedSrc.delete (yychar - charsRemoved, 
+					 yychar - charsRemoved + yylength ()); 
+		  charsRemoved += yylength (); }
+
+"boolean"	{ return symbol ("boolean"); }
+"byte"		{ return symbol ("byte"); }
+"char"		{ return symbol ("char"); }
+"double"	{ return symbol ("double"); }
+"false"		{ return symbol ("false"); }
+"float"		{ return symbol ("float"); }
+"instanceof"	{ return symbol ("instanceof"); }
+"int"		{ return symbol ("int"); }
+"long"		{ return symbol ("long"); }
+"new"		{ return symbol ("new"); }
+"null"		{ return symbol ("null"); }
+"short"		{ return symbol ("short"); }
+"super"		{ return symbol ("super"); }
+"this"		{ return symbol ("this"); }
+"true"		{ return symbol ("true"); }
+
+{ID}		{ setVal (yytext ()); return IDENT; }
+"$"{ID}		{ setVal (yytext ()); return INTERNALVAR; }
+
+\"{STRCHR}*\"	{ setVal (yytext ()); return STRINGLIT; }
+'{CHRCHR}'	{ setVal (yytext ()); return CHARLIT; }
+
+{OCTNUM}[lL]?	|
+{HEXNUM}[lL]?	|
+{INTNUM}[lL]?	{ setVal (yytext ()); return INTLIT; }
+
+{INTNUM}"."{INTNUM}?{EXP}?[dDfF]?	|
+{INTNUM}?"."{INTNUM}{EXP}?[dDfF]?	|
+{INTNUM}{EXP}[dDfF]?  { setVal (yytext ()); return FLOATLIT; }
+
+[(){}\[\];:,.] 	  { return yycharat (0); }
+[-+*%/\^~&\|!:?<>=] { return yycharat (0); }
+
+"=="		{ return symbol ("=="); }
+"!="		{ return symbol ("!="); }
+"<="		{ return symbol ("<="); }
+">="		{ return symbol (">="); }
+"<<"		{ return symbol ("<<"); }
+">>"		{ return symbol (">>"); }
+">>>"		{ return symbol (">>>"); }
+"&&"		{ return symbol ("&&"); }
+"||"		{ return symbol ("||"); }
+
+"+="		{ return symbol ("+="); }
+"-="		{ return symbol ("-="); }
+"*="		{ return symbol ("*="); }
+"/="		{ return symbol ("/="); }
+"%="		{ return symbol ("%="); }
+"^="		{ return symbol ("^="); }
+"&="		{ return symbol ("&="); }
+"|="		{ return symbol ("|="); }
+"<<="		{ return symbol ("<<="); }
+">>="		{ return symbol (">>="); }
+">>>="		{ return symbol (">>>="); }
+"--"		{ return symbol ("--"); }
+"++"		{ return symbol ("++"); }
+
+"["({WS}|{COMMENT})*"]"	{ return symbol ("[]"); }
+
+.		{ throw ERROR ("Unknown symbol: '%c'", yycharat (0)); }

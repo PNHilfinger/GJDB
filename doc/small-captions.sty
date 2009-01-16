@@ -1,0 +1,18 @@
+% $Header$
+%
+% Make table captions have bold names and smaller type.
+%
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{small-captions}[1999/06/20]
+
+\long\def\@makecaption#1#2{
+   \vskip 10pt 
+   \setbox\@tempboxa\hbox{{\bf #1:} {\footnotesize #2}}
+   \ifdim \wd\@tempboxa >\hsize   % IF longer than one line:
+       \unhbox\@tempboxa\par      %   THEN set as ordinary paragraph.
+     \else                        %   ELSE  center.
+       \hbox to\hsize{\hfil\box\@tempboxa\hfil}
+   \fi}
+
+\endinput

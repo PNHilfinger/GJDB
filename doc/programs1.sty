@@ -1,0 +1,212 @@
+% 
+% PROGRAMS1, Version 1.2
+%
+%	
+% Definitions for program environment---C, C++, or Java.  Uses fixed-width 
+% typewriter font, and makes most characters inactive (like verbatim).  
+% Handles tabs (to some extent).  The environment must end with 
+% \end{program} literally, analogous to \begin{verbatim}
+%
+% To embed ordinary TeX commands and text in the midst of a program, surround
+% them with \{ and \}.  Backslash is \\.
+%
+%
+% To change program font (from \tt), redefine the command \programfont to 
+% the desired font command.
+%
+% After setting \keywordquotetrue, program text enclosed in `...` is 
+% boldfaced.
+%
+% \progXtextX, where X is any character is the same as \verbXtextX.
+
+% If L some text for a label, then the following commands create a framed
+% box containing L, placing it as follows:
+%     \[L], at the point written
+%     \[*L], as a marginal note
+%     \[^L]{TEXT}, above TEXT (TEXT is as ordinary text with all the usual
+%			       TeX character definitions)
+%     \[vL]{TEXT}, below TEXT (TEXT is as ordinary text with all the usual
+%			       TeX character definitions)
+%             
+%
+% The boxlist environment is a list environment whose item labels are 
+% contained in framed boxes.
+
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{programs1}[2000/05/15]
+
+\newlength{\programindent}
+\setlength{\programindent}{2em}
+\newif\ifkeywordquote
+\keywordquotefalse
+
+\def\PG@doallspecials{\dospecials\do\^^M\do\^^I}
+
+\def\PG@undoallspecials{\catcode`\^^M=5\catcode`|=12\catcode`\\=0%
+\catcode`\ =10\catcode`\^^I=10\catcode`\{=1\catcode`\}=2%
+\catcode`\$=3\catcode`\&=4\catcode`\#=6\catcode`\^=7\catcode`\^^K=15%
+\catcode`\_=8\catcode`\^^A=15\catcode`\%=14\catcode`\~=13}
+
+\def\PG@skiptothendo#1#2#3{%
+    \if#1#3 %
+        \def\PG@tempa{#2}%
+    \else%
+	\def\PG@tempa{\PG@skiptothendo{#1}{#2}}%
+    \fi%
+    \PG@tempa}
+
+{\catcode`\^^M=12\relax\global\let\PG@othercr=^^M}
+{\catcode`|=0 \catcode`\\=12 |global|let|PG@otherbs=\}
+{\catcode`\ =12\relax\global\let\PG@othersp= }
+{\catcode`\^^I=12\relax\global\let\PG@othertab=^^I}
+{\catcode`\<=12 \global\let\PG@otherlt=<}
+{\catcode`\{=12 \global\let\PG@otherlc={}
+\let\LCB=\PG@otherlc
+\let\PG@origmathrc=\}
+\bgroup\catcode`\}=12\global\let\RCB=}\egroup
+
+\newcount\PG@programposn
+
+% Standard definition of \item, default value.
+\def\PG@item{\item}
+
+\newcommand{\programfont}{\tt}
+
+\newenvironment{program}%
+  {%
+    \begin{list}{}%
+	  {\leftmargin\programindent\listparindent\z@\rightmargin\z@%
+	   \parsep\z@\labelsep\z@\labelwidth\z@}%
+    \PG@item[]\programfont \bgroup\let\do\@makeother \PG@doallspecials%
+    \PG@programposn0%
+    \PG@skiptothendo{\PG@othercr}{\PG@xprogram}%
+  }%
+  {\end{list}}
+
+\def\PG@defaultaction{%
+   \advance\PG@programposn1\PG@xprogram%
+}
+
+\def\PG@xprogram#1{%
+    \if#1\PG@otherbs\def\PG@tempa{\PG@xprogrambs}%
+    \else\if#1\PG@othersp\def\PG@tempa{\PG@xprogramsp}%
+    \else\if#1\PG@othertab\def\PG@tempa{\PG@xprogramtab}%
+    \else\if#1\PG@othercr\def\PG@tempa{\PG@xprogramcr}%
+    \else\if#1`\def\PG@tempa{\PG@xprogrambq}%
+    \else\relax#1\def\PG@tempa{\PG@defaultaction}%
+    \fi\fi\fi\fi\fi%
+    \PG@tempa}
+
+\def\PG@xprogrambs#1{%
+    \if#1\PG@otherlc%
+	 \bgroup%
+	    \PG@undoallspecials\leavevmode%
+	    \def\}{\ifmmode%
+			\def\PG@tempa{\PG@origmathrc}%
+		   \else\def\PG@tempa{\egroup\PG@xprogram}%
+		   \fi%
+		   \PG@tempa}%
+            \let\PG@tempa\relax%
+    \else\if#1[\def\PG@tempa{\PG@@xprogrambsmark}%
+    \else\if#1e\def\PG@tempa{\PG@@xprogrambsnd}%
+    \else \advance\PG@programposn2%
+	  \PG@otherbs%
+	  \def\PG@tempa{\PG@xprogram#1}%
+    \fi\fi\fi%
+    \PG@tempa}
+
+\def\PG@@xprogrambsnd#1{%
+    \if#1n\def\PG@tempa{\PG@@xprogrambsd}%
+    \else \advance\PG@programposn3%
+	  \PG@otherbs e%
+	  \def\PG@tempa{\PG@xprogram#1}%
+    \fi%
+    \PG@tempa}
+
+\def\PG@@xprogrambsd#1{%
+    \if#1d\def\PG@tempa{\egroup\end}%
+    \else \PG@otherbs en%
+	  \def\PG@tempa{\PG@xprogram#1}%
+    \fi%
+    \PG@tempa}
+
+\newsavebox{\@bxda}
+
+\def\PG@smallfbox#1{{\footnotesize\setlength{\fboxsep}{1pt}\fbox{#1}}}
+
+{\@makeother\^
+ \gdef\PG@@xprogrambsmark#1{%
+	\if#1*\def\PG@tempa{\PG@@margnote}%
+	\else\if#1^\def\PG@tempa{\bgroup\PG@undoallspecials\PG@@topmark}%
+	\else\if#1v\def\PG@tempa{\bgroup\PG@undoallspecials\PG@@botmark}%
+	\else\def\PG@tempa{\PG@@mark}%
+        \fi\fi\fi%
+	\PG@tempa}}
+
+\def\PG@@margnote#1]{%
+    \marginpar[\hfill\PG@smallfbox{#1}]{\PG@smallfbox{#1}}%
+    \vrule width0pt height0pt depth0.45\baselineskip%
+    \PG@xprogram}
+
+\def\PG@@topmark#1]#2{%
+    \sbox{\@bxda}{#2}%
+    \hbox to \wd\@bxda{\vbox{\hbox to \wd\@bxda{\hfil%
+						\strut\PG@smallfbox{#1}%
+						\hfil}%
+			     \hbox{\usebox{\@bxda}}}}%
+    \egroup\PG@xprogram}
+
+\def\PG@@botmark#1]#2{%
+    \sbox{\@bxda}{#2}%
+    \hbox to \wd\@bxda{\vtop{\hbox{\usebox{\@bxda}}%
+		             \hbox to \wd\@bxda{\hfil%
+						\strut\PG@smallfbox{#1}%
+					        \hfil}}}%
+    \egroup\PG@xprogram}
+
+\def\PG@@mark#1]{$\,$\PG@smallfbox{#1}$\,$\PG@xprogram}
+
+\def\PG@xprogramsp{\@xobeysp\advance\PG@programposn1\relax\PG@xprogram}
+
+\def\PG@xprogramtab{%
+    \@tempcnta\PG@programposn\divide\@tempcnta by 8%
+    \multiply\@tempcnta by 8%
+    \advance\@tempcnta by -\PG@programposn%
+    \advance\@tempcnta by 8%
+    \advance\PG@programposn by \@tempcnta\relax%
+    \loop\ifnum\@tempcnta>0 \@xobeysp\advance\@tempcnta by -1\relax%
+    \repeat%
+    \PG@xprogram}
+
+\def\PG@xprogramcr{\leavevmode\par\PG@programposn0\PG@xprogram}
+
+\def\PG@xprogrambq{%
+   \ifkeywordquote%
+     \def\PG@tempa{\PG@@bfkeyword}%
+   \else%
+     `\def\PG@tempa{\PG@defaultaction}%
+   \fi%
+   \PG@tempa}
+
+\def\PG@@bfkeyword#1`{\hbox{\bf#1}\PG@xprogram}
+
+\newcommand{\prog}{\verb}
+
+\newenvironment{boxlist}{%
+    \begin{list}{}{%
+        \let\PG@item=\item%
+	\def\item[##1]{%
+	    \PG@item[{{\setlength{\fboxsep}{1pt}\fbox{##1}}}]}%
+		       \setlength{\leftmargin}{0pt}}}%
+    {\end{list}}
+
+\newlength{\prog@tmpl}
+\newcommand{\fixbox}[2]{%
+  \settowidth{\prog@tmpl}%
+  {{\tt{}x}}\hbox to#1\prog@tmpl{#2}}
+\newcommand{\fixcbox}[2]{%
+  \settowidth{\prog@tmpl}%
+  {{\tt{}x}}\hbox to#1\prog@tmpl{\hfill#2\hfill}}
+
+\endinput
