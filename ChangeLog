@@ -1,3 +1,11 @@
+2009-06-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Makefile.in (VERSION): Bump to 6.2.0.
+	
+	* src/ucb/gjdb/Env.java (description): Use standard Java 
+	string-formatting methods.
+	(toHex,fromHex): Remove unused methods.
+
 2008-12-10  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Makefile.in (VERSION): Bump to 6.1.2.
