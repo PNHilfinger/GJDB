@@ -132,7 +132,7 @@ class Env {
             }
         }
         if (message != null)
-            noticeln(message);
+            noticeln("%s", message);
         ThreadInfo.current = null;
         connection = null;
     }

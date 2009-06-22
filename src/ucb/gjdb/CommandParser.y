@@ -605,7 +605,7 @@ static void execute (String src, Commands evaluator, BufferedReader reader,
     } catch (CommandException e) {
 	if (passException) 
 	    throw e;
-	Env.errorln (e.getMessage ());
+	Env.errorln ("%s", e.getMessage ());
     }
 	    
     if (parser.showPrompt)

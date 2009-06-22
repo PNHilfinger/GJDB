@@ -252,7 +252,7 @@ public class GJDB {
 				|| ! helpMsgs[last][0].startsWith (cmnd))
 				break;
 		if (first >= helpMsgs.length) {
-			Env.noticeln ("No help on " + cmnd);
+			Env.noticeln ("No help on %s", cmnd);
 			return;
 		}
 		help (first, last);
@@ -267,7 +267,7 @@ public class GJDB {
             else {
                 indent (col0);
                 if (helpMsgs[i].length > 1) {
-                    Env.notice (helpMsgs[i][0]);
+                    Env.notice ("%s", helpMsgs[i][0]);
                     if (col0 + helpMsgs[i][0].length () >= col1) {
                         Env.noticeln ();
                         indent (col1);
@@ -277,13 +277,13 @@ public class GJDB {
                     while (true) {
                         Env.notice ("-- ");
                         if (desc.length () + 3 + col1 < endcol) {
-                            Env.noticeln (desc.toString ());
+                            Env.noticeln ("%s", desc);
                             break;
                         }
                         else {
                             int split = desc.toString ()
                                 .lastIndexOf (' ', endcol-col1-3);
-                            Env.noticeln (desc.substring (0, split));
+                            Env.noticeln ("%s", desc.substring (0, split));
                             desc.replace (0, split+1, "");
                             if (desc.length () == 0)
                                 break;
@@ -291,7 +291,7 @@ public class GJDB {
                         }
                     }
                 } else 
-                    Env.noticeln (helpMsgs[i][0]);
+                    Env.noticeln ("%s", helpMsgs[i][0]);
             }
         }
     }
@@ -309,17 +309,18 @@ public class GJDB {
 
     private static void usage() {
         String separator = File.pathSeparator;
-        Env.noticeln("Usage: " + progname + " <options> <class> <arguments>");
+        Env.noticeln("Usage: %s <options> <class> <arguments>", progname);
         Env.noticeln();
         Env.noticeln("where options include:");
         Env.noticeln("    -help             print out this message and exit");
-        Env.noticeln("    -sourcepath <directories separated by \"" + 
-                     separator + "\">");
+        Env.noticeln("    -sourcepath <directories separated by \"%s\">", 
+                     separator);
         Env.noticeln("                      directories in which to look for source files");
-        Env.noticeln("    -classpath <directories separated by \"" + 
-                     separator + "\">");
+        Env.noticeln("    -classpath <directories separated by \"%s\">", 
+                     separator);
         Env.noticeln("                      list directories in which to look for classes");
-        Env.noticeln("    -dbgtrace [flags] print info for debugging " + progname);
+        Env.noticeln("    -dbgtrace [flags] print info for debugging %s",
+                     progname);
         Env.noticeln("    -f                Annotate output for Emacs");
         Env.noticeln("    -prompt <prompt>  Prefix each GJDB prompt with <prompt>");
         Env.noticeln("    -thotspot         run the application in the Hotspot(tm) Performance Engine");
@@ -335,8 +336,8 @@ public class GJDB {
         Env.noticeln("<arguments> are the arguments passed to the main() method of <class>");
         Env.noticeln("A leading \"~\" in a directory name refers to the home directory.");
         Env.noticeln();
-        Env.notice(GREETING);
-        Env.noticeln("For command help type 'help' at " + progname + " prompt");
+        Env.notice("%s", GREETING);
+        Env.noticeln("For command help type 'help' at %s prompt", progname);
     }
 
     static void usageError(String message, Object... args) {
@@ -408,7 +409,7 @@ public class GJDB {
                     usage();
                     System.exit(0);
                 } else if (token.equals("-version")) {
-                    Env.noticeln(progname + " version " + Version.value);
+                    Env.noticeln("%s version %s", progname, Version.value);
                     System.exit(0);
                 } else if (token.equals ("-f")) {
                     annotate = true;

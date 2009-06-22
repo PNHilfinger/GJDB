@@ -140,9 +140,9 @@ class Commands implements EventNotifier {
             Location loc = frame.location();
 
             if (printLoc) {
-                Env.notice("thread=\"" + tinfo.thread.name() +"\"");
+                Env.notice("thread=\"%s\"", tinfo.thread.name());
                 Env.notice(", ");
-                Env.noticeln(Commands.locationString(loc));
+                Env.noticeln("%s", Commands.locationString(loc));
             }
 
             // Output the current source line, if possible
@@ -154,7 +154,7 @@ class Commands implements EventNotifier {
                     line = null;
                 }
                 if (line != null) {
-                    Env.noticeln("  " + loc.lineNumber() + " " + line);
+                    Env.noticeln("  %d %s", loc.lineNumber(), line);
                 }
             }
 
@@ -169,8 +169,8 @@ class Commands implements EventNotifier {
         if (Env.annotate) {
             File sourceFile = Env.sourceFile (loc);
             if (sourceFile != null) {
-                Env.noticeln ("\032\032" + sourceFile.getPath () 
-                              + ":" + loc.lineNumber () + ":0:beg:0");
+                Env.noticeln ("\032\032%s:%d:0:beg:0", sourceFile.getPath (),
+                              loc.lineNumber ());
                 Env.flush ();
             }
         }
@@ -179,7 +179,7 @@ class Commands implements EventNotifier {
     private ThreadInfo getThread (String idToken) {
         ThreadInfo tinfo = ThreadInfo.getThread(idToken);
         if (tinfo == null) {
-            Env.errorln("\"" + idToken + "\" is not a valid thread id.");
+            Env.errorln("\"%s\" is not a valid thread id.", idToken);
         }
         return tinfo;
     }
@@ -218,7 +218,7 @@ class Commands implements EventNotifier {
         Env.noticeln("** classes list **");
         for (int i = 0 ; i < list.size() ; i++) {
             ReferenceType refType = (ReferenceType)list.get(i);
-            Env.noticeln(refType.name().replace ('$', '.'));
+            Env.noticeln("%s", refType.name().replace ('$', '.'));
         }
     }
 
@@ -230,7 +230,7 @@ class Commands implements EventNotifier {
             throw ERROR ("\"%s\" is not a valid id or class name.", idClass);
         if (type instanceof ClassType) {
             ClassType clazz = (ClassType)type;
-            Env.noticeln("Class: " + clazz.name());
+            Env.noticeln("Class: %s", clazz.name());
             ClassType superclass = clazz.superclass();
             while (superclass != null) {
                 Env.noticeln("extends: " + superclass.name());
@@ -241,50 +241,50 @@ class Commands implements EventNotifier {
             Iterator iter = interfaces.iterator();
             while (iter.hasNext()) {
                 InterfaceType interfaze = (InterfaceType)iter.next();
-                Env.noticeln("implements: " + interfaze.name());
+                Env.noticeln("implements: %s", interfaze.name());
             }
             List subs = clazz.subclasses();
             iter = subs.iterator();
             while (iter.hasNext()) {
                 ClassType sub = (ClassType)iter.next();
-                Env.noticeln("subclass: " + sub.name());
+                Env.noticeln("subclass: %s", sub.name());
             }
             List nested = clazz.nestedTypes();
             iter = nested.iterator();
             while (iter.hasNext()) {
                 ReferenceType nest = (ReferenceType)iter.next();
-                Env.noticeln("nested: " + nest.name());
+                Env.noticeln("nested: %s", nest.name());
             }
         } else if (type instanceof InterfaceType) {
             InterfaceType interfaze = (InterfaceType)type;
-            Env.noticeln("Interface: " + interfaze.name());
+            Env.noticeln("Interface: %s", interfaze.name());
             List supers = interfaze.superinterfaces();
             Iterator iter = supers.iterator();
             while (iter.hasNext()) {
                 InterfaceType superinterface = (InterfaceType)iter.next();
-                Env.noticeln("extends: " + superinterface.name());
+                Env.noticeln("extends: %s", superinterface.name());
             }
             List subs = interfaze.subinterfaces();
             iter = subs.iterator();
             while (iter.hasNext()) {
                 InterfaceType sub = (InterfaceType)iter.next();
-                Env.noticeln("subinterface: " + sub.name());
+                Env.noticeln("subinterface: %s", sub.name());
             }
             List implementors = interfaze.implementors();
             iter = implementors.iterator();
             while (iter.hasNext()) {
                 ClassType implementor = (ClassType)iter.next();
-                Env.noticeln("implementor: " + implementor.name());
+                Env.noticeln("implementor: %s", implementor.name());
             }
             List nested = interfaze.nestedTypes();
             iter = nested.iterator();
             while (iter.hasNext()) {
                 ReferenceType nest = (ReferenceType)iter.next();
-                Env.noticeln("nested: " + nest.name());
+                Env.noticeln("nested: %s", nest.name());
             }
         } else {  // array type
             ArrayType array = (ArrayType)type;
-            Env.noticeln("Array: " + array.name());
+            Env.noticeln("Array: %s", array.name());
         }
     }
 
@@ -294,17 +294,13 @@ class Commands implements EventNotifier {
             List methods = cls.allMethods();
             for (int i = 0; i < methods.size(); i++) {
                 Method method = (Method)methods.get(i);
-                Env.notice(method.declaringType().name() + " " +
-                           method.name() + "(");
-                Iterator it = method.argumentTypeNames().iterator();
-                if (it.hasNext()) {
-                    while (true) {
-                        Env.notice((String)it.next());
-                        if (!it.hasNext()) {
-                            break;
-                        }
-                        Env.notice(", ");
-                    }
+                Env.notice("%s %s(", method.declaringType().name(),
+                           method.name());
+                List<String> argTypeNames = method.argumentTypeNames();
+                for (String name : argTypeNames) {
+                    if (!name.equals (argTypeNames.get (0)))
+                        Env.notice (", ");
+                    Env.notice("%s", name);
                 }
                 Env.noticeln(")");
             }
@@ -319,12 +315,12 @@ class Commands implements EventNotifier {
             List visible = cls.visibleFields();
             for (int i = 0; i < fields.size(); i++) {
                 Field field = (Field)fields.get(i);
-                Env.notice(field.typeName() + " " +
-                           field.name());
+                Env.notice("%s %s", field.typeName(), field.name());
                 if (!visible.contains(field)) {
                     Env.noticeln(" (hidden)");
                 } else if (!field.declaringType().equals(cls)) {
-                    Env.noticeln(" (inherited from " + field.declaringType().name() + ")");
+                    Env.noticeln(" (inherited from %s)", 
+                                 field.declaringType().name());
                 } else {
                     Env.noticeln();
                 }
@@ -334,7 +330,7 @@ class Commands implements EventNotifier {
     }
 
     private int printThreadGroup(ThreadGroupReference tg, int iThread) {
-        Env.noticeln("Group " + tg.name() + ":");
+        Env.noticeln("Group %s:", tg.name());
         List tlist = tg.threads();
         ThreadInfo[] all = ThreadInfo.threads();
 
@@ -375,7 +371,7 @@ class Commands implements EventNotifier {
                 buf[j] = ' ';
             }
             buf[79] = '\0';
-            StringBuffer sbOut = new StringBuffer();
+            StringBuilder sbOut = new StringBuilder();
             sbOut.append(buf);
 
             // Right-justify the thread number at start of output string
@@ -396,7 +392,7 @@ class Commands implements EventNotifier {
             iBuf += maxName + 1;
             sbOut.insert(iBuf, Env.getStatus(thr));
             sbOut.setLength(79);
-            Env.noticeln(sbOut.toString());
+            Env.noticeln("%s", sbOut);
         }
 
         List tglist = tg.threadGroups();
@@ -428,8 +424,7 @@ class Commands implements EventNotifier {
         while (it.hasNext()) {
             ThreadGroupReference tg = it.nextThreadGroup();
             ++cnt;
-            Env.noticeln("" + cnt + ". " + Env.description(tg) + 
-                         " " + tg.name());
+            Env.noticeln("%d. %s %s", cnt, Env.description(tg), tg.name());
         }
     }
     
@@ -443,7 +438,7 @@ class Commands implements EventNotifier {
     void commandThreadGroup(String name) {
         ThreadGroupReference tg = ThreadGroupIterator.find(name);
         if (tg == null) {
-            Env.errorln(name + " is not a valid threadgroup name.");
+            Env.errorln("%s is not a valid threadgroup name.", name);
         } else {
             ThreadInfo.setThreadGroup(tg);
         }
@@ -461,7 +456,7 @@ class Commands implements EventNotifier {
         if (Env.cmdClass.equals (""))
             Env.errorln ("No default main class chosen.");
         else
-            Env.noticeln ("Default run command: " + Env.commandLine);
+            Env.noticeln ("Default run command: %s", Env.commandLine);
     }
 
 	void commandRun () {
@@ -484,7 +479,7 @@ class Commands implements EventNotifier {
 
 		Env.connectSpec = "com.sun.jdi.CommandLineLaunch:";
         Env.init ();
-        Env.noticeln("java " + Env.cmdClass + Env.commandLine);
+        Env.noticeln("java %s%s", Env.cmdClass, Env.commandLine);
         ThreadInfo.invalidateAll ();
 
         Env.connection ().open();
@@ -600,25 +595,23 @@ class Commands implements EventNotifier {
         Env.resumeVM ();
     }
 
+    /** Remove any previous step on THREAD that has not completed. */
     void clearPreviousStep(ThreadReference thread) {
-        /*
-         * A previous step may not have completed on this thread; 
-         * if so, it gets removed here. 
-         */
         EventRequestManager mgr = Env.vm().eventRequestManager();
-        List requests = mgr.stepRequests();
-        Iterator iter = requests.iterator();
-        while (iter.hasNext()) {
-            StepRequest request = (StepRequest)iter.next();
+        for (StepRequest request : mgr.stepRequests ()) {
             if (request.thread().equals(thread)) {
                 mgr.deleteEventRequest(request);
                 break;
             }
         }
     }
-    /* step
-     *
-     */
+
+    /** Continue the program after setting up a step event request that will
+     *  fire after REPS > 0 hits.  DEPTH is one of the constants STEP_INTO
+     *  (stop in next called method), STEP_OVER (stop in current frame), or
+     *  STEP_OUT (stop in caller's frame).  STEPSIZE is STEP_MIN (for single
+     *  VM instruction) or STEP_LINE (stop at source line boundary).  These
+     *  constants are in class StepRequest.  */
     void commandStep(int stepSize, int depth, int reps) {
 		if (reps < 1)
 			throw ERROR ("Repetition count must be positive.");
@@ -644,7 +637,7 @@ class Commands implements EventNotifier {
         if (val instanceof ObjectReference) {
             try {
                 thread.stop((ObjectReference)val);
-                Env.noticeln(thread.toString() + " killed");
+                Env.noticeln( "%s killed", thread);
             } catch (InvalidTypeException e) {
                 Env.errorln("Invalid exception object");
             }
@@ -673,7 +666,7 @@ class Commands implements EventNotifier {
     void commandKill(String threadId, String expr) {
         ThreadInfo tinfo = ThreadInfo.getThread(threadId);
         if (tinfo != null) {
-            Env.noticeln("killing thread: " + tinfo.thread.name());
+            Env.noticeln("killing thread: %s", tinfo.thread.name());
             doKillThread(tinfo.thread, expr);
             return;
         } else {
@@ -696,9 +689,9 @@ class Commands implements EventNotifier {
 
     void commandPass (EventRequestSpec spec) {
         if (Env.specList.delete(spec))
-            Env.noticeln("Removed " + spec);
+            Env.noticeln("Removed %s", spec);
         else
-            Env.errorln("Not found: " + spec);
+            Env.errorln("Not found: %s", spec);
     }
     
     void commandFrame(int n) {
@@ -757,31 +750,31 @@ class Commands implements EventNotifier {
                 StackFrame frame = (StackFrame)stack.get(i);
                 Location loc = frame.location();
                 Method meth = loc.method();
-                Env.notice("  [" + i + "] ");
-                Env.notice(meth.declaringType().name());
-                Env.notice("." + meth.name () + " (");
+                Env.notice("  [%d] ", i);
+                Env.notice("%s", meth.declaringType().name());
+                Env.notice(".%s (", meth.name ());
                 if (meth instanceof Method && ((Method)meth).isNative()) {
                     Env.notice("native method");
                 } else if (loc.lineNumber() != -1) {
                     try {
-                        Env.notice(loc.sourceName());
+                        Env.notice("%s", loc.sourceName());
                     } catch (AbsentInformationException e) {
                         Env.notice("<unknown>");
                     }
-                    Env.notice(":" + loc.lineNumber());
+                    Env.notice(":%d", loc.lineNumber());
                 }
                 Env.notice(")");
                 if (showPC) {
                     long pc = loc.codeIndex();
                     if (pc != -1) {
-                        Env.notice(", pc = " + pc);
+                        Env.notice(", pc = %d", pc);
                     }
                 }
                 Env.noticeln();
             }
             if (nFrames < stack.size ()) 
-                Env.noticeln ("  ... + " + (stack.size () - nFrames) 
-                              + " more frames.");
+                Env.noticeln ("  ... + %d more frames.", 
+                              stack.size () - nFrames);
         }
     }
 
@@ -804,7 +797,7 @@ class Commands implements EventNotifier {
 		ThreadInfo[] list = ThreadInfo.threads();
 		for (int i = 0; i < list.length; i += 1) {
 			ThreadInfo tinfo = list[i];
-			Env.noticeln(tinfo.thread.name() + ": ");
+			Env.noticeln("%s: ", tinfo.thread.name());
 			dumpStack(tinfo, showPC);
 		}
 	}
@@ -840,7 +833,7 @@ class Commands implements EventNotifier {
     private void resolveNow(EventRequestSpec spec) {
         boolean success = Env.specList.addEagerlyResolve(spec);
         if (success && !spec.isResolved()) {
-            Env.noticeln(spec.toString ());
+            Env.noticeln("%s", spec);
             Env.noticeln("    (will be set after the class is loaded)");
         } 
     }
@@ -901,11 +894,11 @@ class Commands implements EventNotifier {
                         EventRequestSpec spec =
                             EventRequestSpec.idToSpec (items, n);
                         if (spec == null) 
-                            Env.noticeln ("No event " + n);
+                            Env.noticeln ("No event %d", n);
                         else
                             result.add (spec);
                     } catch (NumberFormatException e) {
-                        Env.noticeln ("Invalid number: " + item);
+                        Env.noticeln ("Invalid number: %s", item);
                     }
                 }
             }
@@ -954,10 +947,10 @@ class Commands implements EventNotifier {
 			spec.setCondition (expr);
 		if (expr.equals ("")) {
 			spec.setCondition (null);
-			Env.noticeln ("" + spec + " (now unconditional)");
+			Env.noticeln ("%s (now unconditional)", spec);
 		} else {
             spec.setCondition (expr);
-            Env.noticeln ("" + spec);
+            Env.noticeln ("%s", spec);
 		}
     }
 		
@@ -1026,8 +1019,8 @@ class Commands implements EventNotifier {
     List<EventRequestSpec> listEventSpecs (EventRequestSpec exemplar) {
         List<EventRequestSpec> specs = Env.eventRequestSpecs (exemplar);
 
-        for (int i = 0; i < specs.size (); i += 1)
-            Env.noticeln(specs.get (i).toString ());
+        for (EventRequestSpec spec : specs) 
+            Env.noticeln("%s", spec);
         if (specs.size () == 0)
             Env.noticeln("No %ss set.",
 						 exemplar == null 
@@ -1049,9 +1042,9 @@ class Commands implements EventNotifier {
 		for (EventRequestSpec request : specs) {
             WatchpointSpec spec = (WatchpointSpec) request;
             if (Env.specList.delete(spec)) {
-                Env.noticeln("Removed " + spec);
+                Env.noticeln("Removed %s", spec);
             } else {
-                Env.errorln("Not found: " + spec);
+                Env.errorln("Not found: %s", spec);
             }
         }
     }
@@ -1153,12 +1146,12 @@ class Commands implements EventNotifier {
                     String sourceLine = Env.sourceLine(loc, i);
                     if (sourceLine == null)
                         break;
-                    Env.notice(i + "\t");
+                    Env.notice("%d\t", i);
                     if (i == lineno)
                         Env.notice("=> ");
                     else
                         Env.notice("   ");
-                    Env.noticeln(sourceLine);
+                    Env.noticeln("%s", sourceLine);
                 }
             }
         } catch (AbsentInformationException e) {
@@ -1188,7 +1181,7 @@ class Commands implements EventNotifier {
 					}	
 				}
 				for (Location line : lines)
-					Env.noticeln(line + "");
+					Env.noticeln("%s", line);
 			} else {
 				throw ERROR ("\"%s\" is not a valid id or class name.",
 							 classId);
@@ -1205,16 +1198,16 @@ class Commands implements EventNotifier {
             Env.errorln ("The program is not running yet");
         } else if (Env.vm() instanceof PathSearchingVirtualMachine) {
             PathSearchingVirtualMachine vm = (PathSearchingVirtualMachine)Env.vm();
-            Env.noticeln("base directory: " + vm.baseDirectory());
-            Env.noticeln("classpath: " + vm.classPath());
-            Env.noticeln("bootclasspath: " + vm.bootClassPath());
+            Env.noticeln("base directory: %s", vm.baseDirectory());
+            Env.noticeln("classpath: %s", vm.classPath());
+            Env.noticeln("bootclasspath: %s", vm.bootClassPath());
         } else {
             Env.errorln("The VM does not use paths");
         }
     }
 
     void commandUse () {
-		Env.noticeln(Env.getSourcePath ());
+		Env.noticeln("%s", Env.getSourcePath ());
 	}
 
 	void commandUse (String path) {
@@ -1225,7 +1218,7 @@ class Commands implements EventNotifier {
         if (Env.classPath.equals (""))
             Env.noticeln("No classpath specified");
         else 
-            Env.noticeln(Env.classPath.substring (11));
+            Env.noticeln("%s", Env.classPath.substring (11));
 	}
 
     void commandClasspath(String path) {
@@ -1234,7 +1227,7 @@ class Commands implements EventNotifier {
 
     /* Print a stack variable */
     private void printVar(LocalVariable var, Value value) {
-        Env.noticeln("  " + var.name() + " = " + value);
+        Env.noticeln("  %s = %s", var.name(), value);
     }
 
     /* Print all local variables in current stack frame. */
@@ -1289,7 +1282,7 @@ class Commands implements EventNotifier {
             || val instanceof PrimitiveValue || val instanceof VoidValue
 			|| val instanceof StringReference
 			|| (dumped != null && dumped.contains (val))) {
-            Env.noticeln (LValue.toString (val, format));
+            Env.noticeln ("%s", LValue.toString (val, format));
             return; 
         }
 
@@ -1320,8 +1313,8 @@ class Commands implements EventNotifier {
                     }
                     if (len < arr.length ()) {
                         Env.indent (indent + 2);
-                        Env.noticeln ("... <" + (arr.length () - len)
-                                      + " more elements>");
+                        Env.noticeln ("... <%d more elements>", 
+                                      arr.length () - len);
                     }
                     Env.indent (indent);
                 } else {
@@ -1332,11 +1325,11 @@ class Commands implements EventNotifier {
                         if (commaNeeded) 
                             Env.notice (", ");
                         commaNeeded = true;
-                        Env.notice (LValue.toString (v, format));
+                        Env.notice ("%s", LValue.toString (v, format));
                     }
                     if (len < arr.length ()) 
-                        Env.notice (",... <" + (arr.length () - len)
-                                    + " more elements>");
+                        Env.notice (",... <%d more elements>", 
+                                    arr.length () - len);
                     Env.notice (" ");
                 }
             }
@@ -1344,7 +1337,7 @@ class Commands implements EventNotifier {
             return;
         }
      
-        Env.noticeln (val + " {");
+        Env.noticeln ("%s {", val);
 		
         while (refType != null) {
             for (Field field : refType.fields()) {
@@ -1352,9 +1345,9 @@ class Commands implements EventNotifier {
                     continue;
                 Env.indent(indent+2);
                 if (!refType.equals(typeBase)) {
-                    Env.notice(refType.name() + ".");
+                    Env.notice("%s.", refType.name());
                 }
-                Env.notice(field.name() + ": ");
+                Env.notice("%s: ", field.name());
                 dump (obj.getValue(field), depth-1, format, 
                       indent+2, wantStatics, dumped);
             }
@@ -1382,7 +1375,7 @@ class Commands implements EventNotifier {
 		try {
 			val = evaluate (expr, true, cleanedExpr);
 		} catch (CommandException e) {
-			Env.errorln (e.getMessage ());
+			Env.errorln ("%s", e.getMessage ());
 			return;
 		}
 
@@ -1480,12 +1473,13 @@ class Commands implements EventNotifier {
         try {
             if (val instanceof ObjectReference) {
                 ObjectReference object = (ObjectReference)val;
-                Env.noticeln("Monitor information for " + val.toString() + ":");
+                Env.noticeln("Monitor information for %s:", val);
                 ThreadReference owner = object.owningThread();
                 if (owner == null) {
                     Env.noticeln("  Not owned");
                 } else {
-                    Env.noticeln("  Owned by: " + owner.name() + ", entry count: " + object.entryCount());
+                    Env.noticeln("  Owned by: %s, entry count: %d",
+                                 owner.name(), object.entryCount());
                 }
                 List waiters = object.waitingThreads();
                 if (waiters.size() == 0) {
@@ -1494,7 +1488,7 @@ class Commands implements EventNotifier {
                     Iterator iter = waiters.iterator();
                     while (iter.hasNext()) {
                         ThreadReference waiter = (ThreadReference)iter.next();
-                        Env.noticeln("  Waiting thread: " + owner.name());
+                        Env.noticeln("  Waiting thread: %s", owner.name());
                     }
                 }
             } else {
@@ -1523,7 +1517,7 @@ class Commands implements EventNotifier {
 
     private void printThreadLockInfo(ThreadReference thread) {
         try {
-            Env.noticeln("Monitor information for thread " + thread.name() + ":");
+            Env.noticeln("Monitor information for thread %s:", thread.name());
             List owned = thread.ownedMonitors();
             if (owned.size() == 0) {
                 Env.noticeln("  No monitors owned");
@@ -1531,14 +1525,14 @@ class Commands implements EventNotifier {
                 Iterator iter = owned.iterator();
                 while (iter.hasNext()) {
                     ObjectReference monitor = (ObjectReference)iter.next();
-                    Env.noticeln("  Owned monitor: " + monitor);
+                    Env.noticeln("  Owned monitor: %s", monitor);
                 }
             }
             ObjectReference waiting = thread.currentContendedMonitor();
             if (waiting == null) {
                 Env.noticeln("  Not waiting for a monitor");
             } else {
-                Env.noticeln("  Waiting for monitor: " + waiting);
+                Env.noticeln("  Waiting for monitor: %s", waiting);
             }
         } catch (IncompatibleThreadStateException e) {
             Env.errorln("Threads must be suspended");
@@ -1601,13 +1595,13 @@ class Commands implements EventNotifier {
 		try {
 			val = evaluate(expr);
 		} catch (CommandException e) {
-			Env.errorln (e.getMessage ());
+			Env.errorln ("%s", e.getMessage ());
 			return;
 		}
 
         if (Env.isConnected ()) {
             Env.connection ().saveValue(key, val);
-            Env.noticeln(val.toString() + " saved");
+            Env.noticeln("%s saved", val);
         } else {
             Env.errorln("Must be connected to save values");
         }
@@ -1625,12 +1619,12 @@ class Commands implements EventNotifier {
                 continue;
             haveOne = true;
 			Value value = Env.connection ().retrieveHistory (key);
-			Env.notice(key + " = ");
+			Env.notice("%s = ", key);
 			if ((value instanceof ObjectReference) &&
 				((ObjectReference)value).isCollected()) {
 				Env.noticeln(" <collected>");
 			} else {
-				Env.noticeln((value != null) ? value.toString() : "null");
+				Env.noticeln("%s", value);
 			}
 		}
         if (!haveOne) {
@@ -1676,11 +1670,11 @@ class Commands implements EventNotifier {
             }
         }
 
-        StringBuffer line = new StringBuffer(80);
+        StringBuilder line = new StringBuilder(80);
         line.append("0000: ");
         for (int i = 0; i < bytecodes.length; i++) {
             if ((i > 0) && (i % 16 == 0)) {
-                Env.noticeln(line.toString());
+                Env.noticeln("%s", line);
                 line.setLength(0);
                 line.append(String.valueOf(i));
                 line.append(": ");
@@ -1698,12 +1692,12 @@ class Commands implements EventNotifier {
             line.append(' ');
         }
         if (line.length() > 6) {
-            Env.noticeln(line.toString());
+            Env.noticeln("%s", line);
         }
     }
 
     void commandExclude() {
-		Env.noticeln (Env.excludesString ());
+		Env.noticeln ("%s", Env.excludesString ());
 	}
 
     void commandExcludeClear () {
@@ -1730,9 +1724,9 @@ class Commands implements EventNotifier {
 
     void commandVersion(String debuggerName, 
                         String debuggerVersion) {
-        Env.noticeln(debuggerName + ", version " + debuggerVersion);
+        Env.noticeln("%s, version %s", debuggerName, debuggerVersion);
 		if (Env.isConnected ())
-            Env.noticeln(Env.vm().description());
+            Env.noticeln("%s", Env.vm().description());
     }
 
 	void commandQuit () {
@@ -1755,7 +1749,7 @@ class Commands implements EventNotifier {
 
     void commandMonitor () {
 		for (String cmnd : monitorCommands) 
-			Env.noticeln (cmnd);
+			Env.noticeln ("%s", cmnd);
 	}
 
 	void commandMonitor (String cmnd) {
@@ -1768,15 +1762,15 @@ class Commands implements EventNotifier {
 		for (String cmd : monitorCommands) {
 			if (cmd.startsWith (label)) {
 				monitorCommands.remove (cmd);
-				Env.noticeln("Unmonitoring " + cmd);
+				Env.noticeln("Unmonitoring %s", cmd);
 				return;
 			}
 		}
-		Env.errorln("No monitor labeled " + num);
+		Env.errorln("No monitor labeled %s", num);
     }
 
     public void run () {
-        Env.noticeln(GJDB.GREETING);
+        Env.noticeln("%s", GJDB.GREETING);
         Env.noticeln("Initializing...");
 
         try {
@@ -1830,7 +1824,7 @@ class Commands implements EventNotifier {
                             continue;
                         }
                         ln = lastLine + ln.substring(2);
-                        Env.noticeln(ln);
+                        Env.noticeln("%s", ln);
                     }
 					ln = trim (ln);
     
@@ -1933,7 +1927,7 @@ class Commands implements EventNotifier {
         if (spec == null) 
             Env.notice("\nBreakpoint hit: ");
         else
-            Env.notice("\nBreakpoint " + spec.getId () + ": ");
+            Env.notice("\nBreakpoint %s: ", spec.getId ());
         otherEvent(be);
     }
 
@@ -1941,14 +1935,14 @@ class Commands implements EventNotifier {
         Field field = fwe.field();
         ObjectReference obj = fwe.object();
         Thread.yield();  // fetch output
-        Env.notice("\nField (" + field + ") ");
+        Env.notice("\nField (%s) ", field);
         if (fwe instanceof ModificationWatchpointEvent) {
             Env.notice("is ");
             EventHandler.setEnables (false);
-            Env.notice(fwe.valueCurrent() + "");
+            Env.notice("%s", fwe.valueCurrent());
             EventHandler.setEnables (true);
             Env.notice(", will be ");
-            Env.notice(((ModificationWatchpointEvent)fwe).valueToBe().toString());
+            Env.notice("%s", ((ModificationWatchpointEvent)fwe).valueToBe());
             Env.notice(": ");
         } else {
             Env.notice("access encountered: ");
@@ -1965,15 +1959,14 @@ class Commands implements EventNotifier {
 
     public void exceptionEvent(ExceptionEvent ee) {
         Thread.yield();  // fetch output
-        Env.notice("\nException occurred: ");
-        Env.notice(ee.exception().referenceType().name());
+        Env.notice("\nException occurred: %s",
+                   ee.exception().referenceType().name());
         Location catchLocation = ee.catchLocation();
         if (catchLocation == null) {
             Env.notice(" (uncaught) ");
         } else {
-            Env.notice(" (to be caught at: ");
-            Env.notice(Commands.locationString(catchLocation));
-            Env.notice(") ");
+            Env.notice(" (to be caught at: %s)",
+                       Commands.locationString(catchLocation));
         }
         otherEvent(ee);
     }

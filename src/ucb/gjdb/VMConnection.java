@@ -20,7 +20,7 @@ import java.io.*;
 import java.util.jar.*;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.InovocationTargetException;
+import java.lang.reflect.InvocationTargetException;
 import com.sun.jdi.event.MethodExitEvent;
 
 import static ucb.gjdb.CommandException.ERROR;
@@ -470,7 +470,7 @@ class VMConnection {
                 inputReader 
                     = new BufferedReader (new FileReader (inputFileName));
             } catch (FileNotFoundException e) {
-                Env.errorln ("Could not read file " + inputFileName);
+                Env.errorln ("Could not read file %s", inputFileName);
                 return null;
             }
         }
@@ -481,8 +481,8 @@ class VMConnection {
                     new PrintStream (new BufferedOutputStream 
                                      (new FileOutputStream (outputFileName)));
             } catch (FileNotFoundException f) {
-                Env.errorln ("Could not open file " + outputFileName + 
-                             " for output.");
+                Env.errorln ("Could not open file %s for output.", 
+                             outputFileName);
                 return null;
             }
         }
@@ -495,8 +495,8 @@ class VMConnection {
                         new PrintStream (new BufferedOutputStream 
                                          (new FileOutputStream (errorFileName)));
                 } catch (FileNotFoundException f) {
-                    Env.errorln ("Could not open file " + errorFileName + 
-                                 " for output.");
+                    Env.errorln ("Could not open file %s for output.",
+                                 errorFileName);
                     return null;
                 }
         }       

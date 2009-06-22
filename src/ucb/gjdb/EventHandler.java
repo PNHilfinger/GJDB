@@ -301,8 +301,8 @@ public class EventHandler implements Runnable {
             setCurrentThread ((ThreadReference) null);
 
             Env.errorln ("");
-            Env.errorln ("Current thread" + currentThreadName + 
-                        " died. Execution continuing...");
+            Env.errorln ("Current thread %s died. Execution continuing...",
+                         currentThreadName);
         }
         return false;
     }

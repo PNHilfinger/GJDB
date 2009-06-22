@@ -107,8 +107,8 @@ class PatternReferenceTypeSpec implements ReferenceTypeSpec {
             }
         }
         if (! classIsPlausible ())
-            Env.noticeln ("Warning: class " + classId + " does not seem to "
-                          + "exist.");
+            Env.noticeln ("Warning: class %s does not seem to exist.",
+                          classId);
     }
 
     private boolean isJavaIdentifier(String s) {

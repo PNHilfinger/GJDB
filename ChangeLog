@@ -1,3 +1,21 @@
+2009-06-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* src/ucb/gjdb/Commands.java (clearPreviousStep): Clean up.
+	(commandStep): Improve comment.
+	(commandMethods): Clean up.
+	(printThreadGroup, commandCommand, commandByteCodes): 
+	StringBuffer => StringBuilder.
+	
+	* src/ucb/gjdb/Commands.java: Remove potential format insertions 
+	in calls to notice, noticeln, error, errorln.
+	* src/ucb/gjdb/VMConnection.java: Ditto.
+	* src/ucb/gjdb/PatternReferenceTypeSpec.java: Ditto.
+	* src/ucb/gjdb/EventHandler.java: Ditto.
+	* src/ucb/gjdb/Env.java: Ditto.
+	* src/ucb/gjdb/EventRequestSpecList.java: Ditto.
+	* src/ucb/gjdb/GJDB.java: Ditto.
+	* src/ucb/gjdb/CommandParser.y: Ditto.
+	
 2009-06-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Update NEWS.

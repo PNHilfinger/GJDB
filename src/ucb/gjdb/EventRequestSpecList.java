@@ -65,11 +65,11 @@ class EventRequestSpecList {
                         if (eventRequest == null)
 							allResolved = false;
 						else
-                            Env.noticeln("Set " + spec);
+                            Env.noticeln("Set %s", spec);
                     } catch (Exception e) {
-                        Env.errorln("Unable to set deferred "  + spec + " : " +
+                        Env.errorln("Unable to set deferred %s: %s", spec,
                                     spec.errorMessageFor(e));
-                        Env.errorln("Removing " + spec);
+                        Env.errorln("Removing %s", spec);
                         iter.remove ();
                         failure = true;
                     }
@@ -90,7 +90,7 @@ class EventRequestSpecList {
                 if (eventRequest == null)
 					allResolved = false;
 				else
-                    Env.noticeln("Set " + spec);
+                    Env.noticeln("Set %s", spec);
             } catch (Exception e) {
 				allResolved = false;
             }
@@ -111,7 +111,7 @@ class EventRequestSpecList {
             EventRequestSpec spec = iter.next ();
             if (spec.isTransient ()) {
                 iter.remove ();
-                Env.noticeln ("Removed obsolete request " + spec);
+                Env.noticeln ("Removed obsolete request %s", spec);
             }
         }
     }
@@ -122,11 +122,11 @@ class EventRequestSpecList {
 			Env.setClassPrepareEnabled (true);
             EventRequest eventRequest = spec.resolveEagerly();
             if (eventRequest != null) {
-                Env.noticeln("Set " + spec);
+                Env.noticeln("Set %s", spec);
             } 
             return true;
         } catch (Exception exc) {
-            Env.errorln("Unable to set " + spec + " : " +
+            Env.errorln("Unable to set %s : %s", spec,
                         spec.errorMessageFor(exc));
             delete(spec);
             return false;
