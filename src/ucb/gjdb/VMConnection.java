@@ -19,6 +19,10 @@ import java.util.*;
 import java.io.*;
 import java.util.jar.*;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.InovocationTargetException;
+import com.sun.jdi.event.MethodExitEvent;
+
 import static ucb.gjdb.CommandException.ERROR;
 
 class VMConnection {
@@ -154,6 +158,14 @@ class VMConnection {
             throw new InternalError("Invalid connect type");
         }
         if (vm != null) {
+            returnValuesAvailable = false;
+            try {
+                if (returnValueTestMethod != null && 
+                    (Boolean) returnValueTestMethod.invoke (vm))
+                    returnValuesAvailable = true;
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            }
             vm.setDebugTraceMode(traceFlags);
             if (vm instanceof PathSearchingVirtualMachine) {
                 PathSearchingVirtualMachine vm1 = 
@@ -330,6 +342,11 @@ class VMConnection {
 		for (ClassPrepareRequest req : erm.classPrepareRequests ())
 			req.setEnabled (val);
 	}
+
+    /** True iff current VM can intercept method return values. */
+    boolean canGetMethodReturnValues () {
+        return vm != null && returnValuesAvailable;
+    }
 
 	/** Enable all permanent event requests.  Currently, we are notified
 	 *  of 
@@ -628,5 +645,25 @@ class VMConnection {
         }
     }
 
+    /** The Method for extracting a return value from a
+     *  MethodExitEvent, or null if not implemented in this version of
+     *  Java. */
+    private static Method returnValueMethod;
+    /** The Method for testing a VirtualMachine to see whether it can
+     *  extract return values from MethodExitEvents, or null if not
+     *  implemented in this version of Java. */
+    private static Method returnValueTestMethod;
+    private boolean returnValuesAvailable;
+    
+    static {
+        returnValueTestMethod = returnValueMethod = null;
+        try {
+            returnValueTestMethod = 
+                VirtualMachine.class.getMethod ("canGetMethodReturnValues");
+            returnValueMethod = 
+                MethodExitEvent.class.getMethod ("returnValue");
+        } catch (NoSuchMethodException e) {
+        }
+    }
 
 }

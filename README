@@ -1,4 +1,4 @@
-		GJDB Version 3
+		GJDB Version 6
 
 
 DESCRIPTION
@@ -57,11 +57,7 @@ to install, and
 
 to compile and install the documentation file gjdb.pdf.
 
-To recreate some of the sources (see the definition of JAVACCSRC in the 
-makefile), you will need the JavaCC compiler-compiler, which is 
-distributed by Metameta, at http://www.metamata.com.
-
-Finally, to use gjdb from Emacs, arrange to load it in your initialization
+To use gjdb from Emacs, arrange to load it in your initialization
 (.emacs) file with the command
 
 	(load "DIR/gjdb")
