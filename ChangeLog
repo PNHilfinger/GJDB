@@ -1,5 +1,29 @@
 2009-06-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
+	* src/ucb/gjdb/VMConnection.java: Move value history here:
+	(clearHistory, saveValue, retrieveHistory, getSaveKeys, preserve):
+	New functions.
+	* src/ucb/gjdb/Env.java: Remove value history from here:
+	(getSaveKeys, getSavedValue, setSavedValue): Remove.
+	(historyRetention): New parameter.
+	* src/ucb/gjdb/Commands.java (doPrint): Keep value history.
+	(doSave): Check for connectedness. 
+	Use VMConnection.saveValue.
+	(commandSave): Check for connectedness.
+	Use VMConnection.retrieveHistory.
+	* src/ucb/gjdb/CommandParser.y: Check for connection in 'save'
+	commands.
+	Add "set history <n>"
+	* src/ucb/gjdb/CommandLexer.jf: Add "history" keyword.
+	* usr/ucb/gjdb/GJDB.java (helpMsgs): Document "set history <n>".
+	* src/ucb/gjdb/ExpressionParser.y: For INTERNALVAR, use
+	VMConnection.retrieveHistory.
+	Add HISTORYVAR.
+	* src/ucb/gjdb/ExpressionLexer.jf: Add HISTORYVAR.
+	
+
+	* lib/emacs/lisp/gjdb.el: Change string-to-int => string-to-number.
+
 	* Makefile.in (VERSION): Bump to 6.2.0.
 	
 	* src/ucb/gjdb/Env.java (description): Use standard Java 

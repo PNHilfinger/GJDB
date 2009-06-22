@@ -278,6 +278,7 @@ CMDSTRCHR = (\\[\"\\]|[^\\\"\n\r])
     "compressed"	{ return symbol ("compressed"); }
     "elements"		{ return symbol ("elements"); }
     "fields"		{ return symbol ("fields"); }
+    "history"		{ return symbol ("history"); }
     "locals"		{ return symbol ("locals"); }
     "max-frames"	{ return symbol ("max-frames"); }
     "methods"		{ return symbol ("methods"); }

@@ -1397,7 +1397,8 @@ class Commands implements EventNotifier {
 							 cleanedExpr[0], val.type().name());
 			break;
 		default:
-			Env.notice ("%s = ", cleanedExpr[0]);
+            int id = Env.connection ().saveValue (val);
+			Env.notice ("$%d = ", id);
 			dump (val, dumpLevel, format, 0, wantStatics, 
 				  new HashSet<ObjectReference> ());
 		} 
@@ -1469,6 +1470,8 @@ class Commands implements EventNotifier {
 			}
 		} else if (var.equals ("stdin"))
 			Env.noStdin = val0.equals ("on");
+        else if (var.equals ("history")) 
+            Env.historyRetention = Math.max (0, val1);
     }
         
     void doLock(String expr) {
@@ -1602,22 +1605,26 @@ class Commands implements EventNotifier {
 			return;
 		}
 
-        if (val != null) {
-            Env.setSavedValue(key, val);
+        if (Env.isConnected ()) {
+            Env.connection ().saveValue(key, val);
             Env.noticeln(val.toString() + " saved");
         } else {
-            Env.errorln("Expression cannot be void");
+            Env.errorln("Must be connected to save values");
         }
     }
 
     void commandSave() {
-		Set<String> keys = Env.getSaveKeys();
-		if (keys.isEmpty ()) {
-			Env.noticeln("No saved values");
-			return;
-		}
-		for (String key : keys) {
-			Value value = Env.getSavedValue(key);
+        if (!Env.isConnected ()) {
+            Env.noticeln ("Not connected");
+            return;
+        }
+        boolean haveOne;
+        haveOne = false;
+		for (Object key : Env.connection ().getSaveKeys()) {
+            if (! (key instanceof String))
+                continue;
+            haveOne = true;
+			Value value = Env.connection ().retrieveHistory (key);
 			Env.notice(key + " = ");
 			if ((value instanceof ObjectReference) &&
 				((ObjectReference)value).isCollected()) {
@@ -1625,6 +1632,10 @@ class Commands implements EventNotifier {
 			} else {
 				Env.noticeln((value != null) ? value.toString() : "null");
 			}
+		}
+        if (!haveOne) {
+			Env.noticeln("No saved values");
+			return;
 		}
 	}
 

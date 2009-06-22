@@ -80,6 +80,8 @@ public class GJDB {
           + "static fields" },
         { "da <expr>", "same as dumpall <expr>" },
         { "da/<d> <expr>", "same as dumpall/<d> <expr>" },
+        { "set history <n>", 
+          "set maximum number of history values kept to <n>" },
         { "set print compressed", "print arrays in compressed format" },
         { "set print pretty", "print arrays one element per line" },
         { "set print elements <n>", 

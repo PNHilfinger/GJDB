@@ -109,11 +109,11 @@ command:
 		{ evaluator.commandUp (-$2); }
 	| "frame" intlit _check_connect
 		{ evaluator.commandFrame ($2); }
-	| "save"
+	| "save" _check_connect
 		{ evaluator.commandSave (); 
 		  showPrompt = false; }
-	| "save" WORD expr
-		{  evaluator.commandSave ($2, $3);
+	| "save" _check_connect WORD expr
+		{  evaluator.commandSave ($3, $4);
 		   showPrompt = false; }
 	| "ptype" expr
 		{ evaluator.commandPtype ($2); }
@@ -141,6 +141,8 @@ command:
 		{ evaluator.commandSet ("stdin", "off", 0); }
 	| "set" "variable" expr
 		{ evaluator.commandPrint ($3, evaluator.PRINT, ' ', false); }
+	| "set" "history" intlit
+	        { evaluator.commandSet ("history", "save", $3); }
 	| "set" WORD _collect_all_mode TEXT
 		{ evaluator.commandPrint ($2 + " " + $4,
 					  evaluator.PRINT, ' ', false); }

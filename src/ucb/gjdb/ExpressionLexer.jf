@@ -106,6 +106,8 @@ CHRCHR = (\\[rntbf'\\]|\\[0-7][0-7]?|\\[0-3][0-7][0-7]|[^\\'\n\r])
 
 {ID}		{ setVal (yytext ()); return IDENT; }
 "$"{ID}		{ setVal (yytext ()); return INTERNALVAR; }
+"$"-?{INTNUM}   { setVal (yytext ()); return HISTORYVAR; }
+"$"             { setVal ("$0"); return HISTORYVAR; }
 
 \"{STRCHR}*\"	{ setVal (yytext ()); return STRINGLIT; }
 '{CHRCHR}'	{ setVal (yytext ()); return CHARLIT; }

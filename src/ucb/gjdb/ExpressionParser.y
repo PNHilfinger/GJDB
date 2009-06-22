@@ -14,7 +14,7 @@
 %token<String> SHORT "short"
 
 %token<String> FLOATLIT INTLIT CHARLIT STRINGLIT
-%token<String> IDENT INTERNALVAR
+%token<String> IDENT INTERNALVAR HISTORYVAR
 
 %left '=' "+=" "-=" "*=" "/=" "%=" ">>=" ">>>=" "<<=" "&=" "|=" "^="
 %left '?' ':'
@@ -212,13 +212,18 @@ primary:
 
 primary:
 	  INTERNALVAR   { if (eval) {
-			      Value val = 
-				Env.getSavedValue ($1.substring (1));
-			      if (val == null) 
-				throw ERROR ("%s undefined", $1);
+			      Value val = Env.connection ()
+			          .retrieveHistory ($1.substring (1));
 			      $$ = LValue.makeConstant (val);
 			   }
 			}
+	| HISTORYVAR    { if (eval) {
+	  		      Value val = Env.connection ()
+			          .retrieveHistory (Integer.parseInt ($1.substring (1)));
+			      $$ = LValue.makeConstant (val);
+			   }
+			}
+	;
 
 name:
 	  IDENT

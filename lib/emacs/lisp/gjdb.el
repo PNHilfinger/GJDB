@@ -97,9 +97,9 @@ we're in the GUD buffer)."
 	(let ((file-name 
 	       (substring gud-marker-acc (match-beginning 1) (match-end 1)))
 	      (line-num
-	       (string-to-int (substring gud-marker-acc
-					 (match-beginning 2)
-					 (match-end 2)))))
+	       (string-to-number (substring gud-marker-acc
+					    (match-beginning 2)
+					    (match-end 2)))))
 	  (if (file-readable-p file-name)
 	      (cons file-name line-num)
 	    gud-last-frame))

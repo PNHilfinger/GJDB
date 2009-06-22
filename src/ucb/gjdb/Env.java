@@ -33,9 +33,6 @@ class Env {
     private static final int SOURCE_CACHE_SIZE = 5;
     private static List sourceCache = new LinkedList();
 
-    private static HashMap<String,Value> savedValues = 
-		new HashMap<String,Value> ();
-
 	static boolean annotate;
     static String connectSpec;
     static String classPath;
@@ -54,6 +51,8 @@ class Env {
     static boolean noStdin = false;
     /** Maximum # of stack frames to print. */
     static int maxStackFrames = 20;
+    /** Maximum number of values to store in value history. */
+    static int historyRetention = 10;
 
     static void init() {
         String spec;
@@ -373,18 +372,6 @@ class Env {
         if (connection == null)
             return true;
         return connection.classMayExist (name);
-    }
-
-    static Set<String> getSaveKeys() {
-        return savedValues.keySet();
-    }
-
-    static Value getSavedValue(String key) {
-        return savedValues.get(key);
-    }
-
-    static void setSavedValue(String key, Value value) {
-        savedValues.put(key, value);
     }
 
     /** A list of all current event request specifications with the same
