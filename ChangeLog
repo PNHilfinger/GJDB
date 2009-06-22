@@ -1,5 +1,7 @@
 2009-06-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
+	* Update NEWS.
+	
 	* src/ucb/gjdb/VMConnection.java: Move value history here:
 	(clearHistory, saveValue, retrieveHistory, getSaveKeys, preserve):
 	New functions.
