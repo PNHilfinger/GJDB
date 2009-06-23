@@ -1,5 +1,6 @@
 Release 6.2:
  * Add GDB-style value history: $1, etc.
+ * For JDK >= 6, capture values returned from methods on 'finish' command.
 
 Release 6.1:
  * Added ~ conversion on arguments to run and exec-args.

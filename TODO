@@ -24,8 +24,6 @@
 
 * Why does package detection sometimes fail in Emacs?
 
-* Handle returned values of functions (when using JDK >= 6).
-
 ---------
 
 CLEAN-UPS
@@ -255,3 +253,6 @@ DONE
 * Set should allow assignment.
 
 * Keep value history.
+
+* Handle returned values of functions (when using JDK >= 6).
+
