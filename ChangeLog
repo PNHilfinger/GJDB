@@ -1,5 +1,7 @@
 2009-06-23  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
+	* Release version 6.2.0.
+	
 	* src/ucb/gjdb/Commands.java (shutdown): Clear the pendingStepRequests
 	so as not to use requests from old vms.
 
