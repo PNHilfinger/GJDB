@@ -616,6 +616,7 @@ class Commands implements EventNotifier {
         clearPreviousStep();
         EventRequestManager reqMgr = Env.vm().eventRequestManager();
         if (depth == StepRequest.STEP_OUT 
+            && Env.printReturnValues
             && Env.connection ().canGetMethodReturnValues ()) {
             try {
                 stepTargetFrameCount =
@@ -1475,6 +1476,8 @@ class Commands implements EventNotifier {
                 else
                     Env.maxStackFrames = val1;
 			}
+            else if (val0.equals ("return"))
+                Env.printReturnValues = (val1 != 0);
 		} else if (var.equals ("stdin"))
 			Env.noStdin = val0.equals ("on");
         else if (var.equals ("history")) 
@@ -1998,10 +2001,12 @@ class Commands implements EventNotifier {
             try {
                 if (me.thread ().frameCount () == stepTargetFrameCount) {
                     Value val = Env.connection ().returnValue (me);
-                    int id = Env.connection ().saveValue (val);
-                    Env.notice ("$%d = ", id);
-                    dump (val, PRINT, ' ', 0, false, 
-                          new HashSet<ObjectReference> ());
+                    if (! (val instanceof VoidValue)) {
+                        int id = Env.connection ().saveValue (val);
+                        Env.notice ("$%d = ", id);
+                        dump (val, PRINT, ' ', 0, false, 
+                              new HashSet<ObjectReference> ());
+                    }
                 }
             } catch (IncompatibleThreadStateException e) {
                 Env.errorln ("Thread not stopped at method exit.");

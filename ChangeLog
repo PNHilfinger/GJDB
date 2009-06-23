@@ -1,7 +1,25 @@
 2009-06-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
+	* src/ucb/gjdb/CommandLexer.jf: Add "return" keyword.
+	* src/ucb/gjdb/CommandParser.y: Add 'set print return on|off'.
+	(execute): Handle VMDisconnectedException.
+
+	* src/ucb/gjdb/GJDB.java (helpMsgs): Document 'set print return on|off'.
+	* src/ucb/gjdb/Commands.java (commandSet): Implement 
+	'set print return'.
+	(commandStep): Ditto.
+	(methodExitEvent): Don't print void return values.
+
 	* src/ucb/gjdb/VMConnection.java (returnValue): New method.
-	
+	(saveValue): Don't try to preserve values against GC.  Update comments
+	accordingly.
+	(disposeVM): Synchronize, since there seem to be races.
+	(pruneHistory): Ditto.
+	(clearHistory): Ditto.
+	(preserve): Remove.
+	(retrieveHistory): Report when history value is GCed.
+	* src/ucb/gjdb/Env.java	(printReturnValues): New parameter.
+
 	* src/ucb/gjdb/Commands.java (clearPreviousStep): Clean up.
 	(commandStep): Improve comment.
 	(commandMethods): Clean up.
@@ -13,17 +31,20 @@
 	(methodExitEvent): Capture and report return value, if possible.
 	(pendingStepRequests, stepTargetFrameCount): New fields for value
 	capturing.
-	
+
 	* src/ucb/gjdb/Commands.java: Remove potential format insertions 
 	in calls to notice, noticeln, error, errorln.
 	* src/ucb/gjdb/VMConnection.java: Ditto.
 	* src/ucb/gjdb/PatternReferenceTypeSpec.java: Ditto.
 	* src/ucb/gjdb/EventHandler.java: Ditto.
 	* src/ucb/gjdb/Env.java: Ditto.
+	(printReturnValues): 
+
 	* src/ucb/gjdb/EventRequestSpecList.java: Ditto.
 	* src/ucb/gjdb/GJDB.java: Ditto.
 	* src/ucb/gjdb/CommandParser.y: Ditto.
 	
+
 2009-06-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Update NEWS.

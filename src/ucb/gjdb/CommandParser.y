@@ -135,6 +135,10 @@ command:
 		{ evaluator.commandSet ("print", "elements", $4); }
 	| "set" "print" "max-frames" intlit
 		{ evaluator.commandSet ("print", "max-frames", $4); }
+	| "set" "print" "return" "on"
+	  	{ evaluator.commandSet ("print", "return", 1); }
+	| "set" "print" "return" "off"
+	  	{ evaluator.commandSet ("print", "return", 0); }
 	| "set" "stdin" "on"
 		{ evaluator.commandSet ("stdin", "on", 0); }
 	| "set" "stdin" "off"
@@ -599,6 +603,9 @@ static void execute (String src, Commands evaluator, BufferedReader reader,
 	    throw ERROR ("Command is not valid until the program is started or attached");
         } catch (CommandException e) {
 	    throw e;
+	} catch (VMDisconnectedException e) {
+	    Env.shutdown (null);
+	    throw ERROR ("Debugged process has disconnected.");
 	} catch (Exception e) {
 	    throw ERROR ("Unknown error in command: %s", e);
         }

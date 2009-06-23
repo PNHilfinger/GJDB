@@ -286,6 +286,7 @@ CMDSTRCHR = (\\[\"\\]|[^\\\"\n\r])
     "on"		{ return symbol ("on"); }
     "pretty"		{ return symbol ("pretty"); }
     "print"		{ return symbol ("print"); }
+    "return"		{ return symbol ("return"); }
     "stack"		{ return symbol ("stack"); }
     "stdin"		{ return symbol ("stdin"); }
     "threadgroups"	{ return symbol ("threadgroups"); }

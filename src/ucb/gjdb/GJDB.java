@@ -88,6 +88,12 @@ public class GJDB {
           "set maximum number of elements to print from an array to <n>" },
         { "set print max-frames <n>", 
           "set maximum number of frames that 'where' prints to <n>" },
+        { "set print return on",
+          "print values returned by functions that are stepped out of "
+          + "by 'finish' (default)." },
+        { "set print return off",
+          "do not print values returned by functions that are stepped out of." 
+        },
         { "set stdin on", 
           "terminal input goes to debugged process when it "
           + "is not stopped and input is not redirected (default)." },

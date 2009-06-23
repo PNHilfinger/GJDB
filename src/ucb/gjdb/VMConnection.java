@@ -234,7 +234,7 @@ class VMConnection {
         return inputFileName != null;
     }
 
-    public void disposeVM() {
+    public synchronized void disposeVM() {
         clearHistory ();
         activeIOMonitor.done ();
         try {
@@ -254,8 +254,7 @@ class VMConnection {
         }
     }
 
-    /** Add V to the value history, protecting it from reclamation, if 
-     *  possible.  Returns ID of V in the value history. */
+    /** Add V to the value history. Returns ID of V in the value history. */
     int saveValue (Value v) {
         currentValueId += 1;
         saveValue (currentValueId, v);
@@ -263,10 +262,8 @@ class VMConnection {
         return currentValueId;
     }
 
-    /** Save V in the value history under KEY, and attempt to preserve 
-     *  its value against collection. */
+    /** Save V in the value history under KEY. */
     void saveValue (Object key, Value v) {
-        preserve (v, true);
         valueHistory.put (key, v);        
     }
 
@@ -288,6 +285,7 @@ class VMConnection {
         try {
             if (v instanceof ObjectReference 
                 && ((ObjectReference) v).isCollected ()) {
+                Env.noticeln ("$%s was collected.", key);
                 valueHistory.remove (key);
                 return null;
             }
@@ -306,29 +304,12 @@ class VMConnection {
         while (lastClearedValueId <= currentValueId - n) {
             Value v = valueHistory.remove (lastClearedValueId);
             lastClearedValueId += 1;
-            preserve (v, false);
         }
     }
                 
     private void clearHistory () {
-        lastClearedValueId = currentValueId;
-        for (Value v : valueHistory.values ())
-            preserve (v, false);
         valueHistory.clear ();
-    }
-
-    /** If possible, preserve V from garbage collection iff SUPPRESSGC. */
-    private void preserve (Value v, boolean suppressGC) {
-        if (v instanceof ObjectReference) {
-            ObjectReference obj = (ObjectReference) v;
-            try {
-                if (suppressGC) 
-                    obj.disableCollection ();
-                else
-                    obj.enableCollection ();
-            } catch (VMCannotBeModifiedException e) {
-            }
-        }
+        lastClearedValueId = currentValueId;
     }
 
 	/** Enable all requests to be notified of ClassPrepareEvents (normally, 

@@ -53,6 +53,9 @@ class Env {
     static int maxStackFrames = 20;
     /** Maximum number of values to store in value history. */
     static int historyRetention = 10;
+    /** True iff we should print values of functions that return after 
+     *  'finish' command. */
+    static boolean printReturnValues = true;
 
     static void init() {
         String spec;
