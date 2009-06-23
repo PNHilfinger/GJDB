@@ -348,6 +348,16 @@ class VMConnection {
         return vm != null && returnValuesAvailable;
     }
 
+    /** The return value associated with EXITEVENT. */
+    Value returnValue (MethodExitEvent exitEvent) {
+        try {
+            return (Value) returnValueMethod.invoke (exitEvent);
+        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException e) {
+        }
+        return null;
+    }
+
 	/** Enable all permanent event requests.  Currently, we are notified
 	 *  of 
 	 *     1. All uncaught exceptions.

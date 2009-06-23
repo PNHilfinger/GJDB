@@ -589,21 +589,19 @@ class Commands implements EventNotifier {
             Env.errorln("Use 'thread' to choose a thread first.");
             return;
         }
-        clearPreviousStep (ThreadInfo.current.thread);
+        clearPreviousStep ();
         ThreadInfo.current.invalidate ();
         Env.requestInputRelay (true);
         Env.resumeVM ();
     }
 
-    /** Remove any previous step on THREAD that has not completed. */
-    void clearPreviousStep(ThreadReference thread) {
+    /** Remove any event requests for 'step' commands that have not yet 
+     *  completed. */
+    void clearPreviousStep() {
         EventRequestManager mgr = Env.vm().eventRequestManager();
-        for (StepRequest request : mgr.stepRequests ()) {
-            if (request.thread().equals(thread)) {
+        for (EventRequest request : pendingStepRequests)
                 mgr.deleteEventRequest(request);
-                break;
-            }
-        }
+        pendingStepRequests.clear ();
     }
 
     /** Continue the program after setting up a step event request that will
@@ -615,14 +613,30 @@ class Commands implements EventNotifier {
     void commandStep(int stepSize, int depth, int reps) {
 		if (reps < 1)
 			throw ERROR ("Repetition count must be positive.");
-        clearPreviousStep(ThreadInfo.current.thread);
+        clearPreviousStep();
         EventRequestManager reqMgr = Env.vm().eventRequestManager();
+        if (depth == StepRequest.STEP_OUT 
+            && Env.connection ().canGetMethodReturnValues ()) {
+            try {
+                stepTargetFrameCount =
+                    ThreadInfo.current.thread.frameCount ();
+            } catch (IncompatibleThreadStateException e) {
+                Env.errorln ("Thread not stopped.");
+            }
+            MethodExitRequest exit = reqMgr.createMethodExitRequest ();
+            exit.addThreadFilter (ThreadInfo.current.thread);
+            Env.insertExcludes (exit);
+            exit.setSuspendPolicy (exit.SUSPEND_EVENT_THREAD);
+            exit.enable ();
+            pendingStepRequests.add (exit);
+        }
         StepRequest request = 
 			reqMgr.createStepRequest(ThreadInfo.current.thread,
 									 stepSize, depth);
         if (depth != StepRequest.STEP_OUT) {
             Env.insertExcludes(request);
         }
+        pendingStepRequests.add (request);
 
         request.addCountFilter(reps);
         request.enable();
@@ -981,7 +995,7 @@ class Commands implements EventNotifier {
 			(BreakpointSpec) EventRequestSpec.idToSpec 
 			(Env.eventRequestSpecs (BreakpointSpec.EXMPL), id);
 		if (spec == null)
-			throw ERROR ("No such breakpoint: " + id);
+			throw ERROR ("No such breakpoint: %s", id);
 		commandCommand (spec, reader, prompt);
 	}
 
@@ -1980,10 +1994,26 @@ class Commands implements EventNotifier {
     }
 
     public void methodExitEvent(MethodExitEvent me) {
-        Thread.yield();  // fetch output
-		Env.notice ("%nMethod Exited: %s.%s ",
-					me.method ().declaringType ().name (),
-					me.method ().name ());
+        if (pendingStepRequests.contains (me.request ())) {
+            try {
+                if (me.thread ().frameCount () == stepTargetFrameCount) {
+                    Value val = Env.connection ().returnValue (me);
+                    int id = Env.connection ().saveValue (val);
+                    Env.notice ("$%d = ", id);
+                    dump (val, PRINT, ' ', 0, false, 
+                          new HashSet<ObjectReference> ());
+                }
+            } catch (IncompatibleThreadStateException e) {
+                Env.errorln ("Thread not stopped at method exit.");
+            } finally {
+                me.thread ().resume ();
+            }
+        } else {
+            Thread.yield();  // fetch output
+            Env.notice ("%nMethod Exited: %s.%s ",
+                        me.method ().declaringType ().name (),
+                        me.method ().name ());
+        }
         otherEvent(me);
     }
 
@@ -2023,6 +2053,11 @@ class Commands implements EventNotifier {
     /** List of Strings to execute at each stop. */
     private ArrayList<String> monitorCommands = new ArrayList<String>();
 	private int monitorCount = 0;
+
+    /** List of step-related event requests now active. */
+    private ArrayList<EventRequest> pendingStepRequests 
+        = new ArrayList<EventRequest> ();
+    private int stepTargetFrameCount;
 
     EventHandler handler = null;
     BufferedReader input;

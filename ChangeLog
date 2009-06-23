@@ -1,10 +1,18 @@
 2009-06-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
+	* src/ucb/gjdb/VMConnection.java (returnValue): New method.
+	
 	* src/ucb/gjdb/Commands.java (clearPreviousStep): Clean up.
 	(commandStep): Improve comment.
 	(commandMethods): Clean up.
 	(printThreadGroup, commandCommand, commandByteCodes): 
 	StringBuffer => StringBuilder.
+	(clearPreviousStep): Remove thread argument and re-implement.
+	(commandStep): Add return-value capturing machinery.
+	(commandCond): Use printf style in call to ERROR.
+	(methodExitEvent): Capture and report return value, if possible.
+	(pendingStepRequests, stepTargetFrameCount): New fields for value
+	capturing.
 	
 	* src/ucb/gjdb/Commands.java: Remove potential format insertions 
 	in calls to notice, noticeln, error, errorln.
