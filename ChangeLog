@@ -1,3 +1,8 @@
+2009-06-23  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* src/ucb/gjdb/Commands.java (shutdown): Clear the pendingStepRequests
+	so as not to use requests from old vms.
+
 2009-06-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* src/ucb/gjdb/CommandLexer.jf: Add "return" keyword.

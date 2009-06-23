@@ -600,7 +600,7 @@ class Commands implements EventNotifier {
     void clearPreviousStep() {
         EventRequestManager mgr = Env.vm().eventRequestManager();
         for (EventRequest request : pendingStepRequests)
-                mgr.deleteEventRequest(request);
+            mgr.deleteEventRequest(request);
         pendingStepRequests.clear ();
     }
 
@@ -1926,6 +1926,7 @@ class Commands implements EventNotifier {
 	}
 
     void shutdown () {
+        pendingStepRequests.clear ();
         if (handler != null)
             handler.shutdown ();
         handler = null;
