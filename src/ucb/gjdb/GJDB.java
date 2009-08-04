@@ -347,7 +347,7 @@ public class GJDB {
     }
 
     static void usageError(String message, Object... args) {
-        Env.noticeln (String.format (message, args));
+        Env.noticeln (message, args);
         System.err.println();
         usage();
         System.exit(1);

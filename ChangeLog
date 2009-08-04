@@ -1,7 +1,11 @@
+2009-08-03  Paul Hilfinger  <hilfingr@syracuse>
+
+	* Release version 6.2.1.
+	
+	* src/ucb/gjdb/GJDB.java (usageError): Use noticeln properly.
+
 2009-06-23  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
-	* Release version 6.2.0.
-	
 	* src/ucb/gjdb/Commands.java (shutdown): Clear the pendingStepRequests
 	so as not to use requests from old vms.
 
@@ -54,6 +58,8 @@
 
 2009-06-21  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
+	* Release version 6.2.0.
+	
 	* Update NEWS.
 	
 	* src/ucb/gjdb/VMConnection.java: Move value history here:
