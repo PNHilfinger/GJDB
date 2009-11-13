@@ -360,7 +360,9 @@ class VMConnection {
         BufferedInputStream in = new BufferedInputStream (stream);
         byte[] buffer = new byte[DUMPSTREAM_BUFFER_SIZE];
         while (true) {
-            int len = in.read (buffer, 0, buffer.length);
+            int len = in.read (buffer, 0, 
+                               Math.min (buffer.length,
+                                         Math.max (1, in.available ())));
             if (len < 0)
                 break;
             if (monitor != null)

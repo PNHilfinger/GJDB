@@ -1,3 +1,10 @@
+2009-11-13  Paul Hilfinger  <hilfingr@syracuse>
+
+	* Version 6.2.2.
+	
+	* src/ucb/gjdb/VMConnection.java: Try fetching only max available bytes
+	in dumpStream to avoid delaying printing.
+
 2009-08-03  Paul Hilfinger  <hilfingr@syracuse>
 
 	* Release version 6.2.1.
