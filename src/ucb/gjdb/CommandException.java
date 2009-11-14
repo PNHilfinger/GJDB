@@ -35,6 +35,8 @@ class CommandException extends RuntimeException {
 	}
 
 	static CommandException ERROR (String format, Object... args) {
+        if (format == null)
+            return new CommandException ();
 		return new CommandException (String.format (format, args), null);
 	}
 

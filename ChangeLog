@@ -1,7 +1,12 @@
-2009-11-13  Paul Hilfinger  <hilfingr@syracuse>
+2009-11-13  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Version 6.2.2.
 	
+	* src/ucb/gjdb/CommandException.java (CommandException): Add bullet-
+	proofing to exceptionless overloading.
+
+2009-11-13  Paul Hilfinger  <hilfingr@syracuse>
+
 	* src/ucb/gjdb/VMConnection.java: Try fetching only max available bytes
 	in dumpStream to avoid delaying printing.
 
