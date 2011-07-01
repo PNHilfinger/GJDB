@@ -11,9 +11,9 @@ class CommandLineSpec {
 	String cmdArgs;
 	/** Input file, or null if not redirected */
 	String inFile;
-	/** Output file, or null if no redirected */
+	/** Output file, or null if not redirected */
 	String outFile;
-	/** Error file, or null if no redirected */
+	/** Error file, or null if not redirected */
 	String errFile;
 
 	CommandLineSpec () {
@@ -27,9 +27,13 @@ class CommandLineSpec {
 		if (inFile != null)
 			result += " <" + inFile;
 		if (outFile != null && outFile.equals (errFile))
-			result += " <&" + outFile;
-		if (outFile != null) 
-			result += " <" + outFile;
+			result += " >" + outFile + " 2>&1";
+        else {
+            if (outFile != null) 
+                result += " >" + outFile;
+            if (errFile != null)
+                result += " 2>" + errFile;
+        }
 		return result;
 	}
 
