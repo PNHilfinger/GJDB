@@ -24,6 +24,8 @@
 
 * Why does package detection sometimes fail in Emacs?
 
+* Make sure recognition of ~ works for classpath, sourcepath, ....
+
 ---------
 
 CLEAN-UPS
