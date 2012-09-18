@@ -463,6 +463,8 @@ Add local binding [menu-bar debug SYM] with label LABEL bound to COMMAND."
 	  (apply 'make-comint (concat "gud-" class-name) program nil
 		 (gjdb-massage-args nil args))
 	  (gud-mode)
+          (local-set-key "\t" 'comint-dynamic-complete)
+          (local-set-key "\M-?" 'comint-dynamic-list-filename-completions)
 	  (make-local-variable 'gud-marker-filter)
 	  (setq gud-marker-filter 'gjdb-marker-filter)
 	  (make-local-variable 'gud-find-file)
