@@ -26,6 +26,8 @@
 
 * Make sure recognition of ~ works for classpath, sourcepath, ....
 
+* Allow abbreviation of second word in info, ...
+
 ---------
 
 CLEAN-UPS
