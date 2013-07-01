@@ -1,3 +1,8 @@
+2013-07-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Version 6.2.4
+	* lib/emacs/lisp/gjdb.el: Rewrite goto-line use to avoid usage warning.
+
 2012-09-17  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Version 6.2.3

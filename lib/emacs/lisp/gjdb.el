@@ -385,7 +385,8 @@ LINENO."
 	  (progn
 	    (set-buffer (find-file-noselect filename))
 	    (save-excursion 
-	      (goto-line lineno)
+              (goto-char (point-min)) 
+              (forward-line (1- lineno))
 	      (let ((name (gjdb-get-containing-class-name)))
 		(or name default-class
 		    (error "Cannot determine class name"))))))
