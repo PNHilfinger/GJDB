@@ -160,7 +160,7 @@ we're in the GUD buffer)."
 	      (local-set-key [\S-f9] 'gjdb-dump)))
 
 	(local-set-key "\C-x " 'gjdb-break)
-	(mapc '(lambda (x) 
+	(mapc #'(lambda (x) 
 		(local-set-key (concat gud-key-prefix (car x)) (cadr x)))
 	      '(("\C-b" gjdb-break) ("\C-d" gjdb-remove) 
 		("\C-p" gjdb-print)
