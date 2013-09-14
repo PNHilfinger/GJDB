@@ -1,3 +1,9 @@
+2013-09-14  Paul Hilfinger  <hilfingr@syracuse.mckusick.com>
+
+	* Version 6.2.5
+	* configure (apphome): Try to find apphome from Java itself by
+	default.
+
 2013-07-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Version 6.2.4

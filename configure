@@ -78,17 +78,8 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -z "$apphome" ]; then
-    if [ "$arch" = Darwin ]; then
-        apphome="/System/Library/Frameworks/JavaVM.framework/Home"
-    else
-        for dir in `echo $PATH | sed 's/:/ /g'`; do
-	    if [ -x "$dir/javac" ]; then
-	        realdir="`cd $dir; pwd`";
-	        apphome="`dirname $realdir`";
-	        break
-	    fi
-        done
-    fi
+    javac -d . $srcdir/Javahome.java
+    apphome="$(dirname $(java Javahome))"
 fi
 
 if [ -z "$apphome" -o ! -x "$apphome/bin/java" ]; then
