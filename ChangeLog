@@ -1,8 +1,13 @@
+2013-09-15  Paul Hilfinger  <hilfingr@login.EECS.Berkeley.EDU>
+
+	* configure: More on revision of apphome finding.
+
 2013-09-14  Paul Hilfinger  <hilfingr@syracuse.mckusick.com>
 
 	* Version 6.2.5
 	* configure (apphome): Try to find apphome from Java itself by
 	default.
+	* Javahome.java: New file.
 
 2013-07-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
