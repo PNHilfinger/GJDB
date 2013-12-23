@@ -388,7 +388,7 @@ run_args:
 
 /* Assumes $0 is a CommandLineSpec accumulating results. */
 file_specs:
-	  file_spec			
+	  file_spec	        { $$ = $<CommandLineSpec>0; }
 	| file_specs file_spec  { $$ = $1; }
 	;
 

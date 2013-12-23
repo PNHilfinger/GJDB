@@ -1,3 +1,9 @@
+2013-12-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Version 6.2.6
+	* src/ucb/gjdb/CommandParser.y (file_specs): Correct error with
+	redirection in run command.
+
 2013-09-15  Paul Hilfinger  <hilfingr@login.EECS.Berkeley.EDU>
 
 	* configure: More on revision of apphome finding.
