@@ -34,9 +34,9 @@ class EventRequestSpecList {
     /** The currently listed EventRequestSpec that resolves to REQUEST,
      *  or null if none. */
     EventRequestSpec getRequestSpec (EventRequest request) {
-		for (EventRequestSpec spec : eventRequestSpecs)
+        for (EventRequestSpec spec : eventRequestSpecs)
             if (request == spec.resolved ())
-				return spec;
+                return spec;
         return null;
     }
 
@@ -53,8 +53,8 @@ class EventRequestSpecList {
      */
     boolean resolve(ClassPrepareEvent event) {
         boolean failure, allResolved;
-		failure = false;
-		allResolved = true;
+        failure = false;
+        allResolved = true;
         synchronized(eventRequestSpecs) {
             Iterator<EventRequestSpec> iter = eventRequestSpecs.iterator();
             while (iter.hasNext()) {
@@ -63,8 +63,8 @@ class EventRequestSpecList {
                     try {
                         EventRequest eventRequest = spec.resolve(event);
                         if (eventRequest == null)
-							allResolved = false;
-						else
+                            allResolved = false;
+                        else
                             Env.noticeln("Set %s", spec);
                     } catch (Exception e) {
                         Env.errorln("Unable to set deferred %s: %s", spec,
@@ -76,38 +76,38 @@ class EventRequestSpecList {
                 }
             }
         }
-		if (allResolved)
-			Env.setClassPrepareEnabled (false);
+        if (allResolved)
+            Env.setClassPrepareEnabled (false);
         return !failure;
     }
 
     void resolveAll() {
-		boolean allResolved;
-		allResolved = true;
+        boolean allResolved;
+        allResolved = true;
         for (EventRequestSpec spec : eventRequestSpecs) {
             try {
                 EventRequest eventRequest = spec.resolveEagerly();
                 if (eventRequest == null)
-					allResolved = false;
-				else
+                    allResolved = false;
+                else
                     Env.noticeln("Set %s", spec);
             } catch (Exception e) {
-				allResolved = false;
+                allResolved = false;
             }
         }
-		if (allResolved)
-			Env.setClassPrepareEnabled (false);
+        if (allResolved)
+            Env.setClassPrepareEnabled (false);
     }
 
     void unresolveAll () {
-		Env.setClassPrepareEnabled (true);
+        Env.setClassPrepareEnabled (true);
         for (EventRequestSpec spec : eventRequestSpecs)
             spec.unresolve ();
     }
     
     void removeTransients () {
         for (Iterator<EventRequestSpec> iter = eventRequestSpecs.iterator();
-			 iter.hasNext(); ) {
+             iter.hasNext(); ) {
             EventRequestSpec spec = iter.next ();
             if (spec.isTransient ()) {
                 iter.remove ();
@@ -119,7 +119,7 @@ class EventRequestSpecList {
     boolean addEagerlyResolve(EventRequestSpec spec) {
         try {
             eventRequestSpecs.add(spec);
-			Env.setClassPrepareEnabled (true);
+            Env.setClassPrepareEnabled (true);
             EventRequest eventRequest = spec.resolveEagerly();
             if (eventRequest != null) {
                 Env.noticeln("Set %s", spec);
@@ -135,7 +135,7 @@ class EventRequestSpecList {
 
     void add(EventRequestSpec spec) {
         eventRequestSpecs.add(spec);
-		Env.setClassPrepareEnabled (true);
+        Env.setClassPrepareEnabled (true);
     }        
         
     EventRequestSpec createBreakpoint(String classPattern, 
@@ -207,16 +207,16 @@ class EventRequestSpecList {
 
     /** A list of all current event request specifications with the same
      *  type as EXEMPLAR (or all requests, if EXEMPLAR is null).
-	 *  The resulting list is new, and does not change with modifications
-	 *  to the set of requests. */
+     *  The resulting list is new, and does not change with modifications
+     *  to the set of requests. */
     List<EventRequestSpec> eventRequestSpecs(EventRequestSpec exemplar) {
         synchronized (eventRequestSpecs) {
-			if (exemplar == null)
-				return new ArrayList<EventRequestSpec> (eventRequestSpecs);
-			Class<?> type = exemplar.getClass ();
-			List<EventRequestSpec> result = 
-				new ArrayList<EventRequestSpec> (eventRequestSpecs.size ());
-			for (EventRequestSpec spec : eventRequestSpecs) {
+            if (exemplar == null)
+                return new ArrayList<EventRequestSpec> (eventRequestSpecs);
+            Class<?> type = exemplar.getClass ();
+            List<EventRequestSpec> result = 
+                new ArrayList<EventRequestSpec> (eventRequestSpecs.size ());
+            for (EventRequestSpec spec : eventRequestSpecs) {
                 if (type.isInstance (spec))
                     result.add (spec);
             }

@@ -47,8 +47,8 @@ abstract class EventRequestSpec {
      * return null.
      */
     synchronized EventRequest resolve (ClassPrepareEvent event) 
-		throws Exception
-	{
+        throws Exception
+    {
         if (resolved == null && refSpec.matches (event.referenceType ()))
             resolved = resolveEventRequest (event.referenceType ());
         return resolved;
@@ -85,34 +85,34 @@ abstract class EventRequestSpec {
         return resolved;
     }
 
-	private static final Object COUNT_MARKER = "gjdb.Counted";
+    private static final Object COUNT_MARKER = "gjdb.Counted";
 	
-	/** Set the count filter on the event request to which THIS currently
-	 *  resolves (if any) to COUNT+1, or remove the count filter if COUNT<0.
-	 *  When an existing count filter must be removed or modified, re-resolves
-	 *  THIS. */
-	void resetCount (int count) {
-		EventRequest req;
-		req = resolved ();
-		if (req == null)
-			return;
-		if (req.getProperty (COUNT_MARKER) != null) {
-			req.disable ();
-			unresolve ();
-			try {
-				req = resolveEagerly ();
-			} catch (Exception e) {
-				Env.noticeln ("Problem resetting stop request #%d.", id);
-				return;
-			}
-		}
-		if (count >= 0) {
-			req.disable ();
-			req.addCountFilter (count + 1);
-			req.putProperty (COUNT_MARKER, Boolean.TRUE);
-			req.enable ();
-		}
-	}
+    /** Set the count filter on the event request to which THIS currently
+     *  resolves (if any) to COUNT+1, or remove the count filter if COUNT<0.
+     *  When an existing count filter must be removed or modified, re-resolves
+     *  THIS. */
+    void resetCount (int count) {
+        EventRequest req;
+        req = resolved ();
+        if (req == null)
+            return;
+        if (req.getProperty (COUNT_MARKER) != null) {
+            req.disable ();
+            unresolve ();
+            try {
+                req = resolveEagerly ();
+            } catch (Exception e) {
+                Env.noticeln ("Problem resetting stop request #%d.", id);
+                return;
+            }
+        }
+        if (count >= 0) {
+            req.disable ();
+            req.addCountFilter (count + 1);
+            req.putProperty (COUNT_MARKER, Boolean.TRUE);
+            req.enable ();
+        }
+    }
 
     /**
      * @return the eventRequest this spec has been resolved to,

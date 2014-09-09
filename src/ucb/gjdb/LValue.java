@@ -32,10 +32,10 @@ abstract class LValue {
             setValue0(value);
         } catch (InvalidTypeException exc) {
             throw ERROR("Attempt to set value of incorrect type: %s",
-				  excpMessage (exc));
+                        excpMessage (exc));
         } catch (ClassNotLoadedException exc) {
             throw ERROR("Attempt to set value before %s was loaded: %s",
-				  exc.className(), exc);
+                        exc.className(), exc);
         }
     }        
 
@@ -84,13 +84,13 @@ abstract class LValue {
             value = getValue();
         } catch (InvocationException e) {
             throw ERROR("Unable to complete expression. Exception %s thrown",
-				  e.exception());
+                        e.exception());
         } catch (IncompatibleThreadStateException itse) {
             throw ERROR("Unable to complete expression. Thread "
-				  + "not suspended for method invoke");
+                        + "not suspended for method invoke");
         } catch (ClassNotLoadedException tnle) {
             throw ERROR("Unable to complete expression. Method argument "
-                  + "type %s not yet loaded", tnle.className());
+                        + "type %s not yet loaded", tnle.className());
         }
         return value;
     }
@@ -110,7 +110,7 @@ abstract class LValue {
     }
 
     public String toString() {
-		return toString (' ');
+        return toString (' ');
     }
 
     private static String formattedInt (long v, char format) {
@@ -124,101 +124,101 @@ abstract class LValue {
                 return "0" + Long.toOctalString (v);
         case 'b':
             return Long.toBinaryString (v) + "B";
-		case 'c': case 's':
-			return formattedChar ((char) v, 'c');
+        case 'c': case 's':
+            return formattedChar ((char) v, 'c');
         default:
             return Long.toString (v);
         }
     }
 
-	/** Printed version of S according to FORMAT.  A FORMAT of 's' indicates
-	 *  a string literal, with quotes and escapes.  A FORMAT of 'r' indicates
-	 *  a raw string, with no quotes and all characters rendered literally.
-	 *  All other formats yield a raw, quoted string. */
-	static String formattedString (String S, char format) {
-		switch (format) {
-		case 'r':
-			return S;
-		case 's': {
-			StringBuilder R = new StringBuilder ("\"");
-			for (int i = 0; i < S.length (); i += 1) {
-				char c = S.charAt (i);
-				switch (c) {
-				case '\b':
-					R.append ("\\n");
-					break;
-				case '\f':
-					R.append ("\\f");
-					break;
-				case '\n':
-					R.append ("\\n");
-					break;
-				case '\r':
-					R.append ("\\r");
-					break;
-				case '\t':
-					R.append ("\\t");
-					break;
-				case '"': case '\\': 
-					R.append ("\\"); R.append (c);
-					break;
-				default:
-					if (c >= ' ' && c <= '~')
-						R.append (c);
-					else if (c <= '\377')
-						R.append (String.format ("\\%03o", (int) c));
-					else
-						R.append (String.format ("\\u%04x", (int) c));
-					break;
-				}
-			}
-			R.append ("\"");
-			return R.toString ();
-		}
-		default:
-			return "\"" + S + "\"";
-		}
-	}
+    /** Printed version of S according to FORMAT.  A FORMAT of 's' indicates
+     *  a string literal, with quotes and escapes.  A FORMAT of 'r' indicates
+     *  a raw string, with no quotes and all characters rendered literally.
+     *  All other formats yield a raw, quoted string. */
+    static String formattedString (String S, char format) {
+        switch (format) {
+        case 'r':
+            return S;
+        case 's': {
+            StringBuilder R = new StringBuilder ("\"");
+            for (int i = 0; i < S.length (); i += 1) {
+                char c = S.charAt (i);
+                switch (c) {
+                case '\b':
+                    R.append ("\\n");
+                    break;
+                case '\f':
+                    R.append ("\\f");
+                    break;
+                case '\n':
+                    R.append ("\\n");
+                    break;
+                case '\r':
+                    R.append ("\\r");
+                    break;
+                case '\t':
+                    R.append ("\\t");
+                    break;
+                case '"': case '\\': 
+                    R.append ("\\"); R.append (c);
+                    break;
+                default:
+                    if (c >= ' ' && c <= '~')
+                        R.append (c);
+                    else if (c <= '\377')
+                        R.append (String.format ("\\%03o", (int) c));
+                    else
+                        R.append (String.format ("\\u%04x", (int) c));
+                    break;
+                }
+            }
+            R.append ("\"");
+            return R.toString ();
+        }
+        default:
+            return "\"" + S + "\"";
+        }
+    }
 
-	/** Printed version of C according to FORMAT.  A FORMAT of 's' or 'c'
-	 *  indicates character literal, with quotes and escapes.  A FORMAT of 'r'
-	 *  indicates a raw character, with no quotes, rendered literally.
-	 *  All other formats yield a raw, quoted character literal. */
-	static String formattedChar (char c, char format) {
-		switch (format) {
-		case 'r':
-			return String.format ("%c", c);
-		case 'x': case 'X': case 'o': case 'O': case 'b':
-			return formattedInt (c, format);
-		case 's': case 'c': {
-			switch (c) {
-			case '\b':
-				return "'\\n'";
-			case '\f':
-				return "'\\f'";
-			case '\n':
-				return "'\\n'";
-			case '\r':
-				return "'\\r'";
-			case '\t':
-				return "'\\t'";
-			case '\'': 
-				return "'\\'";
-			case '\\':
-				return "'\\\\'";
-			default:
-				if (c >= ' ' && c <= '~')
-					return String.format ("'%c'", c);
-				else if (c <= '\377')
-					return String.format ("'\\%03o'", (int) c);
-				else
-					return String.format ("\\u%04x", (int) c);
-			}
-		}
-		default:
-			return String.format ("'%c'", c);
-		}
-	}
+    /** Printed version of C according to FORMAT.  A FORMAT of 's' or 'c'
+     *  indicates character literal, with quotes and escapes.  A FORMAT of 'r'
+     *  indicates a raw character, with no quotes, rendered literally.
+     *  All other formats yield a raw, quoted character literal. */
+    static String formattedChar (char c, char format) {
+        switch (format) {
+        case 'r':
+            return String.format ("%c", c);
+        case 'x': case 'X': case 'o': case 'O': case 'b':
+            return formattedInt (c, format);
+        case 's': case 'c': {
+            switch (c) {
+            case '\b':
+                return "'\\n'";
+            case '\f':
+                return "'\\f'";
+            case '\n':
+                return "'\\n'";
+            case '\r':
+                return "'\\r'";
+            case '\t':
+                return "'\\t'";
+            case '\'': 
+                return "'\\'";
+            case '\\':
+                return "'\\\\'";
+            default:
+                if (c >= ' ' && c <= '~')
+                    return String.format ("'%c'", c);
+                else if (c <= '\377')
+                    return String.format ("'\\%03o'", (int) c);
+                else
+                    return String.format ("\\u%04x", (int) c);
+            }
+        }
+        default:
+            return String.format ("'%c'", c);
+        }
+    }
 
     public static String toString (Value v, char format) {
         if (v == null)
@@ -230,10 +230,10 @@ abstract class LValue {
                  || v instanceof ShortValue 
                  || v instanceof ByteValue)
             return formattedInt (((PrimitiveValue) v).intValue (), format);
-		else if (v instanceof CharValue)
-			return formattedChar (((PrimitiveValue) v).charValue (), format);
-		else if (v instanceof StringReference)
-			return formattedString (((StringReference) v).value (), format);
+        else if (v instanceof CharValue)
+            return formattedChar (((PrimitiveValue) v).charValue (), format);
+        else if (v instanceof StringReference)
+            return formattedString (((StringReference) v).value (), format);
         else
             return v.toString ();
     }
@@ -407,7 +407,7 @@ abstract class LValue {
                                              INSTANCE | STATIC);
             if ((matchingField == null) && overloads.size() == 0) {
                 throw ERROR("No instance field or method with the name %s in %s",
-					  memberName, refType.name());
+                            memberName, refType.name());
             }
         }
         
@@ -431,7 +431,7 @@ abstract class LValue {
                                              INSTANCE | STATIC);
             if ((matchingField == null) && overloads.size() == 0) {
                 throw ERROR("No instance field or method with the name %s in %s",
-					  memberName, refType.name());
+                            memberName, refType.name());
             }
         }
         
@@ -483,7 +483,7 @@ abstract class LValue {
             overloads = LValue.methodsByName(refType, memberName, STATIC);
             if ((matchingField == null) && overloads.size() == 0) {
                 throw ERROR("No static field or method with the name %s in %s",
-					  memberName, refType.name());
+                            memberName, refType.name());
             }
         }
         
@@ -967,20 +967,19 @@ abstract class LValue {
     private static LValue nFields(LValue lval, 
                                   String[] ids, int k,
                                   ThreadReference thread) {
-		for (; k < ids.length; k += 1)
-			lval = lval.memberLValue (ids[k], thread);
-		return lval;
+        for (; k < ids.length; k += 1)
+            lval = lval.memberLValue (ids[k], thread);
+        return lval;
     }
 
     static LValue makeName(VirtualMachine vm, 
                            GetFrame frameGetter, 
                            String name) {
-		
-		String[] ids = name.trim ().split ("\\.");
-		int k;
+        String[] ids = name.trim ().split ("\\.");
+        int k;
 
         String first = ids[0];
-		k = 1;
+        k = 1;
         if (frameGetter != null) {
             try {
                 StackFrame frame = frameGetter.get();
@@ -1027,7 +1026,7 @@ abstract class LValue {
                 /* check for class name */
                 boolean qualified;
                 qualified = false;
-				while (k < ids.length) {
+                while (k < ids.length) {
                     List<ReferenceType> classes;
                     classes = vm.classesByName(first);
                     if (classes.size () == 0 && !qualified)
@@ -1040,7 +1039,7 @@ abstract class LValue {
                             try {
                                 LValue lval = 
                                     new LValueStaticMember(refType, ids[k],
-														   thread);
+                                                           thread);
                                 return nFields(lval, ids, k+1, thread);
                             } catch (CommandException exc) {
                             }
@@ -1051,7 +1050,7 @@ abstract class LValue {
                         qualified = true;
                         first += '.' + ids[k];
                     }
-					k += 1;
+                    k += 1;
                 }
             } catch (IncompatibleThreadStateException exc) {
                 throw ERROR("Thread not suspended");
@@ -1251,10 +1250,10 @@ abstract class LValue {
                 throw ERROR("Invalid operation '%s' on an int", op);
             }
             return make(vm, res);
-		}
+        }
     }
 
-	static LValue operation(VirtualMachine vm, String op, 
+    static LValue operation(VirtualMachine vm, String op, 
                             LValue leftL, 
                             LValue rightL) {
         return operation (vm, op, leftL, rightL, null);

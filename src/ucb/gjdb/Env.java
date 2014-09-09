@@ -33,12 +33,12 @@ class Env {
     private static final int SOURCE_CACHE_SIZE = 5;
     private static List sourceCache = new LinkedList();
 
-	static boolean annotate;
+    static boolean annotate;
     static String connectSpec;
     static String classPath;
     static String javaArgs;
     static String cmdClass;
-	static CommandLineSpec commandLine = new CommandLineSpec ();
+    static CommandLineSpec commandLine = new CommandLineSpec ();
     static int traceFlags;
     private static boolean relayInput;
     static String promptPrefix;
@@ -59,15 +59,15 @@ class Env {
 
     static void init() {
         String spec;
-		spec = connectSpec;
+        spec = connectSpec;
         if (!(javaArgs+classPath).equals ("")
-			&& connectSpec.startsWith ("com.sun.jdi.CommandLineLaunch:")) 
-			{
-				spec += "options=" + javaArgs;
-				if (!javaArgs.equals ("") && !classPath.equals (""))
-					spec += " ";
-				spec += classPath + ",";
-			}
+            && connectSpec.startsWith ("com.sun.jdi.CommandLineLaunch:")) 
+            {
+                spec += "options=" + javaArgs;
+                if (!javaArgs.equals ("") && !classPath.equals (""))
+                    spec += " ";
+                spec += classPath + ",";
+            }
         connection = new VMConnection(spec, cmdClass, commandLine, traceFlags);
         specList.unresolveAll ();
         specList.removeTransients ();
@@ -80,12 +80,12 @@ class Env {
             && relayInput && ! noStdin;
     }
 
-	static void requestInputRelay (boolean which) {
-		if (connection != null && connection.allowsIO ())
-			relayInput = which;
-		else
-			relayInput = false;
-	}
+    static void requestInputRelay (boolean which) {
+        if (connection != null && connection.allowsIO ())
+            relayInput = which;
+        else
+            relayInput = false;
+    }
 
     static VMConnection connection() {
         return connection;
@@ -102,10 +102,10 @@ class Env {
             return connection.vm();
     }
 
-	static void setClassPrepareEnabled (boolean val) {
-		if (isConnected ())
-			connection.setClassPrepareEnabled (val);
-	}
+    static void setClassPrepareEnabled (boolean val) {
+        if (isConnected ())
+            connection.setClassPrepareEnabled (val);
+    }
 
     /** Resume all VM threads. */
     static void resumeVM () {
@@ -153,7 +153,7 @@ class Env {
 
     static void errorln(String msg, Object... args) {
         System.err.printf (String.format (msg, args));
-		System.err.println ();
+        System.err.println ();
     }
 
     static void notice(String msg, Object... args) {
@@ -162,7 +162,7 @@ class Env {
 
     static void noticeln(String msg, Object... args) {
         System.out.printf (msg, args);
-		System.out.println ();
+        System.out.println ();
     }
 
     static void noticeln() {
@@ -224,13 +224,13 @@ class Env {
     }
 
     static void setExcludes(List<String> L) {
-		excludes.clear ();
+        excludes.clear ();
         excludes.addAll (L);
     }
 
-	private static final List<String> standardExcludes =
-		Arrays.asList 
-		  (new String[] { "java.*", "javax.*", "sun.*", "com.sun.*" });
+    private static final List<String> standardExcludes =
+        Arrays.asList 
+        (new String[] { "java.*", "javax.*", "sun.*", "com.sun.*" });
 
     static void setStandardExcludes () {
         setExcludes(standardExcludes);

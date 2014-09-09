@@ -27,7 +27,7 @@ public class EventHandler implements Runnable {
     private boolean vmDied;
 
     static <T extends EventRequest> void setEnables (List<T> events, 
-													 boolean state) {
+                                                     boolean state) {
         for (EventRequest event : events)
             event.setEnabled (state);
     }
@@ -46,26 +46,26 @@ public class EventHandler implements Runnable {
 
     EventHandler (EventNotifier notifier, boolean stopOnVMStart) {
         this.notifier = notifier;
-		this.connected = true;
-		this.completed = false;
-		this.vmDied = false;
+        this.connected = true;
+        this.completed = false;
+        this.vmDied = false;
         this.stopOnVMStart = stopOnVMStart;
         this.thread = new Thread (this, "event-handler"); 
         this.thread.start ();
     }
 
-	/** Disconnect and terminate event-handling thread. */
+    /** Disconnect and terminate event-handling thread. */
     synchronized void shutdown () {
         connected = false;
         thread.interrupt ();
         while (!completed) {
             try {
-				wait ();
-			} catch (InterruptedException exc) {}
+                wait ();
+            } catch (InterruptedException exc) {}
         }
     }
 
-	/** Handle events until disconnected. */
+    /** Handle events until disconnected. */
     public void run () { 
         EventQueue queue = Env.vm ().eventQueue ();
         while (connected) {
@@ -84,19 +84,19 @@ public class EventHandler implements Runnable {
                 boolean resumeStoppedApp;
                 resumeStoppedApp = true;
 
-				ArrayList<EventRequestSpec> specs =
-						new ArrayList<EventRequestSpec> ();
+                ArrayList<EventRequestSpec> specs =
+                    new ArrayList<EventRequestSpec> ();
                 for (Event event : eventSet) {
-					EventRequestSpec spec = Env.specList.getRequestSpec (event);
-					if (spec != null)
-						specs.add (spec);
+                    EventRequestSpec spec = Env.specList.getRequestSpec (event);
+                    if (spec != null)
+                        specs.add (spec);
                     resumeStoppedApp &= !handleEvent (event);
-				}
+                }
 
                 if (resumeStoppedApp) {
                     eventSet.resume ();
                 } else if (eventSet.suspendPolicy ()
-						   == EventRequest.SUSPEND_ALL) {
+                           == EventRequest.SUSPEND_ALL) {
                     setCurrentThread (eventSet);
                     notifier.vmInterrupted (eventSet, specs);
                 }
@@ -113,8 +113,8 @@ public class EventHandler implements Runnable {
         }
     }
 
-	/** Dispatch to appropriate notification routine, depending on type of 
-	 *  EVENT. */
+    /** Dispatch to appropriate notification routine, depending on type of 
+     *  EVENT. */
     private boolean handleEvent (Event event) {
         if (event instanceof ExceptionEvent) {
             return exceptionEvent (event);
@@ -154,14 +154,14 @@ public class EventHandler implements Runnable {
         }
     }
 
-	/**
-	 *  Flush the event queue, dealing only with exit events (VMDeath, 
-	 *  VMDisconnect). */
+    /**
+     *  Flush the event queue, dealing only with exit events (VMDeath, 
+     *  VMDisconnect). */
     synchronized void handleDisconnectedException () {
         EventQueue queue = Env.vm ().eventQueue ();
         while (connected) {
             try {
-				for (Event event : queue.remove ())
+                for (Event event : queue.remove ())
                     handleExitEvent (event);
             } catch (InterruptedException exc) {
             } catch (VMDisconnectedException e) {
@@ -170,7 +170,7 @@ public class EventHandler implements Runnable {
         }
     }
 
-	/** The thread, if any, associated with EVENT, or null if there is none. */
+    /** The thread, if any, associated with EVENT, or null if there is none. */
     private ThreadReference eventThread (Event event) {
         if (event instanceof ClassPrepareEvent) {
             return ((ClassPrepareEvent) event).thread ();
@@ -187,39 +187,39 @@ public class EventHandler implements Runnable {
         }
     }
 
-	/** If any event in SET has an associated thread, make one the current 
-	 *  thread. */
+    /** If any event in SET has an associated thread, make one the current 
+     *  thread. */
     private void setCurrentThread (EventSet set) {
         ThreadReference thread;
-		thread = null;
-		for (Event event : set) {
-			thread = eventThread (event);
-			if (thread != null)
-				break;
-		}
+        thread = null;
+        for (Event event : set) {
+            thread = eventThread (event);
+            if (thread != null)
+                break;
+        }
         setCurrentThread (thread);
     }
 
-	/** Set the debugger's current thread to THREAD. */
+    /** Set the debugger's current thread to THREAD. */
     private void setCurrentThread (ThreadReference thread) {
         ThreadInfo.invalidateAll ();
         ThreadInfo.setCurrentThread (thread); 
     }
 
-	/** Notify of VM starting.   Returns true iff should halt. */
+    /** Notify of VM starting.   Returns true iff should halt. */
     private boolean vmStartEvent (Event event)  {
         notifier.vmStartEvent ((VMStartEvent) event);
         return stopOnVMStart;
     }
 
-	/** Notify of breakpoint and return true if EVENT represents an 
-	 *  active breakpoint whose condition is satisfied. Otherwise, returns 
-	 *  false. */
+    /** Notify of breakpoint and return true if EVENT represents an 
+     *  active breakpoint whose condition is satisfied. Otherwise, returns 
+     *  false. */
     private boolean breakpointEvent (Event event)  {
         BreakpointSpec spec = 
             (BreakpointSpec) Env.specList.getRequestSpec (event);
-		if (spec != null)
-			spec.resetCount (-1);
+        if (spec != null)
+            spec.resetCount (-1);
         BreakpointEvent be = (BreakpointEvent) event;
         if (spec == null || spec.conditionSatisfied (be)) {
             notifier.breakpointEvent (be);
@@ -228,26 +228,26 @@ public class EventHandler implements Runnable {
             return false;
     }
 
-	/** Notify of method entry indicated by EVENT.  Always returns true. */
+    /** Notify of method entry indicated by EVENT.  Always returns true. */
     private boolean methodEntryEvent (Event event)  {
         notifier.methodEntryEvent ((MethodEntryEvent) event);
         return true;
     }
 
-	/** Notify of method exit indicated by EVENT. Always returns true. */
+    /** Notify of method exit indicated by EVENT. Always returns true. */
     private boolean methodExitEvent (Event event)  {
         notifier.methodExitEvent ((MethodExitEvent) event);
         return true;
     }
 
-	/** If EVENT indicates a requested watchpoint, notify of event and
-	 *  return true.  Else return false. */
+    /** If EVENT indicates a requested watchpoint, notify of event and
+     *  return true.  Else return false. */
     private boolean fieldWatchEvent (Event event)  {
         WatchpointEvent fwe = (WatchpointEvent) event;
         WatchpointSpec spec = 
             (WatchpointSpec) Env.specList.getRequestSpec (event);
-		if (spec != null)
-			spec.resetCount (-1);
+        if (spec != null)
+            spec.resetCount (-1);
         if (spec == null || spec.rightObject (fwe)) {
             notifier.fieldWatchEvent (fwe);
             return true;
@@ -255,15 +255,15 @@ public class EventHandler implements Runnable {
             return false;
     }
 
-	/** Notify of step event and return true. */
+    /** Notify of step event and return true. */
     private boolean stepEvent (Event event)  {
-		notifier.stepEvent ((StepEvent) event);
+        notifier.stepEvent ((StepEvent) event);
         return true;
     }
 
-	/** Resolve any unresolved breakpoint requests that can be as a result
-	 *  of the introduction of the class indicated by EVENT.  Returns true
-	 *  iff a breakpoint error results. */
+    /** Resolve any unresolved breakpoint requests that can be as a result
+     *  of the introduction of the class indicated by EVENT.  Returns true
+     *  iff a breakpoint error results. */
     private boolean classPrepareEvent (Event event)  {
         if (!Env.specList.resolve ((ClassPrepareEvent) event)) {
             Env.errorln ("\nStopping due to deferred breakpoint errors.\n");
@@ -274,18 +274,18 @@ public class EventHandler implements Runnable {
         }
     }
 
-	/** Notify of exception indicated by EVENT and return true. */
+    /** Notify of exception indicated by EVENT and return true. */
     private boolean exceptionEvent (Event event) {
         ExceptionEvent ee = (ExceptionEvent) event;
         EventRequestSpec spec = Env.specList.getRequestSpec (event);
-		if (spec != null)
-			spec.resetCount (-1);
+        if (spec != null)
+            spec.resetCount (-1);
         notifier.exceptionEvent (ee);
         return true;
     }
 
-	/** Clear current thread if EVENT indicates it has just died and 
-	 *  notify user if so.  Returns false. */
+    /** Clear current thread if EVENT indicates it has just died and 
+     *  notify user if so.  Returns false. */
     private boolean threadDeathEvent (Event event) {
         ThreadReference thread = ((ThreadDeathEvent) event).thread ();
         if (ThreadInfo.current != null && 
@@ -308,13 +308,13 @@ public class EventHandler implements Runnable {
     }
 
 	
-	/** Notify user that application has exited.  Returns false. */
+    /** Notify user that application has exited.  Returns false. */
     public boolean vmDeathEvent (Event event) {
         shutdownMessage = "\nThe application exited";
         return false;
     }
 
-	/** Notify user that application has been disconnected.  Returns false. */
+    /** Notify user that application has been disconnected.  Returns false. */
     public boolean vmDisconnectEvent (Event event) {
         shutdownMessage = "\nThe application has been disconnected";
         return false;

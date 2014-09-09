@@ -15,14 +15,14 @@ import java.util.regex.*;
 class PatternReferenceTypeSpec implements ReferenceTypeSpec {
     final String classId, transClassId;
     boolean anonymous;
-	boolean checkJavaLang;
+    boolean checkJavaLang;
     String stem;
     static final Pattern 
         ANONYMOUS_TAIL = Pattern.compile ("[.$]\\d+$"),
         ANONYMOUS_SEGMENT = Pattern.compile ("^\\d+$");
 
     PatternReferenceTypeSpec(String classId, boolean checkJavaLang) 
-	  throws ClassNotFoundException {
+        throws ClassNotFoundException {
         if (classId.endsWith (".0")) {
             classId = classId.substring (0, classId.length () - 2);
             anonymous = true;
@@ -33,18 +33,18 @@ class PatternReferenceTypeSpec implements ReferenceTypeSpec {
         stem = transClassId = classId.replace ('$', '.');
         if (classId.startsWith("*")) {
             stem = stem.substring(1);
-			checkJavaLang = false;
+            checkJavaLang = false;
         } else if (classId.endsWith("*")) {
             stem = stem.substring(0, classId.length() - 1);
-			checkJavaLang = false;
+            checkJavaLang = false;
         }
         checkClassName(stem);
-		this.checkJavaLang = checkJavaLang && stem.indexOf ('.') == -1;
+        this.checkJavaLang = checkJavaLang && stem.indexOf ('.') == -1;
     }
 
     PatternReferenceTypeSpec(String classId) throws ClassNotFoundException {
-		this (classId, false);
-	}
+        this (classId, false);
+    }
 
     /**
      * Does the specified ReferenceType match this spec.
@@ -64,9 +64,9 @@ class PatternReferenceTypeSpec implements ReferenceTypeSpec {
             return compName.endsWith(stem);
         } else if (classId.endsWith("*")) {
             return compName.startsWith(stem);
-		} else if (checkJavaLang && compName.startsWith ("java.lang.")
-				   && compName.substring (10).equals (stem)) {
-			return true;
+        } else if (checkJavaLang && compName.startsWith ("java.lang.")
+                   && compName.substring (10).equals (stem)) {
+            return true;
         } else {
             return compName.equals(transClassId);
         }

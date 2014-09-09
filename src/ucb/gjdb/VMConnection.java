@@ -50,7 +50,7 @@ class VMConnection {
     private final Map connectorArgs;
     private final String inputFileName, outputFileName, errorFileName;
     private final int traceFlags;
-	private final boolean IOFromDebuggerPossible;
+    private final boolean IOFromDebuggerPossible;
 
     synchronized void notifyOutputComplete() {
         outputCompleteCount += 1;
@@ -61,14 +61,14 @@ class VMConnection {
         activeIOMonitor.waitForQuiet ();
     }
 
-	/** Wait for stdout and stderr streams from debugged process to be 
-	 *  closed. */
+    /** Wait for stdout and stderr streams from debugged process to be 
+     *  closed. */
     synchronized void waitOutputComplete() {
         if (process != null) {
             while (outputCompleteCount < 2) {
                 try {
-					wait();
-				} catch (InterruptedException e) {}
+                    wait();
+                } catch (InterruptedException e) {}
             }
         }
     }
@@ -110,7 +110,7 @@ class VMConnection {
     }
 
     VMConnection(String connectSpec, String cmdClass, 
-				 CommandLineSpec cmdLine, int traceFlags) {
+                 CommandLineSpec cmdLine, int traceFlags) {
         String nameString;
         String argString;
         int index = connectSpec.indexOf(':');
@@ -129,17 +129,17 @@ class VMConnection {
         } 
 
         connectorArgs = parseConnectorArgs(connector, argString);
-		if (isLaunch ()) {
-			setConnectorArg ("main", cmdClass + cmdLine.cmdArgs);
-			inputFileName = cmdLine.inFile;
-			outputFileName = cmdLine.outFile;
-			errorFileName = cmdLine.errFile;
-			IOFromDebuggerPossible = true;
-		} else {
-			inputFileName = outputFileName = errorFileName = null;
-			IOFromDebuggerPossible = false;
-		}
-		this.traceFlags = traceFlags;
+        if (isLaunch ()) {
+            setConnectorArg ("main", cmdClass + cmdLine.cmdArgs);
+            inputFileName = cmdLine.inFile;
+            outputFileName = cmdLine.outFile;
+            errorFileName = cmdLine.errFile;
+            IOFromDebuggerPossible = true;
+        } else {
+            inputFileName = outputFileName = errorFileName = null;
+            IOFromDebuggerPossible = false;
+        }
+        this.traceFlags = traceFlags;
     }
         
     synchronized VirtualMachine open() {
@@ -226,9 +226,9 @@ class VMConnection {
         return (connector instanceof LaunchingConnector);
     }
 
-	boolean allowsIO() {
-		return IOFromDebuggerPossible;
-	}
+    boolean allowsIO() {
+        return IOFromDebuggerPossible;
+    }
 
     boolean hasRedirectedInput () {
         return inputFileName != null;
@@ -240,12 +240,12 @@ class VMConnection {
         try {
             closeOutputToRemote ();
             if (vm != null) {
-				if (isLaunch ())
-					vm.exit (0);
-				vm.dispose ();
-			}					
+                if (isLaunch ())
+                    vm.exit (0);
+                vm.dispose ();
+            }					
         } finally {
-			vm = null;
+            vm = null;
             if (process != null) {
                 process.destroy();
                 process = null;
@@ -312,17 +312,17 @@ class VMConnection {
         lastClearedValueId = currentValueId;
     }
 
-	/** Enable all requests to be notified of ClassPrepareEvents (normally, 
-	 *  there is only one) if VAL, else disable them.  */
-	void setClassPrepareEnabled (boolean val) {
-		if (vm == null)
-			return;
-		EventRequestManager erm = vm.eventRequestManager ();
-		if (erm == null)
-			return;
-		for (ClassPrepareRequest req : erm.classPrepareRequests ())
-			req.setEnabled (val);
-	}
+    /** Enable all requests to be notified of ClassPrepareEvents (normally, 
+     *  there is only one) if VAL, else disable them.  */
+    void setClassPrepareEnabled (boolean val) {
+        if (vm == null)
+            return;
+        EventRequestManager erm = vm.eventRequestManager ();
+        if (erm == null)
+            return;
+        for (ClassPrepareRequest req : erm.classPrepareRequests ())
+            req.setEnabled (val);
+    }
 
     /** True iff current VM can intercept method return values. */
     boolean canGetMethodReturnValues () {
@@ -339,15 +339,15 @@ class VMConnection {
         return null;
     }
 
-	/** Enable all permanent event requests.  Currently, we are notified
-	 *  of 
-	 *     1. All uncaught exceptions.
-	 *     2. All class prepare events.
-	 */
+    /** Enable all permanent event requests.  Currently, we are notified
+     *  of 
+     *     1. All uncaught exceptions.
+     *     2. All class prepare events.
+     */
     private void setEventRequests(VirtualMachine vm) {
         EventRequestManager erm = vm.eventRequestManager();
         erm.createExceptionRequest (null, false, true).enable (); 
-		erm.createClassPrepareRequest ().enable ();
+        erm.createClassPrepareRequest ().enable ();
     }
 
     private void resolveEventRequests() {

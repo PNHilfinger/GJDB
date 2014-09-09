@@ -63,14 +63,14 @@
     #define BINOP(LFT,OP,RGHT) \
         ((eval) ? LValue.operation (vm, #OP, (LFT), (RGHT)) : null)
     #define BINOPF(LFT,OP,RGHT) \
-	((eval) ? LValue.operation (vm, #OP, (LFT), (RGHT), framer) \
-	        : null)
+        ((eval) ? LValue.operation (vm, #OP, (LFT), (RGHT), framer) \
+                : null)
     #define ASSGN(LFT,OP,RGHT) \
-	((eval) ? (LFT).doAssign (vm, #OP, (RGHT)) : null)
+        ((eval) ? (LFT).doAssign (vm, #OP, (RGHT)) : null)
     #define BOOLOP(LFT,OP,RGHT) \
-	((eval) ? LValue.booleanOperation (vm, #OP, (LFT), (RGHT)) : null)
+        ((eval) ? LValue.booleanOperation (vm, #OP, (LFT), (RGHT)) : null)
     #define UNOP(OP,RGHT) \
-	((eval) ? LValue.operation (vm, #OP, (RGHT)) : null)
+        ((eval) ? LValue.operation (vm, #OP, (RGHT)) : null)
 
 %}
 
@@ -422,8 +422,8 @@ reference_type:
 
 %%
 
-private static final HashMap<String, Integer> tokenMap = 
-	new HashMap<String, Integer> ();
+    private static final HashMap<String, Integer> tokenMap = 
+              new HashMap<String, Integer> ();
 
 static Value evaluate (String src, VirtualMachine vm, GetFrame framer,
 		       String[] uncommentedSrc) 
@@ -526,13 +526,13 @@ private LValue finishArray () {
 
 private int yylex () {
     try {
-       int v = lexer.yylex ();
-       yylval = lexer.lexeme;
-       return v;
+        int v = lexer.yylex ();
+        yylval = lexer.lexeme;
+        return v;
     } catch (CommandException e) {
-       throw e;
+        throw e;
     } catch (Exception e) {
-       throw ERROR ("problem reading expression: %s", e);
+        throw ERROR ("problem reading expression: %s", e);
     }
 }
 
@@ -541,8 +541,8 @@ private void yyerror (int dummy, String msg) {
 }
 
 static int findQuotedToken (String s) {
-	Integer i = tokenMap.get (s);
-	return i == null ? 0 : i;
+    Integer i = tokenMap.get (s);
+    return i == null ? 0 : i;
 }
 
 static {
@@ -550,8 +550,8 @@ static {
 	if (yytname[i] instanceof String) {
 	    String token = (String) yytname[i];
 	    if (token.startsWith ("\""))
-	    tokenMap.put (token.substring (1, token.length () - 1),
-		  	  yytoknum[i]);
+                tokenMap.put (token.substring (1, token.length () - 1),
+                              yytoknum[i]);
         }
     }
 }

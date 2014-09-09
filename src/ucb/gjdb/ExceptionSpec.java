@@ -58,6 +58,6 @@ class ExceptionSpec extends EventRequestSpec {
     }
 
     public String toString() {
-		return String.format ("CP [%d] %s", getId (), refSpec);
+        return String.format ("CP [%d] %s", getId (), refSpec);
     }
 }

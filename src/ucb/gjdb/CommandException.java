@@ -9,36 +9,36 @@ class CommandException extends RuntimeException {
 
     CommandException () {
         super ();
-		this.exception = null;
+        this.exception = null;
     }
 
     CommandException (String s, Throwable e) {
         super (s);
-		this.exception = e;
+        this.exception = e;
     }
 
     CommandException (Throwable e) {
         super ();
-		this.exception = e;
+        this.exception = e;
     }
 
-	Throwable getThrowable () {
-		return exception;
-	}
+    Throwable getThrowable () {
+        return exception;
+    }
 
-	static CommandException ERROR (Throwable e, String format, Object... args)
-	{
-		if (format == null)
-			return new CommandException (e);
-		else
-			return new CommandException (String.format (format, args), e);
-	}
+    static CommandException ERROR (Throwable e, String format, Object... args)
+    {
+        if (format == null)
+            return new CommandException (e);
+        else
+            return new CommandException (String.format (format, args), e);
+    }
 
-	static CommandException ERROR (String format, Object... args) {
+    static CommandException ERROR (String format, Object... args) {
         if (format == null)
             return new CommandException ();
-		return new CommandException (String.format (format, args), null);
-	}
+        return new CommandException (String.format (format, args), null);
+    }
 
-	private final Throwable exception;
+    private final Throwable exception;
 }

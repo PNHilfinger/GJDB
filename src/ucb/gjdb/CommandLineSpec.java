@@ -7,35 +7,35 @@ package ucb.gjdb;
 /** A set of command-line arguments and file redirections to be passed to 
  *  an inferior process. */
 class CommandLineSpec {
-	/** Command-line arguments */
-	String cmdArgs;
-	/** Input file, or null if not redirected */
-	String inFile;
-	/** Output file, or null if not redirected */
-	String outFile;
-	/** Error file, or null if not redirected */
-	String errFile;
+    /** Command-line arguments */
+    String cmdArgs;
+    /** Input file, or null if not redirected */
+    String inFile;
+    /** Output file, or null if not redirected */
+    String outFile;
+    /** Error file, or null if not redirected */
+    String errFile;
 
-	CommandLineSpec () {
-		cmdArgs = "";
-		inFile = outFile = errFile = null;
-	}
+    CommandLineSpec () {
+        cmdArgs = "";
+        inFile = outFile = errFile = null;
+    }
 
-	public String toString () {
-		String result;
-		result = cmdArgs;
-		if (inFile != null)
-			result += " <" + inFile;
-		if (outFile != null && outFile.equals (errFile))
-			result += " >" + outFile + " 2>&1";
+    public String toString () {
+        String result;
+        result = cmdArgs;
+        if (inFile != null)
+            result += " <" + inFile;
+        if (outFile != null && outFile.equals (errFile))
+            result += " >" + outFile + " 2>&1";
         else {
             if (outFile != null) 
                 result += " >" + outFile;
             if (errFile != null)
                 result += " 2>" + errFile;
         }
-		return result;
-	}
+        return result;
+    }
 
 }
 

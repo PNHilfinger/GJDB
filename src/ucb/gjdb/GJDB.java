@@ -21,10 +21,10 @@ public class GJDB {
 
     static final String progname = "gjdb";
     static final String GREETING =
-		String.format ("%s version %s%n"
-					   + "  Please send all questions, comments, and bug reports%n"
-					   + "  to Hilfinger@cs.berkeley.edu.",
-					   progname, Version.value);
+        String.format ("%s version %s%n"
+                       + "  Please send all questions, comments, and bug reports%n"
+                       + "  to Hilfinger@cs.berkeley.edu.",
+                       progname, Version.value);
 
     private final static String[][] helpMsgs = 
     {
@@ -34,18 +34,18 @@ public class GJDB {
           + "<infile>, if specified.  Direct the standard output to "
           + "<outfile>, if specified, and with '>&', direct the standard "
           + "error stream to <outfile> as well." },
-		{ "attach <address>", 
-		  "attach to running Java VM at <address> using standard connector."
-		},
-		{ "connect <connector-name>:<name1>=<value1>,...",
-		  "connect to target Java VM using named connector with listed "
-		  + "argument values." },
+        { "attach <address>", 
+          "attach to running Java VM at <address> using standard connector."
+        },
+        { "connect <connector-name>:<name1>=<value1>,...",
+          "connect to target Java VM using named connector with listed "
+          + "argument values." },
         { "listen [ <address> ]",
-		  "wait for a running Java VM to connect at the specified address "
-		  + "using standard connector, or at any available address if none "
-		  + "specified." },
-		{ "detach", 
-		  "detach from running Java VM or terminate current application." },
+          "wait for a running Java VM to connect at the specified address "
+          + "using standard connector, or at any available address if none "
+          + "specified." },
+        { "detach", 
+          "detach from running Java VM or terminate current application." },
         { "exec-class <class>", 
           "make <class> be the class whose main program is called by run" },
         { "exec-args [<args>]",
@@ -55,10 +55,10 @@ public class GJDB {
         { "backtrace [<thread id> | all]", "synonym for 'where'" },
         { "bt [<thread id>] | all", "synonym for 'where'" },
         { "wherei [<thread id> | all]", 
-		  "dump a thread's stack, with pc info" },
-		{ "up [<n>]", "move up a thread's stack by <n> frames, default 1" },
+          "dump a thread's stack, with pc info" },
+        { "up [<n>]", "move up a thread's stack by <n> frames, default 1" },
         { "down [<n>]",
-		  "move down a thread's stack by <n> frames, default 1" },
+          "move down a thread's stack by <n> frames, default 1" },
         { "frame <n>", "move to frame #<n> in a thread's stack" },
         {  },
         { "call <expr>", "evaluate <expr>, ignoring value" },
@@ -99,11 +99,11 @@ public class GJDB {
           + "is not stopped and input is not redirected (default)." },
         { "set stdin off",
           "terminal input used only for gjdb commands." },
-		{ "set variable <expr>", 
-		  "same as print (<expr> is usually an assignment)" },
-		{ "set <expr>", 
-		  "same as set variable, but only when start of <expr> does "
-		  + "not conflict with other keywords." },
+        { "set variable <expr>", 
+          "same as print (<expr> is usually an assignment)" },
+        { "set <expr>", 
+          "same as set variable, but only when start of <expr> does "
+          + "not conflict with other keywords." },
         {  },
         { "thread <thread id>", "set default thread" },
         { "threadgroup <name>", "set current threadgroup" },
@@ -127,9 +127,9 @@ public class GJDB {
           + "is a breakpoint number, a method specification "
           + "(<class id>.<method>[(argument_type,...)]), or "
           + "a line specification (<class id>:<line>)." },
-		{ "delete <n> ...", 
-		  "delete stopping requests (breakpoints, exceptions, watchpoints) "
-		  + "with the given numbers." },
+        { "delete <n> ...", 
+          "delete stopping requests (breakpoints, exceptions, watchpoints) "
+          + "with the given numbers." },
         { "delete", "clear all stopping requests selected by the user" },
         { "command [<breakpoint num>]", 
           "read a list of commands from the current command input source "
@@ -145,27 +145,27 @@ public class GJDB {
         { "condition <breakpoint num>", 
           "make the breakpoint with the given number unconditional" },
         { "catch <class id>", "break when specified exception thrown" },
-		{ "pass <class id>", "cancel 'catch' for the specified exception" },
+        { "pass <class id>", "cancel 'catch' for the specified exception" },
         { "watch [go|thread] [access|all] <class id>.<field name>", 
           "watch access/modifications to named field of all objects of given "
-		  + "class.  'go' indicates that execution continues on hitting "
-  		  + "watch; 'thread' that only the thread hitting the watchpoint "
-		  + "stops.  'access' looks just at reads of the field; 'all' "
-		  + "both reads and modifications." },
+          + "class.  'go' indicates that execution continues on hitting "
+          + "watch; 'thread' that only the thread hitting the watchpoint "
+          + "stops.  'access' looks just at reads of the field; 'all' "
+          + "both reads and modifications." },
         { "watch [go|thread] [access|all] ( <expr> ).<field name>", 
           "watch access/modifications to a field of a given object." },
         { "unwatch [go|thread] [access|all] <class id>.<field name>", 
           "discontinue watching access/modifications to named field of all "
-		  + "objects of given class." },
+          + "objects of given class." },
         { "unwatch [go|thread] [access|all] ( <expr> ).<field name>", 
           "discontinue watching access/modifications to named field of a "
-		  + "specified object." },
+          + "specified object." },
         { "unwatch", 
           "discontinue watching accesses/modifications to all fields "
           + "selected by the user" },
-		{ "ignore <stop number> <n>",
-		  "suppress stopping at stop request #<stop number> the next <n> "
-		  + "times it is hit" },
+        { "ignore <stop number> <n>",
+          "suppress stopping at stop request #<stop number> the next <n> "
+          + "times it is hit" },
         { "trace methods [<thread id>]", "trace method entry and exit" },
         { "untrace methods", "stop tracing method entry and exit" },
         { "step", "execute current line.  Abbrev: 's'" },
@@ -244,28 +244,28 @@ public class GJDB {
     }
 
     static void help () {
-		help (0, helpMsgs.length);
-	}
+        help (0, helpMsgs.length);
+    }
 
-	static void help (String cmnd) {
+    static void help (String cmnd) {
         int first, last;
-		for (first = 0; first < helpMsgs.length; first += 1)
-			if (helpMsgs[first].length > 1
-				&& helpMsgs[first][0].startsWith (cmnd))
-				break;
-		for (last = first+1; last < helpMsgs.length; last += 1)
-			if (helpMsgs[last].length <= 1
-				|| ! helpMsgs[last][0].startsWith (cmnd))
-				break;
-		if (first >= helpMsgs.length) {
-			Env.noticeln ("No help on %s", cmnd);
-			return;
-		}
-		help (first, last);
-	}
+        for (first = 0; first < helpMsgs.length; first += 1)
+            if (helpMsgs[first].length > 1
+                && helpMsgs[first][0].startsWith (cmnd))
+                break;
+        for (last = first+1; last < helpMsgs.length; last += 1)
+            if (helpMsgs[last].length <= 1
+                || ! helpMsgs[last][0].startsWith (cmnd))
+                break;
+        if (first >= helpMsgs.length) {
+            Env.noticeln ("No help on %s", cmnd);
+            return;
+        }
+        help (first, last);
+    }
 
-	private static void help (int first, int last) {
-		int col0 = 0, col1 = 26, endcol = 72;
+    private static void help (int first, int last) {
+        int col0 = 0, col1 = 26, endcol = 72;
 
         for (int i = first; i < last; i += 1) {
             if (helpMsgs[i].length == 0)
@@ -302,16 +302,16 @@ public class GJDB {
         }
     }
 
-	static List<String> commandUsageMsgs (String cmnd) {
-		String cmnd1 = cmnd + " ";
-		ArrayList<String> result = new ArrayList<String> ();
-		for (String[] entry : helpMsgs) {
-			if (entry.length > 0 
-				&& (entry[0].equals (cmnd) || entry[0].startsWith (cmnd1)))
-				result.add (entry[0]);
-		}
-		return result;
-	}
+    static List<String> commandUsageMsgs (String cmnd) {
+        String cmnd1 = cmnd + " ";
+        ArrayList<String> result = new ArrayList<String> ();
+        for (String[] entry : helpMsgs) {
+            if (entry.length > 0 
+                && (entry[0].equals (cmnd) || entry[0].startsWith (cmnd1)))
+                result.add (entry[0]);
+        }
+        return result;
+    }
 
     private static void usage() {
         String separator = File.pathSeparator;
@@ -357,7 +357,7 @@ public class GJDB {
         String cmdClass, cmdArgs, javaArgs, classPath;
         int traceFlags;
         String connectSpec;
-		boolean annotate;
+        boolean annotate;
 
         cmdClass = cmdArgs = javaArgs = classPath = "";
         traceFlags = VirtualMachine.TRACE_NONE;
@@ -396,50 +396,50 @@ public class GJDB {
                 {
                     javaArgs += token + " ";
                 } else if (token.equals("-thotspot")) {
-                    // -hotspot must be the first one
-                    javaArgs = "-hotspot " + javaArgs;
-                } else if (token.equals("-sourcepath")) {
-                    if (i == (argv.length - 1)) {
-                        usageError("No sourcepath specified.");
-                        return;
-                    }
-                    Env.setSourcePath(argv[++i]);
-                } else if (token.equals("-classpath")) {
-                    if (i == (argv.length - 1)) {
-                        usageError("No classpath specified.");
-                        return;
-                    }
-                    classPath = "-classpath " + argv[i + 1].trim ();
-                    i += 1;
-                } else if (token.equals("-help")) {
-                    usage();
-                    System.exit(0);
-                } else if (token.equals("-version")) {
-                    Env.noticeln("%s version %s", progname, Version.value);
-                    System.exit(0);
-                } else if (token.equals ("-f")) {
-                    annotate = true;
-                } else if (token.equals ("-prompt")) {
-                    i += 1;
-                    Env.promptPrefix = argv[i];
-                } else if (token.startsWith("-")) {
-                    usageError("invalid option: " + token);
+                // -hotspot must be the first one
+                javaArgs = "-hotspot " + javaArgs;
+            } else if (token.equals("-sourcepath")) {
+                if (i == (argv.length - 1)) {
+                    usageError("No sourcepath specified.");
                     return;
-                } else {
-                    // Everything from here is part of the command line
-                    cmdClass = token;
-                    cmdArgs = "";
-                    for (i++; i < argv.length; i++) {
-                        cmdArgs += " " + argv[i];
-                    }
-                    break;
                 }
+                Env.setSourcePath(argv[++i]);
+            } else if (token.equals("-classpath")) {
+                if (i == (argv.length - 1)) {
+                    usageError("No classpath specified.");
+                    return;
+                }
+                classPath = "-classpath " + argv[i + 1].trim ();
+                i += 1;
+            } else if (token.equals("-help")) {
+                usage();
+                System.exit(0);
+            } else if (token.equals("-version")) {
+                Env.noticeln("%s version %s", progname, Version.value);
+                System.exit(0);
+            } else if (token.equals ("-f")) {
+                annotate = true;
+            } else if (token.equals ("-prompt")) {
+                i += 1;
+                Env.promptPrefix = argv[i];
+            } else if (token.startsWith("-")) {
+                usageError("invalid option: " + token);
+                return;
+            } else {
+                // Everything from here is part of the command line
+                cmdClass = token;
+                cmdArgs = "";
+                for (i++; i < argv.length; i++) {
+                    cmdArgs += " " + argv[i];
+                }
+                break;
+            }
         }
 
         javaArgs = javaArgs.trim();
 
         try {
-			Commands evaluator = new Commands();
+            Commands evaluator = new Commands();
             Env.out = System.out;
             Env.connectSpec = null;
             Env.javaArgs = javaArgs;
@@ -447,7 +447,7 @@ public class GJDB {
             Env.traceFlags = traceFlags;
             Env.cmdClass = cmdClass;
             Env.commandLine.cmdArgs = cmdArgs;
-			Env.annotate = annotate;
+            Env.annotate = annotate;
             evaluator.run ();
         } catch(Exception e) {                
             System.out.flush();
