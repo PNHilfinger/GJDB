@@ -23,6 +23,7 @@ abstract class LValue {
 
     abstract void setValue0(Value value) 
         throws InvalidTypeException, 
+               IncompatibleThreadStateException,
                ClassNotLoadedException;
 
     abstract void invokeWith(List arguments);
@@ -36,6 +37,9 @@ abstract class LValue {
         } catch (ClassNotLoadedException exc) {
             throw ERROR("Attempt to set value before %s was loaded: %s",
                         exc.className(), exc);
+        } catch (IncompatibleThreadStateException exc) {
+            throw ERROR("Thread in wrong state to set local variable: %s",
+                        exc);
         }
     }        
 
@@ -356,21 +360,22 @@ abstract class LValue {
 
     /** Value of local variable or parameter. */
     private static class LValueLocal extends LValue {
-        final StackFrame frame;
+        final GetFrame frameGetter;
         final LocalVariable var;
 
-        LValueLocal(StackFrame frame, LocalVariable var) {
-            this.frame = frame;
+        LValueLocal(GetFrame frameGetter, LocalVariable var) {
+            this.frameGetter = frameGetter;
             this.var = var;
         }
         
-        Value getValue() {
-            return frame.getValue(var);
+        Value getValue() throws IncompatibleThreadStateException {
+            return frameGetter.get().getValue(var);
         }
 
-        void setValue0(Value val) throws InvalidTypeException, 
+        void setValue0(Value val) throws InvalidTypeException,
+                                         IncompatibleThreadStateException,
                                          ClassNotLoadedException {
-            frame.setValue(var, val);
+            frameGetter.get().setValue(var, val);
         }
 
         void invokeWith(List arguments) {
@@ -992,7 +997,7 @@ abstract class LValue {
                     var = null;
                 }
                 if (var != null) {
-                    return nFields(new LValueLocal(frame, var), 
+                    return nFields(new LValueLocal(frameGetter, var), 
                                    ids, k, thread);
                 } 
                 ObjectReference thisObject = frame.thisObject();
