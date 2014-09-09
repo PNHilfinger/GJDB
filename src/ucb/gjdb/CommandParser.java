@@ -936,7 +936,7 @@ case yyreduce:
         case 3:
 // _line_ 57 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandRun ();
-    startHandler (); ;}
+                  startHandler (); ;}
     break;
   case 4:
 // _line_ 59 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -945,22 +945,22 @@ case yyreduce:
   case 5:
 // _line_ 60 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandRun (((CommandLineSpec)yyvsa[yyvsp+(-1)]));
-     startHandler (); ;}
+                   startHandler (); ;}
     break;
   case 6:
 // _line_ 63 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandAttach (((Integer)yyvsa[yyvsp+(0)]));
-    startHandler (); ;}
+                  startHandler (); ;}
     break;
   case 7:
 // _line_ 66 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandConnect (((String)yyvsa[yyvsp+(-2)]) + ":" + ((String)yyvsa[yyvsp+(0)]));
-    startHandler (); ;}
+                  startHandler (); ;}
     break;
   case 8:
 // _line_ 69 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandListen (((Integer)yyvsa[yyvsp+(0)]));
-    startHandler (); ;}
+                  startHandler (); ;}
     break;
   case 9:
 // _line_ 72 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -969,23 +969,23 @@ case yyreduce:
   case 10:
 // _line_ 74 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(0)]), evaluator.PRINT, ' ', false);
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 11:
 // _line_ 77 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(0)]), printDepth (((String)yyvsa[yyvsp+(-1)])), printFormat (((String)yyvsa[yyvsp+(-1)])),
-       false);
-    showPrompt = false; ;}
+                                          false);
+                  showPrompt = false; ;}
     break;
   case 12:
 // _line_ 81 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(0)]), ((Integer)yyvsa[yyvsp+(-1)]), ' ', false);
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 13:
 // _line_ 84 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(0)]), evaluator.NO_PRINT, ' ', false);
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 14:
 // _line_ 87 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1046,12 +1046,12 @@ case yyreduce:
   case 28:
 // _line_ 113 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandSave ();
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 29:
 // _line_ 116 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandSave (((String)yyvsa[yyvsp+(-1)]), ((String)yyvsa[yyvsp+(0)]));
-     showPrompt = false; ;}
+                   showPrompt = false; ;}
     break;
   case 30:
 // _line_ 119 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1060,18 +1060,18 @@ case yyreduce:
   case 31:
 // _line_ 121 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(0)]), evaluator.EXAMINE, ' ', true);
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 32:
 // _line_ 124 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(0)]), printDepth (((String)yyvsa[yyvsp+(-1)])),
-       printFormat (((String)yyvsa[yyvsp+(-1)])), true);
-    showPrompt = false; ;}
+                                          printFormat (((String)yyvsa[yyvsp+(-1)])), true);
+                  showPrompt = false; ;}
     break;
   case 33:
 // _line_ 128 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(0)]), ((Integer)yyvsa[yyvsp+(-1)]), ' ', true);
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 34:
 // _line_ 131 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1116,7 +1116,7 @@ case yyreduce:
   case 44:
 // _line_ 151 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandPrint (((String)yyvsa[yyvsp+(-2)]) + " " + ((String)yyvsa[yyvsp+(0)]),
-       evaluator.PRINT, ' ', false); ;}
+                                          evaluator.PRINT, ' ', false); ;}
     break;
   case 45:
 // _line_ 154 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1245,27 +1245,27 @@ case yyreduce:
   case 76:
 // _line_ 216 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandStep (StepRequest.STEP_LINE,
-      StepRequest.STEP_OUT, 1); ;}
+                                         StepRequest.STEP_OUT, 1); ;}
     break;
   case 77:
 // _line_ 219 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandStep (StepRequest.STEP_LINE,
-      StepRequest.STEP_INTO, ((Integer)yyvsa[yyvsp+(0)])); ;}
+                                         StepRequest.STEP_INTO, ((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
   case 78:
 // _line_ 222 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandStep (StepRequest.STEP_LINE,
-      StepRequest.STEP_OUT, 1); ;}
+                                         StepRequest.STEP_OUT, 1); ;}
     break;
   case 79:
 // _line_ 225 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandStep (StepRequest.STEP_LINE,
-      StepRequest.STEP_OVER, ((Integer)yyvsa[yyvsp+(0)])); ;}
+                                         StepRequest.STEP_OVER, ((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
   case 80:
 // _line_ 228 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandStep (StepRequest.STEP_MIN,
-      StepRequest.STEP_INTO, ((Integer)yyvsa[yyvsp+(0)])); ;}
+                                         StepRequest.STEP_INTO, ((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
   case 81:
 // _line_ 231 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1294,17 +1294,17 @@ case yyreduce:
   case 87:
 // _line_ 243 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandLock (((String)yyvsa[yyvsp+(0)]));
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 88:
 // _line_ 246 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandEnableGC (((String)yyvsa[yyvsp+(0)]), false);
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 89:
 // _line_ 249 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { evaluator.commandEnableGC (((String)yyvsa[yyvsp+(0)]), true);
-    showPrompt = false; ;}
+                  showPrompt = false; ;}
     break;
   case 90:
 // _line_ 252 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1493,7 +1493,7 @@ case yyreduce:
   case 136:
 // _line_ 349 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { ArrayList<Integer> L = new ArrayList<Integer> ();
-     yyval = L; L.add (((Integer)yyvsa[yyvsp+(0)])); ;}
+                          yyval = L; L.add (((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
   case 137:
 // _line_ 352 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1502,8 +1502,8 @@ case yyreduce:
   case 140:
 // _line_ 361 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { ArrayList<String> v = new ArrayList<String> ();
-     v.add (((String)yyvsa[yyvsp+(0)]));
-     yyval = v; ;}
+                          v.add (((String)yyvsa[yyvsp+(0)]));
+                          yyval = v; ;}
     break;
   case 141:
 // _line_ 365 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1512,15 +1512,15 @@ case yyreduce:
   case 145:
 // _line_ 379 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { CommandLineSpec spec = ((CommandLineSpec)yyvsa[yyvsp+(-1)]);
-     spec.cmdArgs += " " + shellConvert (((String)yyvsa[yyvsp+(0)]));
-     yyval = spec; ;}
+                          spec.cmdArgs += " " + shellConvert (((String)yyvsa[yyvsp+(0)]));
+                          yyval = spec; ;}
     break;
   case 146:
 // _line_ 383 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { CommandLineSpec spec = ((CommandLineSpec)yyvsa[yyvsp+(-1)]);
-     spec.cmdArgs = " " + shellConvert (((String)yyvsa[yyvsp+(-2)]))
-      + spec.cmdArgs;
-     yyval = spec; ;}
+                          spec.cmdArgs = " " + shellConvert (((String)yyvsa[yyvsp+(-2)]))
+                                         + spec.cmdArgs;
+                          yyval = spec; ;}
     break;
   case 147:
 // _line_ 391 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1533,26 +1533,26 @@ case yyreduce:
   case 149:
 // _line_ 398 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { CommandLineSpec spec = ((CommandLineSpec)yyvsa[yyvsp+(-2)]);
-     if (spec.inFile != null)
-         throw ERROR ("Ambiguous input redirection");
-     spec.inFile = shellConvert (((String)yyvsa[yyvsp+(0)]));
-   ;}
+                          if (spec.inFile != null)
+                              throw ERROR ("Ambiguous input redirection");
+                          spec.inFile = shellConvert (((String)yyvsa[yyvsp+(0)]));
+                        ;}
     break;
   case 150:
 // _line_ 404 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { CommandLineSpec spec = ((CommandLineSpec)yyvsa[yyvsp+(-2)]);
-     if (spec.outFile != null)
-         throw ERROR ("Ambiguous output redirection");
-     spec.outFile = shellConvert (((String)yyvsa[yyvsp+(0)]));
-   ;}
+                          if (spec.outFile != null)
+                              throw ERROR ("Ambiguous output redirection");
+                          spec.outFile = shellConvert (((String)yyvsa[yyvsp+(0)]));
+                        ;}
     break;
   case 151:
 // _line_ 410 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { CommandLineSpec spec = ((CommandLineSpec)yyvsa[yyvsp+(-3)]);
-     if (spec.outFile != null)
-         throw ERROR ("Ambiguous output redirection");
-     spec.outFile = spec.errFile = shellConvert (((String)yyvsa[yyvsp+(0)]));
-   ;}
+                          if (spec.outFile != null)
+                              throw ERROR ("Ambiguous output redirection");
+                          spec.outFile = spec.errFile = shellConvert (((String)yyvsa[yyvsp+(0)]));
+                        ;}
     break;
   case 152:
 // _line_ 418 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1573,8 +1573,8 @@ case yyreduce:
   case 157:
 // _line_ 430 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { ArrayList<String> L = new ArrayList<String> ();
-     yyval = L;
-     L.add (((String)yyvsa[yyvsp+(0)])); ;}
+                          yyval = L;
+                          L.add (((String)yyvsa[yyvsp+(0)])); ;}
     break;
   case 158:
 // _line_ 434 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1599,8 +1599,8 @@ case yyreduce:
   case 165:
 // _line_ 456 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { ArrayList<Object> L = new ArrayList<Object> ();
-        yyval = L;
-        L.add (((BreakpointSpec)yyvsa[yyvsp+(0)])); ;}
+               yyval = L;
+               L.add (((BreakpointSpec)yyvsa[yyvsp+(0)])); ;}
     break;
   case 166:
 // _line_ 460 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1625,21 +1625,21 @@ case yyreduce:
   case 172:
 // _line_ 475 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { if (((String)yyvsa[yyvsp+(-2)]).endsWith (".0"))
-           throw ERROR ("Bad class specification");
-       yyval = ((String)yyvsa[yyvsp+(-2)]) + "." + ((String)yyvsa[yyvsp+(0)]); ;}
+                                      throw ERROR ("Bad class specification");
+                                  yyval = ((String)yyvsa[yyvsp+(-2)]) + "." + ((String)yyvsa[yyvsp+(0)]); ;}
     break;
   case 173:
 // _line_ 479 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { if (((String)yyvsa[yyvsp+(-1)]).endsWith (".0"))
-           throw ERROR ("Bad class specification");
-       yyval = ((String)yyvsa[yyvsp+(-1)]) + ".0"; ;}
+                                      throw ERROR ("Bad class specification");
+                                  yyval = ((String)yyvsa[yyvsp+(-1)]) + ".0"; ;}
     break;
   case 174:
 // _line_ 486 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
     { ArrayList<String> L = new ArrayList<String> ();
-     L.add (((String)yyvsa[yyvsp+(0)]));
-     yyval = L;
-   ;}
+                          L.add (((String)yyvsa[yyvsp+(0)]));
+                          yyval = L;
+                        ;}
     break;
   case 175:
 // _line_ 491 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.y"
@@ -1885,27 +1885,27 @@ static void execute (String src, Commands evaluator, BufferedReader reader,
 {
     CommandParser parser = new CommandParser (new CommandLexer (src));
     try {
- try {
-     parser.reader = reader;
-     parser.evaluator = evaluator;
-     parser.showPrompt = prompt;
-     parser.parse ();
- } catch (UnsupportedOperationException uoe) {
-     throw ERROR ("Command is not supported on the target VM");
- } catch (VMNotConnectedException vmnse) {
-     throw ERROR ("Command is not valid until the program is started or attached");
+        try {
+            parser.reader = reader;
+            parser.evaluator = evaluator;
+            parser.showPrompt = prompt;
+            parser.parse ();
+        } catch (UnsupportedOperationException uoe) {
+            throw ERROR ("Command is not supported on the target VM");
+        } catch (VMNotConnectedException vmnse) {
+            throw ERROR ("Command is not valid until the program is started or attached");
         } catch (CommandException e) {
-     throw e;
- } catch (VMDisconnectedException e) {
-     Env.shutdown (null);
-     throw ERROR ("Debugged process has disconnected.");
- } catch (Exception e) {
-     throw ERROR ("Unknown error in command: %s", e);
+            throw e;
+        } catch (VMDisconnectedException e) {
+            Env.shutdown (null);
+            throw ERROR ("Debugged process has disconnected.");
+        } catch (Exception e) {
+            throw ERROR ("Unknown error in command: %s", e);
         }
     } catch (CommandException e) {
- if (passException)
-     throw e;
- Env.errorln ("%s", e.getMessage ());
+        if (passException)
+            throw e;
+        Env.errorln ("%s", e.getMessage ());
     }
     if (parser.showPrompt)
         evaluator.printPrompt ();
@@ -2047,13 +2047,13 @@ private void yyerror (int ignored0, String ignored1) {
         throw ERROR ("Unknown command.");
     List<String> usage = GJDB.commandUsageMsgs (lexer.lastCommand);
     if (usage.size () == 0)
- throw ERROR ("Syntax error in command.");
+        throw ERROR ("Syntax error in command.");
     Formatter result = new Formatter ();
     String format;
     format = "Usage: %s";
     for (String S : usage) {
- result.format (format, S);
- format = "%n       %s";
+        result.format (format, S);
+        format = "%n       %s";
     }
     throw ERROR ("%s", result);
 }

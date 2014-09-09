@@ -104,61 +104,20 @@
 /* Copy the first part of user declarations.  */
 // _line_ 62 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
 /* End first part of user declarations.  */
-
-
-
-
-
 /* TEMPORARY CHANGE: FIXME */
-
-
-
-
-
 static int YYLTYPE_INIT;
-
 /* Enabling traces.  */
-
-
-
-
 /* Enabling verbose error messages.  */
-
-
-
-
-
-
-
 /* Copy the second part of user declarations.  */
-
-
 /* Line 221 of yacc.java.  */
 // _line_ 139 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.java"
-
-
-
 /* YYFINAL -- State number of the termination state. */
-
 /* YYLAST -- Last index in YYTABLE.  */
-
-
 /* YYNTOKENS -- Number of terminals. */
-
 /* YYNNTS -- Number of nonterminals. */
-
 /* YYNRULES -- Number of rules. */
-
 /* YYNRULES -- Number of states. */
-
-
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-
-
-
-
-
-
 /* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
 static final short yytranslate[] =
 {
@@ -194,8 +153,6 @@ static final short yytranslate[] =
       43, 44, 45, 46, 54, 55, 56, 60, 61, 62,
       63, 64, 67, 68
 };
-
-
 /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
 static final char yyprhs[] =
@@ -213,7 +170,6 @@ static final char yyprhs[] =
      328, 331, 335, 339, 344, 346, 347, 350, 354, 355,
      360, 364, 367, 369, 373, 376, 378
 };
-
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
 static final short yyrhs[] =
 {
@@ -257,7 +213,6 @@ static final short yyrhs[] =
       71, 74, -1, 86, 85, -1, 80, -1, 80, 85,
       -1
 };
-
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static final char yyrline[] =
 {
@@ -274,17 +229,13 @@ static final char yyrline[] =
      382, 383, 384, 385, 390, 391, 391, 393, 394, 394,
      399, 400, 404, 411, 419, 420, 421
 };
-
-
 static final int YY_NUM_TERMINALS = 72;
-
 static String yytname (int i) {
    if (i == yytname.length-1)
      return null;
    else
      return (String) yytname[i];
 }
-
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static final Object yytname[] =
@@ -305,7 +256,6 @@ static final Object yytname[] =
   "dimensions_prefix", "array_initializer", "array_items", "@7", "@8",
   "params", "expr_list", "reference_type", 0
 };
-
 /* YYTOKNUM[YYLEX-NUM] -- Internal token number corresponding to
    token YYLEX-NUM.  */
 static final int[] yytoknum =
@@ -319,7 +269,6 @@ static final int[] yytoknum =
      297, 298, 299, 300, 301, 91, 93, 302, 303, 123,
      125, 44
 };
-
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static final short yyr1[] =
 {
@@ -336,7 +285,6 @@ static final short yyr1[] =
       92, 92, 92, 92, 93, 94, 93, 93, 95, 93,
       96, 96, 97, 97, 98, 98, 98
 };
-
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static final short yyr2[] =
 {
@@ -353,7 +301,6 @@ static final short yyr2[] =
        2, 3, 3, 4, 1, 0, 2, 3, 0, 4,
        3, 2, 1, 3, 2, 1, 2
 };
-
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
    STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
    means the default is an error.  */
@@ -380,7 +327,6 @@ static final short yydefact[] =
       41, 100, 0, 104, 0, 0, 99, 0, 101, 102,
      108, 106, 42, 103, 107, 0, 109
 };
-
 /* YYDEFGOTO[NTERM-NUM]. */
 static final short yydefgoto[] =
 {
@@ -388,10 +334,8 @@ static final short yydefgoto[] =
       26, 27, 28, 100, 49, 29, 163, 160, 107, 108,
      177, 184, 185, 195, 31, 95, 138
 };
-
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-
 static final short yypact[] =
 {
      269, -158, -158, -158, -158, -52, -158, -158, 340, 340,
@@ -415,7 +359,6 @@ static final short yypact[] =
     -158, -158, 85, 602, 19, 81, -158, 269, -158, -158,
      191, -158, 644, -158, 602, 81, -158
 };
-
 /* YYPGOTO[NTERM-NUM].  */
 static final short yypgoto[] =
 {
@@ -423,12 +366,10 @@ static final short yypgoto[] =
       -8, -4, -158, -38, -12, -158, -158, -158, 108, -158,
     -157, -158, -158, -158, -51, -158, -158
 };
-
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-
 static final short yytable[] =
 {
       22, 109, 35, 36, 33, 34, 179, 30, 53, 150,
@@ -509,7 +450,6 @@ static final short yytable[] =
       76, 77, 78, 79, 80, 81, 82, 83, 84, 85,
       86, 87
 };
-
 static final short yycheck[] =
 {
        0, 52, 10, 11, 8, 9, 163, 59, 20, 58,
@@ -590,7 +530,6 @@ static final short yycheck[] =
       40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
       50, 51
 };
-
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static final short yystos[] =
@@ -620,19 +559,12 @@ static final short yystos[] =
    to ease the transition to the new meaning of YYERROR, for GCC.
    Once GCC version 2 has supplanted version 1, this can go.  */
 /* Enable debugging if requested.  */
-
-
-
-
-
-
 static private final String yyendl
     = System.getProperty ("line.separator", "\n");
 /*------------------------------------------------------------------.
 | yy_stack_print -- Print the state stack from its BOTTOM up to its |
 | TOP (included).                                                   |
 `------------------------------------------------------------------*/
-
 private void yy_stack_print (int[] stack, int bottom, int top)
 {
   System.err.print ("Stack now");
@@ -643,7 +575,6 @@ private void yy_stack_print (int[] stack, int bottom, int top)
 /*------------------------------------------------.
 | Report that the YYRULE is going to be reduced.  |
 `------------------------------------------------*/
-
 private void yy_reduce_print (int yyrule)
 {
   int yyi;
@@ -655,21 +586,10 @@ private void yy_reduce_print (int yyrule)
     System.err.print (yytname [yyrhs[yyi]] + " ");
   System.err.print ("-> " + yytname [yyr1[yyrule]] + yyendl);
 }
-
-
-
-
-
-
-
 /* Nonzero means print parse trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
 int yydebug;
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
-
-
-
-
 /* YYMAXDEPTH -- maximum size the stacks can grow to (effective only
    if the built-in stack extension method is used).
 
@@ -679,7 +599,6 @@ int yydebug;
 /*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
 `--------------------------------*/
-
 private void yysymprint (int yytype, Object yyvaluep, int yylocationp)
 {
   if (yytype < 72)
@@ -687,16 +606,9 @@ private void yysymprint (int yytype, Object yyvaluep, int yylocationp)
   else
     System.err.print ("nterm " + yytname[yytype]);
 }
-
-
-
-
 /*----------.
 | parse.  |
 `----------*/
-
-
-
   private static final int
     yyabortlab = 1,
     yyacceptlab = 2,
@@ -710,21 +622,16 @@ private void yysymprint (int yytype, Object yyvaluep, int yylocationp)
     yyreduce = 10,
     yyreturn = 11,
     yysetstate = 12;
-
   /* The semantic value of the look-ahead symbol.  */
   public Object yylval;
-
   /* Location data for the look-ahead symbol.  */
   public int yylloc;
-
 public int parse ()
 {
   /* The look-ahead symbol.  */
   int yychar;
-
   /* Number of syntax errors so far.  */
   int yynerrs;
-
   int yystate;
   int yyn;
   int yyresult;
@@ -732,7 +639,6 @@ public int parse ()
   int yyerrstatus;
   /* Look-ahead token as an internal (translated) token number.  */
   int yytoken = 0;
-
   /* Three stacks and their tools:
      `yyss': related to states,
      `yyvs': related to semantic values,
@@ -740,68 +646,52 @@ public int parse ()
 
      Refer to the stacks thru separate pointers, to allow yyoverflow
      to reallocate them elsewhere.  */
-
   /* The state stack.  */
   int yyssa[] = new int [200];
   int yyss = 0;
   int yyssp;
-
   /* The semantic value stack.  */
   Object yyvsa[] = new Object[200];
   int yyvs = 0;
   int yyvsp;
-
   /* The location stack.  */
   int yylsa[] = new int[200];
   int yyls = 0;
   int yylsp;
   /* The locations where the error started and ended. */
   int yyerror_range[] = new int[2];
-
-
-
   int yystacksize = 200;
-
   /* The variables used to return semantic value and location from the
      action routines.  */
   Object yyval;
   int yyloc;
-
   /* When reducing, the number of symbols on the RHS of the reduced
      rule.  */
   int yylen;
-
   do { if (yydebug != 0) System.err.print ( "Starting parse" + yyendl); } while (false);
-
   yystate = 0;
   yyerrstatus = 0;
   yynerrs = 0;
   yychar = (-2); /* Cause a token to be read.  */
-
   /* Initialize stack pointers.
      Waste one element of value and location stack
      so that they stay on the same level as the state stack.
      The wasted elements are never initialized.  */
-
   yyssp = yyss;
   yyvsp = yyvs;
   yylsp = yyls;
   yyloc = YYLTYPE_INIT;
-
   yylsa[yylsp] = yyloc;
-
   /* Artificial initializations to keep Java happy */
   yyn = 0;
   yylen = 0;
   yyresult = 0;
-
   /* pc is used to hold a goto label (or FSA state, if you prefer). */
   int pc;
   pc = yysetstate;
 Loop:
   while (true) {
     switch (pc) {
-
 /*------------------------------------------------------------.
 | yynewstate -- Push a new state, which is found in yystate.  |
 `------------------------------------------------------------*/
@@ -810,65 +700,43 @@ Loop:
      have just been pushed. so pushing a state here evens the stacks.
      */
   yyssp++;
-
  case yysetstate:
   yyssa[yyssp] = yystate;
-
   if (yyss + yystacksize - 1 <= yyssp)
     {
       /* Get the current used size of the three stacks, in elements.  */
       int yysize = yyssp - yyss + 1;
-
       /* Extend the stack our own way.  */
       if (10000 <= yystacksize)
  do { pc = yyoverflowlab; continue Loop; } while (false);
       yystacksize *= 2;
       if (10000 < yystacksize)
  yystacksize = 10000;
-
-
-
-
-
-
-
       { int[] newStack = new int[yystacksize]; System.arraycopy (yyssa, 0, newStack, 0, yyssa.length); yyssa = newStack; };
       { Object[] newStack = new Object[yystacksize]; System.arraycopy (yyvsa, 0, newStack, 0, yyvsa.length); yyvsa = newStack; };
       { int[] newStack = new int[yystacksize]; System.arraycopy (yylsa, 0, newStack, 0, yylsa.length); yylsa = newStack; };
-
-
       do { if (yydebug != 0) System.err.print ( "Stack size increased to " + yystacksize + yyendl); } while (false);
-
     }
-
   do { if (yydebug != 0) System.err.print ( "Entering state " + yystate + yyendl); } while (false);
-
   do { pc = yybackup; continue Loop; } while (false);
-
 /*-----------.
 | yybackup.  |
 `-----------*/
 case yybackup:
-
 /* Do appropriate processing given the current state.  */
 /* Read a look-ahead token if we need one and don't already have one.  */
 /* yyresume: */
-
   /* First try to decide what to do without reference to look-ahead token.  */
-
   yyn = yypact[yystate];
   if (yyn == -158)
     do { pc = yydefault; continue Loop; } while (false);
-
   /* Not known => get a look-ahead token if don't already have one.  */
-
   /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
   if (yychar == (-2))
     {
       do { if (yydebug != 0) System.err.print ( "Reading a token: "); } while (false);
       yychar = yylex ();
     }
-
   if (yychar <= 0)
     {
       yychar = yytoken = 0;
@@ -879,7 +747,6 @@ case yybackup:
       yytoken = ((yychar) >= 0 && (yychar) <= 303 ? yytranslate[yychar] : 2);
       do { if (yydebug != 0) { System.err.print ("Next token is" + " "); yysymprint (yytoken, yylval, yylloc); System.err.print (yyendl); } } while (false);
     }
-
   /* If the proper action on seeing token YYTOKEN is to reduce or to
      detect an error, take that action.  */
   yyn += yytoken;
@@ -893,29 +760,21 @@ case yybackup:
       yyn = -yyn;
       do { pc = yyreduce; continue Loop; } while (false);
     }
-
   if (yyn == 54)
     do { pc = yyacceptlab; continue Loop; } while (false);
-
   /* Shift the look-ahead token.  */
   do { if (yydebug != 0) { System.err.print ("Shifting" + " "); yysymprint (yytoken, yylval, yylloc); System.err.print (yyendl); } } while (false);
-
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != 0)
     yychar = (-2);
-
   yyvsa[++yyvsp] = yylval;
   yylsa[++yylsp] = yylloc;
-
   /* Count tokens shifted since error; after three, turn off error
      status.  */
   if (yyerrstatus != 0)
     yyerrstatus--;
-
   yystate = yyn;
   do { pc = yynewstate; continue Loop; } while (false);
-
-
 /*-----------------------------------------------------------.
 | yydefault -- do the default action for the current state.  |
 `-----------------------------------------------------------*/
@@ -924,15 +783,12 @@ case yydefault:
   if (yyn == 0)
     do { pc = yyerrlab; continue Loop; } while (false);
   do { pc = yyreduce; continue Loop; } while (false);
-
-
 /*-----------------------------.
 | yyreduce -- Do a reduction.  |
 `-----------------------------*/
 case yyreduce:
   /* yyn is the number of a rule to reduce with.  */
   yylen = yyr2[yyn];
-
   /* If YYLEN is nonzero, implement the default value of the action:
      `$$ = $1'.
 
@@ -942,7 +798,6 @@ case yyreduce:
      unconditionally makes the parser a bit smaller, and it avoids a
      GCC warning that YYVAL may be used uninitialized.  */
   yyval = yyvsa[yyvsp+1-yylen];
-
   /* Default location. */
   ;
   do { if (yydebug != 0) yy_reduce_print (yyn); } while (false);
@@ -952,159 +807,128 @@ case yyreduce:
 // _line_ 80 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { value = ((LValue)yyvsa[yyvsp+(0)]); ;}
     break;
-
   case 6:
 // _line_ 86 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "*", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 7:
 // _line_ 87 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "/", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 8:
 // _line_ 88 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "%", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 9:
 // _line_ 89 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "+", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)])), framer) : null); ;}
     break;
-
   case 10:
 // _line_ 90 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "-", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)])), framer) : null); ;}
     break;
-
   case 11:
 // _line_ 91 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "<<", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 12:
 // _line_ 92 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, ">>", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 13:
 // _line_ 93 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, ">>>", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 14:
 // _line_ 94 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.booleanOperation (vm, "<", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 15:
 // _line_ 95 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.booleanOperation (vm, ">", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 16:
 // _line_ 96 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.booleanOperation (vm, "<=", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 17:
 // _line_ 97 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.booleanOperation (vm, ">=", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 18:
 // _line_ 98 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.booleanOperation (vm, "==", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 19:
 // _line_ 99 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.booleanOperation (vm, "!=", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 20:
 // _line_ 100 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "&", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 21:
 // _line_ 101 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "|", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 22:
 // _line_ 102 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "^", (((LValue)yyvsa[yyvsp+(-2)])), (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 23:
 // _line_ 103 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 24:
 // _line_ 104 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "*=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 25:
 // _line_ 105 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "/=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 26:
 // _line_ 106 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "%=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 27:
 // _line_ 107 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "+=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 28:
 // _line_ 108 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "-=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 29:
 // _line_ 109 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "<<=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 30:
 // _line_ 110 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, ">>=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 31:
 // _line_ 111 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, ">>>=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 32:
 // _line_ 112 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "&=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 33:
 // _line_ 113 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "^=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 34:
 // _line_ 114 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? (((LValue)yyvsa[yyvsp+(-2)])).doAssign (vm, "|=", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 35:
 // _line_ 116 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = (eval)
      ? ((LValue)yyvsa[yyvsp+(-2)]).instanceOf (vm, framer, ((String)yyvsa[yyvsp+(0)]))
      : null; ;}
     break;
-
   case 36:
 // _line_ 123 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { pushEval ();
@@ -1117,7 +941,6 @@ case yyreduce:
      }
    ;}
     break;
-
   case 37:
 // _line_ 132 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { popEval ();
@@ -1132,7 +955,6 @@ case yyreduce:
      }
    ;}
     break;
-
   case 38:
 // _line_ 143 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { pushEval ();
@@ -1145,7 +967,6 @@ case yyreduce:
      }
    ;}
     break;
-
   case 39:
 // _line_ 152 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { popEval ();
@@ -1160,7 +981,6 @@ case yyreduce:
      }
    ;}
     break;
-
   case 40:
 // _line_ 163 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { pushEval ();
@@ -1173,7 +993,6 @@ case yyreduce:
      }
    ;}
     break;
-
   case 41:
 // _line_ 172 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { popEval ();
@@ -1182,7 +1001,6 @@ case yyreduce:
          eval = ! ((Boolean)yyvsa[yyvsp+(-2)]);
    ;}
     break;
-
   case 42:
 // _line_ 177 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { popEval ();
@@ -1190,49 +1008,41 @@ case yyreduce:
          yyval = ((Boolean)yyvsa[yyvsp+(-4)]) ? ((LValue)yyvsa[yyvsp+(-3)]) : ((LValue)yyvsa[yyvsp+(0)]);
    ;}
     break;
-
   case 43:
 // _line_ 185 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeName (vm, framer, ((String)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 44:
 // _line_ 187 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeFloat (vm, ((String)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 45:
 // _line_ 189 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeInteger (vm, ((String)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 46:
 // _line_ 191 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeCharacter (vm, ((String)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 47:
 // _line_ 193 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeString (vm, ((String)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 48:
 // _line_ 195 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((LValue)yyvsa[yyvsp+(-1)]); ;}
     break;
-
   case 49:
 // _line_ 196 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeThisObject (vm, framer,
                 "this"); ;}
     break;
-
   case 50:
 // _line_ 200 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
@@ -1240,25 +1050,21 @@ case yyreduce:
          "super")
      .superLValue (framer, ((String)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 51:
 // _line_ 204 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeBoolean (vm, "true"); ;}
     break;
-
   case 52:
 // _line_ 206 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeBoolean (vm, "false"); ;}
     break;
-
   case 53:
 // _line_ 208 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
          yyval = LValue.makeNull (vm, "null"); ;}
     break;
-
   case 54:
 // _line_ 214 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1268,7 +1074,6 @@ case yyreduce:
       }
    ;}
     break;
-
   case 55:
 // _line_ 220 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1278,12 +1083,10 @@ case yyreduce:
       }
    ;}
     break;
-
   case 57:
 // _line_ 230 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((String)yyvsa[yyvsp+(-2)]) + "." + ((String)yyvsa[yyvsp+(0)]); ;}
     break;
-
   case 59:
 // _line_ 236 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1292,7 +1095,6 @@ case yyreduce:
     }
    ;}
     break;
-
   case 60:
 // _line_ 242 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1301,19 +1103,16 @@ case yyreduce:
     }
   ;}
     break;
-
   case 61:
 // _line_ 248 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
         yyval = ((LValue)yyvsa[yyvsp+(-3)]).arrayElementLValue (((LValue)yyvsa[yyvsp+(-1)])); ;}
     break;
-
   case 62:
 // _line_ 255 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
         yyval = ((LValue)yyvsa[yyvsp+(-2)]).memberLValue (framer, ((String)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 63:
 // _line_ 258 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1323,7 +1122,6 @@ case yyreduce:
     }
   ;}
     break;
-
   case 64:
 // _line_ 265 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1333,7 +1131,6 @@ case yyreduce:
     }
   ;}
     break;
-
   case 65:
 // _line_ 276 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1344,116 +1141,95 @@ case yyreduce:
      }
   ;}
     break;
-
   case 66:
 // _line_ 284 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval)
        yyval = LValue.makeName (vm, framer, ((String)yyvsa[yyvsp+(-1)])); ;}
     break;
-
   case 68:
 // _line_ 290 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "+", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 69:
 // _line_ 291 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "-", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 71:
 // _line_ 296 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval ? doIncr (((LValue)yyvsa[yyvsp+(0)]), 1) : null; ;}
     break;
-
   case 72:
 // _line_ 297 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval ? doIncr (((LValue)yyvsa[yyvsp+(0)]), -1) : null; ;}
     break;
-
   case 73:
 // _line_ 298 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "~", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 74:
 // _line_ 299 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((eval) ? LValue.operation (vm, "!", (((LValue)yyvsa[yyvsp+(0)]))) : null); ;}
     break;
-
   case 75:
 // _line_ 304 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval
      ? LValue.castPrimitive (vm, ((String)yyvsa[yyvsp+(-2)]), ((LValue)yyvsa[yyvsp+(0)]))
      : null; ;}
     break;
-
   case 76:
 // _line_ 313 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = (yyvsa[yyvsp+(-1)]); ;}
     break;
-
   case 77:
 // _line_ 314 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((LValue)yyvsa[yyvsp+(0)]); ;}
     break;
-
   case 78:
 // _line_ 315 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((LValue)yyvsa[yyvsp+(0)]); ;}
     break;
-
   case 79:
 // _line_ 319 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((Integer)yyvsa[yyvsp+(-1)]) + 1; ;}
     break;
-
   case 80:
 // _line_ 320 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = 1; ;}
     break;
-
   case 89:
 // _line_ 336 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval
     ? LValue.makeArray (vm, ((String)yyvsa[yyvsp+(-1)]), framer, ((List)yyvsa[yyvsp+(0)]))
            : null; ;}
     break;
-
   case 90:
 // _line_ 340 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { startArrayInitializer (((String)yyvsa[yyvsp+(-1)]), ((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 91:
 // _line_ 342 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = finishArray (); ;}
     break;
-
   case 92:
 // _line_ 344 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval
           ? LValue.makeNewObject (vm, framer, ((String)yyvsa[yyvsp+(-1)]), ((List)yyvsa[yyvsp+(0)]))
           : null; ;}
     break;
-
   case 93:
 // _line_ 348 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval
     ? LValue.makeArray (vm, ((String)yyvsa[yyvsp+(-1)]), framer, ((List)yyvsa[yyvsp+(0)]))
            : null; ;}
     break;
-
   case 94:
 // _line_ 352 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { startArrayInitializer (((String)yyvsa[yyvsp+(-1)]), ((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 95:
 // _line_ 354 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = finishArray (); ;}
     break;
-
   case 97:
 // _line_ 359 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1461,7 +1237,6 @@ case yyreduce:
       }
     ;}
     break;
-
   case 98:
 // _line_ 366 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1472,7 +1247,6 @@ case yyreduce:
       }
     ;}
     break;
-
   case 99:
 // _line_ 374 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1481,57 +1255,46 @@ case yyreduce:
       }
     ;}
     break;
-
   case 100:
 // _line_ 382 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { ;}
     break;
-
   case 101:
 // _line_ 383 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { ;}
     break;
-
   case 102:
 // _line_ 384 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { ;}
     break;
-
   case 103:
 // _line_ 386 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { ;}
     break;
-
   case 104:
 // _line_ 390 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { addInitializer (((LValue)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 105:
 // _line_ 391 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { startArrayInitializer (); ;}
     break;
-
   case 107:
 // _line_ 393 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { addInitializer (((LValue)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 108:
 // _line_ 394 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { startArrayInitializer (); ;}
     break;
-
   case 110:
 // _line_ 399 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((List)yyvsa[yyvsp+(-1)]); ;}
     break;
-
   case 111:
 // _line_ 400 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = Collections.EMPTY_LIST; ;}
     break;
-
   case 112:
 // _line_ 404 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1542,7 +1305,6 @@ case yyreduce:
       }
     ;}
     break;
-
   case 113:
 // _line_ 411 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
@@ -1551,52 +1313,37 @@ case yyreduce:
       }
     ;}
     break;
-
   case 114:
 // _line_ 419 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = LValue.JVM_typeName (((String)yyvsa[yyvsp+(-1)]), ((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
-
   case 115:
 // _line_ 420 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = ((String)yyvsa[yyvsp+(0)]); ;}
     break;
-
   case 116:
 // _line_ 421 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = LValue.JVM_typeName (((String)yyvsa[yyvsp+(-1)]), ((Integer)yyvsa[yyvsp+(0)])); ;}
     break;
-
-
     }
-
 /* Line 813 of yacc.java.  */
 // _line_ 1680 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.java"
-
   yyvsp -= yylen;
   yyssp -= yylen;
   yylsp -= yylen;
-
   do { if (yydebug != 0) yy_stack_print (yyssa, (yyss), (yyssp)); } while (false);
-
   yyvsa[++yyvsp] = yyval;
   yylsa[++yylsp] = yyloc;
-
   /* Now `shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-
   yyn = yyr1[yyn];
-
   yystate = yypgoto[yyn - 72] + yyssa[yyssp];
   if (0 <= yystate && yystate <= 761 && yycheck[yystate] == yyssa[yyssp])
     yystate = yytable[yystate];
   else
     yystate = yydefgoto[yyn - 72];
-
   do { pc = yynewstate; continue Loop; } while (false);
-
-
 /*------------------------------------.
 | yyerrlab -- here on detecting error |
 `------------------------------------*/
@@ -1607,14 +1354,11 @@ case yyerrlab:
       ++yynerrs;
  yyerror (yylloc, "syntax error");
     }
-
   yyerror_range[0] = yylloc;
-
   if (yyerrstatus == 3)
     {
       /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
-
       if (yychar <= 0)
         {
           /* If at end of input, pop the error token,
@@ -1633,31 +1377,24 @@ case yyerrlab:
    yychar = (-2);
  }
     }
-
   /* Else will try to reuse look-ahead token after shifting the error
      token.  */
   do { pc = yyerrlab1; continue Loop; } while (false);
-
-
 /*---------------------------------------------------.
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
 case yyerrorlab:
-
   yyerror_range[0] = yylsa[yylsp+1-yylen];
   yylsp -= yylen;
   yyvsp -= yylen;
   yyssp -= yylen;
   yystate = yyssa[yyssp];
   do { pc = yyerrlab1; continue Loop; } while (false);
-
-
 /*-------------------------------------------------------------.
 | yyerrlab1 -- common code for both syntax error and YYERROR.  |
 `-------------------------------------------------------------*/
 case yyerrlab1:
   yyerrstatus = 3; /* Each real token shifted decrements this.  */
-
   for (;;)
     {
       yyn = yypact[yystate];
@@ -1671,41 +1408,32 @@ case yyerrlab1:
   break;
      }
  }
-
       /* Pop the current state because it cannot handle the error token.  */
       if (yyssp == yyss)
  do { pc = yyabortlab; continue Loop; } while (false);
-
       yyerror_range[0] = yylsa[yylsp];
       yyvsp--; yyssp--; yylsp--;
       yystate = yyssa[yyssp];
       do { if (yydebug != 0) yy_stack_print (yyssa, (yyss), (yyssp)); } while (false);
     }
-
   if (yyn == 54)
     do { pc = yyacceptlab; continue Loop; } while (false);
-
   yyvsa[++yyvsp] = yylval;
   yyerror_range[1] = yylloc;
   /* Using YYLLOC is tempting, but would change the location of
      the look-ahead.  YYLOC is available though. */
   ;
   yylsa[++yylsp] = yyloc;
-
   /* Shift the error token. */
   do { if (yydebug != 0) { System.err.print ("Shifting" + " "); yysymprint (yystos[yyn], yyvsa[yyvsp], yylsa[yylsp]); System.err.print (yyendl); } } while (false);
-
   yystate = yyn;
   do { pc = yynewstate; continue Loop; } while (false);
-
-
 /*-------------------------------------.
 | yyacceptlab -- YYACCEPT comes here.  |
 `-------------------------------------*/
 case yyacceptlab:
   yyresult = 0;
   do { pc = yyreturn; continue Loop; } while (false);
-
 /*-----------------------------------.
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
@@ -1713,8 +1441,6 @@ case yyabortlab:
   yychar = (-2);
   yyresult = 1;
   do { pc = yyreturn; continue Loop; } while (false);
-
-
 /*----------------------------------------------.
 | yyoverflowlab -- parser overflow comes here.  |
 `----------------------------------------------*/
@@ -1722,21 +1448,14 @@ case yyoverflowlab:
   yyerror (yylloc, "parser stack overflow");
   yyresult = 2;
   /* Fall through.  */
-
-
 case yyreturn:
   return yyresult;
 }
 }
-
 }
-
 // _line_ 423 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
-
-
-private static final HashMap<String, Integer> tokenMap =
- new HashMap<String, Integer> ();
-
+    private static final HashMap<String, Integer> tokenMap =
+              new HashMap<String, Integer> ();
 static Value evaluate (String src, VirtualMachine vm, GetFrame framer,
          String[] uncommentedSrc)
     throws InvocationException, InvalidTypeException,
@@ -1758,14 +1477,12 @@ static Value evaluate (String src, VirtualMachine vm, GetFrame framer,
     }
     return val;
 }
-
 static Value evaluate (String src, VirtualMachine vm, GetFrame framer)
     throws InvocationException, InvalidTypeException,
     IncompatibleThreadStateException, ClassNotLoadedException
 {
     return evaluate (src, vm, framer, null);
 }
-
 private ExpressionParser (ExpressionLexer lexer, VirtualMachine vm,
      GetFrame framer) {
     eval = true;
@@ -1774,50 +1491,39 @@ private ExpressionParser (ExpressionLexer lexer, VirtualMachine vm,
     this.framer = framer;
     this.value = null;
 }
-
-
 private Stack<Boolean> evalState = new Stack<Boolean> ();
 private boolean eval;
 LValue value;
 private ExpressionLexer lexer;
 private VirtualMachine vm;
 private GetFrame framer;
-
 private void pushEval () {
     evalState.push (eval);
 }
-
 private void popEval () {
     eval = evalState.pop ();
 }
-
 private LValue doIncr (LValue var, int n) {
     return var.doAssign (vm, "+=", LValue.make (vm, n));
 }
-
 private static class ArrayInitializer {
     int dims;
     String eltType;
     ArrayList<LValue> elts = new ArrayList<LValue> ();
 }
-
 private Stack<ArrayInitializer> arrayInits = new Stack<ArrayInitializer>();
-
 private void startArrayInitializer (String eltType, int dims) {
     ArrayInitializer v = new ArrayInitializer ();
     v.eltType = eltType; v.dims = dims;
     arrayInits.push (v);
 }
-
 private void startArrayInitializer () {
     startArrayInitializer (arrayInits.peek ().eltType,
       arrayInits.peek ().dims - 1);
 }
-
 private void addInitializer (LValue x) {
     arrayInits.peek ().elts.add (x);
 }
-
 private LValue finishArray () {
     ArrayInitializer I = arrayInits.pop ();
     if (eval) {
@@ -1835,38 +1541,32 @@ private LValue finishArray () {
     } else
  return null;
 }
-
 private int yylex () {
     try {
-       int v = lexer.yylex ();
-       yylval = lexer.lexeme;
-       return v;
+        int v = lexer.yylex ();
+        yylval = lexer.lexeme;
+        return v;
     } catch (CommandException e) {
-       throw e;
+        throw e;
     } catch (Exception e) {
-       throw ERROR ("problem reading expression: %s", e);
+        throw ERROR ("problem reading expression: %s", e);
     }
 }
-
 private void yyerror (int dummy, String msg) {
     throw ERROR ("%s", msg);
 }
-
 static int findQuotedToken (String s) {
- Integer i = tokenMap.get (s);
- return i == null ? 0 : i;
+    Integer i = tokenMap.get (s);
+    return i == null ? 0 : i;
 }
-
 static {
     for (int i = 0; i < yytname.length; i += 1) {
  if (yytname[i] instanceof String) {
      String token = (String) yytname[i];
      if (token.startsWith ("\""))
-     tokenMap.put (token.substring (1, token.length () - 1),
-       yytoknum[i]);
+                tokenMap.put (token.substring (1, token.length () - 1),
+                              yytoknum[i]);
         }
     }
 }
-
-
 }
