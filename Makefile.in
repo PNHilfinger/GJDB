@@ -1,5 +1,4 @@
 
-JDIR = @apphome@
 TOOLSLIB = @complib@
 SRCDIR = @srcdir@
 BINDIR = @bindir@
@@ -29,7 +28,7 @@ DISTFILES = lib/emacs/lisp/gjdb.el \
 VERSION = 6.2.6
 
 JAR = jar
-JAVAC = $(JDIR)/bin/javac 
+JAVAC = javac 
 EMACS = emacs
 JAVACC = javacc
 JBISON = jbison

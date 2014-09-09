@@ -79,10 +79,13 @@ done
 
 if [ -z "$apphome" ]; then
     javac -d . $srcdir/Javahome.java
-    apphome="`dirname \`java Javahome\``"
+    apphome="`java Javahome`"
+    if [ ! -x $apphome/bin/javac ]; then
+        apphome="`dirname $apphome`"
+    fi
 fi
 
-if [ -z "$apphome" -o ! -x "$apphome/bin/java" ]; then
+if [ -z "$apphome" -o ! -x "$apphome/bin/javac" ]; then
     echo "Cannot find Java installation"
     exit 1
 fi
