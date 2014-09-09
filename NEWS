@@ -1,4 +1,7 @@
 Release 6.2:
+ * (6.2.7) Fix longstanding bug that prevented 'set var X = E' when E involved
+   a method call, new, or other expression that restarted the thread.
+ * (6.2.6): Fix problem with redirection in the run command.
  * Add GDB-style value history: $1, etc.
  * For JDK >= 6, capture values returned from methods on 'finish' command.
 

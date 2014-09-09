@@ -1,3 +1,24 @@
+2014-09-09  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	Fixes to long-standing assignment problem.  Previously, the command
+	    set var X = EXPR
+	would work only for EXPRs that did not involve restarting the thread.
+	If EXPR contained a method call or the 'new' operator, in particular,
+	the assignment would fail, because evaluation of the local variable
+	X into an lvalue would save the frame at the time of that evaluation
+	in the LValueLocal object representing the variable. Then EXPR would 
+	be evaluated, invalidating the frame, and only then did the assignment
+	take place.  The fix is to save the frame-getter (type GetFrame) instead
+	of the frame.
+
+	* Version 6.2.7
+	* src/ucb/gjdb/LValue.java: (LValueLocal.LValueLocal, .getValue, and
+	.setValue0): Save a GetFrame rather than a StackFrame and regenerate
+	the StackFrame for each use.
+	(makeName): Use new API for LValueLocal.
+
+	* Reindent most source files in ucb.gjdb.
+
 2013-12-22  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Version 6.2.6
