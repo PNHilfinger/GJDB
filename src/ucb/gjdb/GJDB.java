@@ -83,6 +83,12 @@ public class GJDB {
         { "set history <n>", 
           "set maximum number of history values kept to <n>" },
         { "set print compressed", "print arrays in compressed format" },
+        { "set print prefix both", "print '<expr> = $N =' in front of "
+          + "print output" },
+        { "set print prefix exprs", "print '<expr> =' in front of "
+          + "print output" },
+        { "set print prefix standard", "print '$N =' in front of print output"
+          + " (default)" },
         { "set print pretty", "print arrays one element per line" },
         { "set print elements <n>", 
           "set maximum number of elements to print from an array to <n>" },

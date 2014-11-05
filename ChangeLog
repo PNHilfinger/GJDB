@@ -1,3 +1,18 @@
+2014-11-04  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Version 6.3.0
+	Add 'set prefix' command.
+
+	* src/ucb/gjdb/GJDB.java (helpMsgs): Add documentation for
+	"set print prefix".
+	* src/ucb/gjdb/Env.java (printHeaderFormat): Add variable for print
+	prefix format.
+	* src/ucb/gjdb/Commands.java (commandSet): Add set print prefix
+	command.
+	(doPrint): Implement print prefix.
+	* src/ucb/gjdb/CommandParser.y: Add 'set print prefix' syntax.
+	* src/ucb/gjdb/CommandLexer.jf: Add 'set print prefix' keywords.
+
 2014-09-09  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	Fixes to long-standing assignment problem.  Previously, the command

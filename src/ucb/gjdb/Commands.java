@@ -1406,7 +1406,17 @@ class Commands implements EventNotifier {
             break;
         default:
             int id = Env.connection ().saveValue (val);
-            Env.notice ("$%d = ", id);
+            switch (Env.printHeaderFormat) {
+            default:
+                Env.notice ("$%d = ", id);
+                break;
+            case 1:
+                Env.notice ("%s = ", expr);
+                break;
+            case 2:
+                Env.notice ("%s = $%d = ", expr, id);
+                break;
+            }
             dump (val, dumpLevel, format, 0, wantStatics, 
                   new HashSet<ObjectReference> ());
         } 
@@ -1464,20 +1474,31 @@ class Commands implements EventNotifier {
 
     void commandSet(String var, String val0, int val1) {
         if (var.equals ("print")) {
-            if (val0.equals ("pretty"))
+            switch (val0) {
+            case "pretty":
                 Env.prettyArrays = true;
-            else if (val0.equals ("compressed"))
+                break;
+            case "compressed":
                 Env.prettyArrays = false;
-            else if (val0.equals ("elements"))
+                break;
+            case "elements":
                 Env.maxArrayElements = val1;
-            else if (val0.equals ("max-frames")) {
+                break;
+            case "max-frames":
                 if (val1 < 1)
                     throw ERROR ("Max-stack must be >= 1");
                 else
                     Env.maxStackFrames = val1;
-            }
-            else if (val0.equals ("return"))
+                break;
+            case "return":
                 Env.printReturnValues = (val1 != 0);
+                break;
+            case "prefix":
+                Env.printHeaderFormat = val1;
+                break;
+            default:
+                break;
+            }
         } else if (var.equals ("stdin"))
             Env.noStdin = val0.equals ("on");
         else if (var.equals ("history")) 

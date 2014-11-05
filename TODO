@@ -28,6 +28,8 @@
 
 * Allow abbreviation of second word in info, ...
 
+* Document 'set' commands.
+
 ---------
 
 CLEAN-UPS
@@ -260,3 +262,5 @@ DONE
 
 * Handle returned values of functions (when using JDK >= 6).
 
+* Allow setting prefix of 'print' output to include expression being
+  printed.

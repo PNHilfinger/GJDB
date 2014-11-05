@@ -139,6 +139,12 @@ command:
                 { evaluator.commandSet ("print", "return", 1); }
         | "set" "print" "return" "off"
                 { evaluator.commandSet ("print", "return", 0); }
+        | "set" "print" "prefix" "standard"
+                { evaluator.commandSet ("print", "prefix", 0); }
+        | "set" "print" "prefix" "exprs"
+                { evaluator.commandSet ("print", "prefix", 1); }
+        | "set" "print" "prefix" "both"
+                { evaluator.commandSet ("print", "prefix", 2); }
         | "set" "stdin" "on"
                 { evaluator.commandSet ("stdin", "on", 0); }
         | "set" "stdin" "off"

@@ -56,6 +56,12 @@ class Env {
     /** True iff we should print values of functions that return after 
      *  'finish' command. */
     static boolean printReturnValues = true;
+    /** Format of the headers for printed/dumped values:
+     *      0 => "$N ="
+     *      1 => "<expr> ="
+     *      2 => "<expr> = $N ="
+     */
+    static int printHeaderFormat = 0;
 
     static void init() {
         String spec;

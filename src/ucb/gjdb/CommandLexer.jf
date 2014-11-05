@@ -271,12 +271,14 @@ CMDSTRCHR = (\\[\"\\]|[^\\\"\n\r])
 
 <DEFAULTARGS>{
     "all"               { return symbol ("all"); }
+    "both"              { return symbol ("both"); }
     "break"             { return symbol ("break"); }
     "class"             { return symbol ("class"); }
     "classes"           { return symbol ("classes"); }
     "classpath"         { return symbol ("classpath"); }
     "compressed"        { return symbol ("compressed"); }
     "elements"          { return symbol ("elements"); }
+    "exprs"             { return symbol ("exprs"); }
     "fields"            { return symbol ("fields"); }
     "history"           { return symbol ("history"); }
     "locals"            { return symbol ("locals"); }
@@ -284,10 +286,12 @@ CMDSTRCHR = (\\[\"\\]|[^\\\"\n\r])
     "methods"           { return symbol ("methods"); }
     "off"               { return symbol ("off"); }
     "on"                { return symbol ("on"); }
+    "prefix"            { return symbol ("prefix"); }
     "pretty"            { return symbol ("pretty"); }
     "print"             { return symbol ("print"); }
     "return"            { return symbol ("return"); }
     "stack"             { return symbol ("stack"); }
+    "standard"          { return symbol ("standard"); }
     "stdin"             { return symbol ("stdin"); }
     "threadgroups"      { return symbol ("threadgroups"); }
     "threadlocks"       { return symbol ("threadlocks"); }
