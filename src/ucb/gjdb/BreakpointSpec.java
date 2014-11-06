@@ -152,6 +152,10 @@ class BreakpointSpec extends EventRequestSpec {
             buffer.format (" if %s", getCondition ());
         if (resolved () == null)
             buffer.format (" [deferred]");
+        if (!isEnabled ())
+            buffer.format (" [disabled]");
+        else if (ignored ())
+            buffer.format (" [ignored]");
         if (getCommands () != null && ! getCommands ().equals ("")) {
             buffer.format ("%n    Commands:%n        %s%n",
                            getCommands ().replaceAll ("\r\n?|\n", Env.endl));

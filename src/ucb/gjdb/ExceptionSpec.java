@@ -15,6 +15,7 @@ import com.sun.jdi.request.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Formatter;
 
 class ExceptionSpec extends EventRequestSpec {
 
@@ -58,6 +59,12 @@ class ExceptionSpec extends EventRequestSpec {
     }
 
     public String toString() {
-        return String.format ("CP [%d] %s", getId (), refSpec);
+        Formatter buffer = new Formatter ();
+        buffer.format ("CP [%d] %s", getId (), refSpec);
+        if (!isEnabled ())
+            buffer.format (" [disabled]");
+        else if (ignored ())
+            buffer.format (" [ignored]");
+        return buffer.toString();
     }
 }

@@ -86,6 +86,10 @@ class WatchpointSpec extends EventRequestSpec {
             }
         else if (resolved == null)
             result.format (" [deferred]");
+        if (!isEnabled ())
+            result.format (" [disabled]");
+        else if (ignored ())
+            result.format (" [ignored]");
         return result.toString ();
     }
 

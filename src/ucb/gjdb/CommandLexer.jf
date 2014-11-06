@@ -161,10 +161,12 @@ import static ucb.gjdb.CommandException.ERROR;
           { "da", "dumpall"},
           { "delete" },
           { "detach" },
+          { "disable" },
           { "disablegc" },
           { "down" },
           { "dump" },
           { "dumpall" },
+          { "enable" },
           { "enablegc" },
           { "eval", "print" },
           { "exclude" },
@@ -273,6 +275,7 @@ CMDSTRCHR = (\\[\"\\]|[^\\\"\n\r])
     "all"               { return symbol ("all"); }
     "both"              { return symbol ("both"); }
     "break"             { return symbol ("break"); }
+    "catch"             { return symbol ("catch"); }
     "class"             { return symbol ("class"); }
     "classes"           { return symbol ("classes"); }
     "classpath"         { return symbol ("classpath"); }

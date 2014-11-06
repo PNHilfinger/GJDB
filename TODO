@@ -264,3 +264,9 @@ DONE
 
 * Allow setting prefix of 'print' output to include expression being
   printed.
+
+* Add disable/enable commands.
+
+* Print ignored/enabled info with event specs (info break, etc.)
+
+

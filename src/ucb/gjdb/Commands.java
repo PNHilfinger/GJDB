@@ -1081,6 +1081,15 @@ class Commands implements EventNotifier {
                           id, count);
     }
 
+    void commandEnable (int id, boolean enabled) {
+        EventRequestSpec spec = 
+            EventRequestSpec.idToSpec (Env.eventRequestSpecs (null), id);
+        if (spec == null)
+            throw ERROR ("No event %d.", id);
+        spec.setEnabled (enabled);
+        Env.noticeln ("Event #%d %sabled.", id, enabled ? "en" : "dis");
+    }
+
     void commandTrace(int policy, String threadId) {
         EventRequestManager erm = Env.vm().eventRequestManager();
         MethodEntryRequest entry = erm.createMethodEntryRequest();

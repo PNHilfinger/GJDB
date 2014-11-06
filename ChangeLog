@@ -3,6 +3,22 @@
 	* Version 6.3.1
 	* src/ucb/gjdb/VMConnection.java (containsClass): Fix to properly
 	prefix with directories in path (currently ignores path).
+	* src/ucb/gjdb/ExceptionSpec.java (toString): Add disabled and ignored
+	information.
+	* src/ucb/gjdb/BreakpointSpec.java (toString): Ditto.
+	* src/ucb/gjdb/WatchpointSpec.java (toString): Ditto.
+	* src/ucb/gjdb/CommandLexer.jf: Add "enable", "disable", catch" keywords.
+	* src/ucb/gjdb/CommandParser.y: Add "enable", "disable" command syntax.
+	* src/ucb/gjdb/GJDB.y: Add usage messages for "enable", "disable",
+	and "info catch".
+	* src/ucb/gjdb/EventRequestSpec.java (constructor): Initialize enabled.
+	(resolve): Check disabled status.
+	(resetCount): Enable event spec. Remove COUNT_MARKER when ignore count
+	at -1.
+	(ignored): New method.
+	(isEnabled): New method.
+	(setEnabled): New method.
+	* src/ucb/gjdb/Commands.java (commandEnable): New method.
 
 2014-11-04  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 

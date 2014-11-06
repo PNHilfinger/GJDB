@@ -210,6 +210,10 @@ command:
                 { evaluator.commandDelete (); }
         | "delete" int_list
                 { evaluator.commandDelete ($2); }
+        | "disable" intlit
+                { evaluator.commandEnable ($2, false); }
+        | "enable" intlit
+                { evaluator.commandEnable ($2, true); }
         | "ignore" intlit intlit
                 { evaluator.commandIgnore ($2, $3); }
         | "trace" _check_connect suspend_policy "methods" 

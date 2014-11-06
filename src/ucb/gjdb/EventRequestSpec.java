@@ -21,6 +21,7 @@ abstract class EventRequestSpec {
     final private int id;
     private static int nextEventRequestId = 1;
     private String condition, commands;
+    private boolean enabled;
 
     int suspendPolicy = EventRequest.SUSPEND_ALL;
 
@@ -30,10 +31,11 @@ abstract class EventRequestSpec {
         this.refSpec = refSpec;
         id = nextEventRequestId;
         nextEventRequestId += 1;
+        enabled = true;
     }
 
     /** For making exemplars, etc. */
-    protected EventRequestSpec () { refSpec = null; id = 0; }
+    protected EventRequestSpec () { refSpec = null; id = 0; enabled = true; }
 
     /**
      * The 'refType' is known to match, return the EventRequest.
@@ -51,6 +53,8 @@ abstract class EventRequestSpec {
     {
         if (resolved == null && refSpec.matches (event.referenceType ()))
             resolved = resolveEventRequest (event.referenceType ());
+        if (resolved != null && !enabled)
+            resolved.disable ();
         return resolved;
     }   
 
@@ -70,6 +74,8 @@ abstract class EventRequestSpec {
                 resolved = resolveEventRequest(refType);
             }
         }
+        if (resolved != null && !enabled)
+            resolved.disable();
         return resolved;
     }
 
@@ -90,9 +96,10 @@ abstract class EventRequestSpec {
     /** Set the count filter on the event request to which THIS currently
      *  resolves (if any) to COUNT+1, or remove the count filter if COUNT<0.
      *  When an existing count filter must be removed or modified, re-resolves
-     *  THIS. */
+     *  THIS.  Leaves THIS enabled. */
     void resetCount (int count) {
         EventRequest req;
+        enabled = true;
         req = resolved ();
         if (req == null)
             return;
@@ -111,7 +118,30 @@ abstract class EventRequestSpec {
             req.addCountFilter (count + 1);
             req.putProperty (COUNT_MARKER, Boolean.TRUE);
             req.enable ();
+        } else {
+            req.putProperty (COUNT_MARKER, null);
         }
+    }
+
+    /** Return true iff this event is currently being ignored due to the
+     *  ignore command. */
+    boolean ignored () {
+        EventRequest req = resolved ();
+        return req != null && req.getProperty (COUNT_MARKER) != null;
+    }
+
+    /** Returns true iff this request spec is enabled. */
+    boolean isEnabled () {
+        return enabled;
+    }
+
+    /** Set isEnabled on this request spec to VAL. */
+    void setEnabled (boolean val) {
+        resetCount (-1);
+        enabled = val;
+        EventRequest req = resolved ();
+        if (req != null)
+            req.setEnabled (val);
     }
 
     /**

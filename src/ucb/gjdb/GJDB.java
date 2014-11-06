@@ -172,6 +172,11 @@ public class GJDB {
         { "ignore <stop number> <n>",
           "suppress stopping at stop request #<stop number> the next <n> "
           + "times it is hit" },
+        { "disable <stop number>",
+          "suppress stopping at stop request #<stop number>, but keep "
+          + "that stop" },
+        { "enable <stop number>",
+          "allow stopping at stop request #<stop number>" },
         { "trace methods [<thread id>]", "trace method entry and exit" },
         { "untrace methods", "stop tracing method entry and exit" },
         { "step", "execute current line.  Abbrev: 's'" },
@@ -182,6 +187,7 @@ public class GJDB {
         { "continue", "continue execution from breakpoint.  Abbrev: 'c'" },
         {  },
         { "info break", "list current breakpoints" },
+        { "info catch", "list current exception breakpoints" },
         { "info class <class id>", "show details of named class" },
         { "info classes", "list currently known classes" },
         { "info classpath", "print classpath info from target VM" },
