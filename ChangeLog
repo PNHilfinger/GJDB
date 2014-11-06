@@ -1,3 +1,9 @@
+2014-11-05  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	* Version 6.3.1
+	* src/ucb/gjdb/VMConnection.java (containsClass): Fix to properly
+	prefix with directories in path (currently ignores path).
+
 2014-11-04  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	* Version 6.3.0

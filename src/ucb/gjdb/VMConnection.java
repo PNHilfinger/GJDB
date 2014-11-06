@@ -593,7 +593,7 @@ class VMConnection {
 
         if (f.isDirectory ()) {
             for (int i = 0; i < classFileNames.size (); i += 1) 
-                if ((new File ((String) classFileNames.get (i))).canRead ())
+                if ((new File (f, (String) classFileNames.get (i))).canRead ())
                     return true;
         } else if (dirOrJar.endsWith (".jar")) {
             JarFile jf;
