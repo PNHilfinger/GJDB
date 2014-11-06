@@ -1,3 +1,10 @@
+Release 6.4:
+ * Add disable/enable commands.  
+ * Include ignored/disabled status in info break, etc.
+
+Release 6.3:
+ * (6.3.1) Add 'set print prefix' and allow 'print' command to echo expression.
+
 Release 6.2:
  * (6.2.7) Fix longstanding bug that prevented 'set var X = E' when E involved
    a method call, new, or other expression that restarted the thread.
