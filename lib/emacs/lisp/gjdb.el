@@ -26,8 +26,14 @@
 (defvar gjdb-program "gjdb"
   "*Name of the gjdb program.")
 
+(defun gjdb-shell-subst (s)
+  (let ((s-subst (substitute-env-vars s)))
+    (if (string-match-p "^~.*/" s-subst)
+        (expand-file-name s-subst)
+      s-subst)))
+
 (defun gjdb-massage-args (file args)
-  (cons "-f" (map gjdb-shell-subset args)))
+  (cons "-f" (map 'list 'gjdb-shell-subst args)))
 
 (defvar gjdb-marker-regexp
     (concat "\032\032\\([^" path-separator "\n]*\\)" path-separator
