@@ -25,7 +25,7 @@ DISTFILES = lib/emacs/lisp/gjdb.el \
 
 # NOTE: Keep the line below formatted exactly as is: "VERSION = version",
 #       left-justified, with no trailing spaces.
-VERSION = 6.4.0
+VERSION = 6.4.1
 
 JAR = jar
 JAVAC = javac 

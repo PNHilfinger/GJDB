@@ -1,6 +1,7 @@
 Release 6.4:
  * Add disable/enable commands.  
  * Include ignored/disabled status in info break, etc.
+ * (6.4.1): Expand environment variables and ~ properly in Emacs command lines.
 
 Release 6.3:
  * (6.3.1) Add 'set print prefix' and allow 'print' command to echo expression.

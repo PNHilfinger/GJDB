@@ -1,3 +1,9 @@
+2014-11-13  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	Version 6.4.1
+	* lib/emacs/lisp/gjdb.el: Expand environment variables and leading ~
+	as originally intended.
+
 2014-11-05  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	Version 6.4.0

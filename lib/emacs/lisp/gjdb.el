@@ -27,7 +27,7 @@
   "*Name of the gjdb program.")
 
 (defun gjdb-massage-args (file args)
-  (cons "-f" args))
+  (cons "-f" (map gjdb-shell-subset args)))
 
 (defvar gjdb-marker-regexp
     (concat "\032\032\\([^" path-separator "\n]*\\)" path-separator
