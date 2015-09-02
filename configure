@@ -19,6 +19,8 @@ doReplace () {
         -e "s,@libdir@,$libdir,g" \
 	-e "s,@bindir@,$bindir,g" \
 	-e "s,@jdk@,$jdk,g" \
+        -e "s,@java@,$JAVA,g" \
+        -e "s,@exec_libdir@,$exec_libdir,g" \
 	-e "s,@compiler@,$compiler,g" \
 	-e "s,@emacsdir@,$emacsdir,g" $srcdir/$1/$2.in > $1/$2
 }
@@ -61,6 +63,7 @@ file=
 config="$0 $@"
 
 prefix=$HOME
+JAVA=java
 while [ $# -gt 0 ]; do
    val="`echo $1 | sed 's/^.*=//'`"
    case $1 in
@@ -71,6 +74,7 @@ while [ $# -gt 0 ]; do
 	--libdir=*)	libdir="$val";;
 	--bindir=*)	bindir="$val";;
 	--emacsdir=*)	emacsdir="$val";;
+        --java=*)       JAVA="$val";;
 	--*)            Usage;;
 	*)		if [ "X$file" = "X" ]; then file=$1; else Usage; fi;;
    esac
@@ -111,9 +115,17 @@ else
 fi
 compiler=3
 
+if [ -z "$libdir" -a -z "$bindir" ]; then
+    libdir=${libdir:-${prefix}/lib/gjdb}
+    bindir=${bindir:-${prefix}/bin}
+    exec_libdir=""
+else
+    libdir=${libdir:-${prefix}/lib/gjdb}
+    bindir=${bindir:-${prefix}/bin}
+    exec_libdir="$libdir"
+fi
+
 sharedir=${sharedir:-${prefix}/share/gjdb}
-libdir=${libdir:-${sharedir}/lib}
-bindir=${bindir:-${prefix}/bin}
 emacsdir=${emacsdir:-${sharedir}/emacs/lisp}
 docdir=${docdir:-${sharedir}/doc}
 

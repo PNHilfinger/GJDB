@@ -1,12 +1,24 @@
 #!/bin/sh
 
-APPHOME="@apphome@"
-UCBCLASSES="@libdir@/gjdb.jar"
-JDICLASSES="@jdilib@"
+here="`(cd \`dirname $0\`; pwd)`"
 
-JAVA=${APPHOME}/bin/java
+if [ -n "@exec_libdir@" ]; then
+    libdir="@exec_libdir@";
+else
+    libdir="$here/../lib/gjdb"
+fi
+
+UCBCLASSES="$libdir"/gjdb.jar
+
+apphome=`@java@ -cp ${UCBCLASSES} ucb.gjdb.Javahome`
+
+if [ -f $apphome/../lib/tools.jar ]; then
+    JDICLASSES="`dirname $apphome`/lib/tools.jar"
+else
+    JDICLASSES=
+fi
 
 CLASSPATH=".:${UCBCLASSES}:${JDICLASSES:+:${JDICLASSES}}${CLASSPATH:+:${CLASSPATH}}"
 export CLASSPATH
 
-exec ${JAVA} -Djava.compiler -Dapplication.home=${APPHOME} ucb.gjdb.GJDB $*
+exec @java@ -Djava.compiler ucb.gjdb.GJDB $*

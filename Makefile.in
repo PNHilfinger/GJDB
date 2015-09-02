@@ -19,13 +19,13 @@ DISTFILES = lib/emacs/lisp/gjdb.el \
 	    doc/*.sty doc/*.cls doc/Makefile.in doc/*.tex.in \
 	    configure Makefile.in ChangeLog README NEWS \
 	    bin/gjdb.in bin/meta-gjdb.in \
-	    src/ucb/gjdb/*.java \
+	    Javahome.java src/ucb/gjdb/*.java \
 	    src/ucb/gjdb/ExpressionParser.y src/ucb/gjdb/ExpressionLexer.jf \
 	    src/ucb/gjdb/CommandParser.y src/ucb/gjdb/CommandLexer.jf \
 
 # NOTE: Keep the line below formatted exactly as is: "VERSION = version",
 #       left-justified, with no trailing spaces.
-VERSION = 6.4.1
+VERSION = 6.4.2
 
 JAR = jar
 JAVAC = javac 

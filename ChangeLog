@@ -1,3 +1,12 @@
+2015-09-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	Version 6.4.2
+
+	* bin/gjdb.in: Rejigger to allow less sensitivity to installation
+	directories. Use configured Java installation rather than going through
+	APPHOME.
+	* configure: Update for new gjdb.in.  Add java= configuration param.
+
 2014-11-13  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	Version 6.4.1
