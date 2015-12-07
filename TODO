@@ -30,6 +30,10 @@
 
 * Document 'set' commands.
 
+* Fix command-line arguments containing spaces: gjdb eek "foo bar" passes
+  in two arguments, while the command 'run "foo bar"' correctly passes in
+  one.
+
 ---------
 
 CLEAN-UPS

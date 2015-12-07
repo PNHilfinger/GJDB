@@ -4,7 +4,7 @@ here="`(cd \`dirname $0\`; pwd)`"
 
 if [ -n "@exec_libdir@" ]; then
     libdir="@exec_libdir@";
-else
+elif [ -h "$0" ]; then
     libdir="$here/../lib/gjdb"
 fi
 
