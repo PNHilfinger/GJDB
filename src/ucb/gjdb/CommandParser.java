@@ -1,5 +1,37 @@
-/* A Bison parser, made by GNU Bison 2.3j6.  */
+/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+/* This header is separate from features.h so that the compiler can
+   include it implicitly at the start of every compilation.  It must
+   not itself include <features.h> or any other header that includes
+   <features.h> because the implicit include comes before any feature
+   test macros that may be defined in a source file before it first
+   explicitly includes a system header.  GCC knows the name of this
+   header in order to preinclude it.  */
+/* glibc's intent is to support the IEC 559 math functionality, real
+   and complex.  If the GCC (4.9 and later) predefined macros
+   specifying compiler intent are available, use them to determine
+   whether the overall intent is to support these features; otherwise,
+   presume an older compiler has intent to support these features and
+   define these macros by default.  */
+/* wchar_t uses Unicode 8.0.0.  Version 8.0 of the Unicode Standard is
+   synchronized with ISO/IEC 10646:2014, plus Amendment 1 (published
+   2015-05-15).  */
+/* We do not support C11 <threads.h>.  */
+/* A Bison parser, made by GNU Bison 2.3j6.  */
 /* Skeleton parser for Yacc-like parsing with Bison, Java version
 
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005 Free
@@ -19,7 +51,6 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
-
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
    under terms of your choice, so long as that work isn't itself a
@@ -32,48 +63,28 @@
 
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
-
 /* As a special exception, when this file is copied by Bison into a
    Bison output file, you may use that output file without restriction.
    This special exception was added by the Free Software Foundation
    in version 1.24 of Bison.  */
-
 /* Written by Richard Stallman by simplifying the original so called
    ``semantic'' parser.  Adopted for Java by P. N. Hilfinger */
-
 /* All symbols defined below should begin with yy or YY, to avoid
    infringing on user name space.  This should be done even for local
    variables, as they might otherwise be expanded by user macros.
    There are some unavoidable exceptions within include files to
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
-
 /* Identify Bison output.  */
-
-
 /* Bison version.  */
-
-
 /* Skeleton name.  */
-
-
 /* Pure parsers.  */
-
-
 /* Using locations.  */
-
-
-
-
-
    package ucb.gjdb;
-
    import com.sun.jdi.*;
    import com.sun.jdi.request.*;
-
    import java.io.BufferedReader;
    import java.io.IOException;
-
    import java.util.Stack;
    import java.util.Collections;
    import java.util.Stack;
@@ -83,12 +94,9 @@
    import java.util.regex.Pattern;
    import java.util.regex.Matcher;
    import java.util.Formatter;
-
    import static ucb.gjdb.CommandException.ERROR;
-
    class CommandParser
 {
-
 /* Tokens.  */
    public static final int
      WORD = 258,
@@ -97,65 +105,22 @@
      CHARLIT = 261,
      STRINGLIT = 262,
      IDENT = 263;
-
 /* Copy the first part of user declarations.  */
-
 /* End first part of user declarations.  */
-
-
-
-
-
 /* TEMPORARY CHANGE: FIXME */
-
-
-
-
-
 static int YYLTYPE_INIT;
-
 /* Enabling traces.  */
-
-
-
-
 /* Enabling verbose error messages.  */
-
-
-
-
-
-
-
 /* Copy the second part of user declarations.  */
-
-
 /* Line 221 of yacc.java.  */
 // _line_ 115 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/CommandParser.java"
-
-
-
 /* YYFINAL -- State number of the termination state. */
-
 /* YYLAST -- Last index in YYTABLE.  */
-
-
 /* YYNTOKENS -- Number of terminals. */
-
 /* YYNNTS -- Number of nonterminals. */
-
 /* YYNRULES -- Number of rules. */
-
 /* YYNRULES -- Number of states. */
-
-
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-
-
-
-
-
-
 /* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
 static final short yytranslate[] =
 {
@@ -196,8 +161,6 @@ static final short yytranslate[] =
       90, 91, 92, 93, 94, 95, 96, 97, 99, 100,
      101, 106, 108, 110, 111, 112
 };
-
-
 /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
 static final char yyprhs[] =
@@ -224,7 +187,6 @@ static final char yyprhs[] =
      670, 671, 675, 682, 692, 693, 695, 697, 698, 700,
      702, 705, 706, 707, 708, 709, 710, 711, 712
 };
-
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
 static final short yyrhs[] =
 {
@@ -301,7 +263,6 @@ static final short yyrhs[] =
       44, -1, 152, 4, -1, -1, -1, -1, -1, -1,
       -1, -1, -1
 };
-
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static final char yyrline[] =
 {
@@ -327,17 +288,13 @@ static final char yyrline[] =
      523, 524, 529, 531, 537, 538, 539, 543, 544, 545,
      549, 554, 559, 562, 566, 570, 574, 578, 582
 };
-
-
 static final int YY_NUM_TERMINALS = 113;
-
 static String yytname (int i) {
    if (i == yytname.length-1)
      return null;
    else
      return (String) yytname[i];
 }
-
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static final Object yytname[] =
@@ -375,7 +332,6 @@ static final Object yytname[] =
   "_break_mode", "_print_mode", "_check_connect", "_balanced_collect_mode",
   "_collect_all_mode", "_run_args_mode", 0
 };
-
 /* YYTOKNUM[YYLEX-NUM] -- Internal token number corresponding to
    token YYLEX-NUM.  */
 static final int[] yytoknum =
@@ -393,7 +349,6 @@ static final int[] yytoknum =
      349, 350, 60, 62, 38, 44, 351, 42, 352, 59,
      353, 354, 355
 };
-
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static final short yyr1[] =
 {
@@ -419,7 +374,6 @@ static final short yyr1[] =
      142, 142, 143, 143, 144, 144, 144, 145, 145, 145,
      146, 147, 148, 149, 150, 151, 152, 153, 154
 };
-
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static final short yyr2[] =
 {
@@ -445,7 +399,6 @@ static final short yyr2[] =
        0, 3, 6, 9, 0, 1, 1, 0, 1, 1,
        2, 0, 0, 0, 0, 0, 0, 0, 0
 };
-
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
    STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
    means the default is an error.  */
@@ -489,7 +442,6 @@ static final short yydefact[] =
      203, 167, 98, 191, 160, 0, 165, 0, 163, 0,
      193
 };
-
 /* YYDEFGOTO[NTERM-NUM]. */
 static final short yydefgoto[] =
 {
@@ -499,10 +451,8 @@ static final short yydefgoto[] =
      116, 289, 216, 74, 307, 342, 109, 73, 80, 75,
      100, 66
 };
-
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-
 static final short yypact[] =
 {
      292, -162, -162, 30, 29, 78, -162, -162, -162, 46,
@@ -543,7 +493,6 @@ static final short yypact[] =
     -162, 271, -162, -162, -162, 212, -162, 175, 166, 267,
     -162
 };
-
 /* YYPGOTO[NTERM-NUM].  */
 static final short yypgoto[] =
 {
@@ -553,12 +502,10 @@ static final short yypgoto[] =
      260, -162, 173, -16, -162, -162, -28, 272, 56, -52,
      -37, 119
 };
-
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-
 static final short yytable[] =
 {
      110, 89, 153, 114, 115, 117, 119, 65, 264, 98,
@@ -602,7 +549,6 @@ static final short yytable[] =
        0, 0, 52, 53, 54, 55, 56, 57, 58, 59,
        0, 60, 61, 62
 };
-
 static final short yycheck[] =
 {
       28, 17, 54, 31, 32, 33, 34, 0, 169, 20,
@@ -646,7 +592,6 @@ static final short yycheck[] =
       -1, -1, 90, 91, 92, 93, 94, 95, 96, 97,
       -1, 99, 100, 101
 };
-
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static final short yystos[] =
