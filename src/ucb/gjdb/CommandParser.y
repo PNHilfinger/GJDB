@@ -80,6 +80,16 @@ command:
         | "print" _print_mode '/' intlit expr
                 { evaluator.commandPrint ($5, $4, ' ', false);
                   showPrompt = false; }
+        | "dump" _print_mode expr
+                { evaluator.commandPrint ($3, evaluator.EXAMINE, ' ', false); 
+                  showPrompt = false; }
+        | "dump" _print_mode '/' WORD expr
+                { evaluator.commandPrint ($5, printDepth ($4), printFormat ($4),
+                                          false);
+                  showPrompt = false; }
+        | "dump" _print_mode '/' intlit expr
+                { evaluator.commandPrint ($5, $4, ' ', false);
+                  showPrompt = false; }
         | "call" expr
                 { evaluator.commandPrint ($2, evaluator.NO_PRINT, ' ', false);
                   showPrompt = false; }

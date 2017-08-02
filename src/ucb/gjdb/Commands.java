@@ -1303,8 +1303,7 @@ class Commands implements EventNotifier {
                       int indent, boolean wantStatics, 
                       Set<ObjectReference> dumped) {
         if (val == null || depth == 0
-            || val instanceof PrimitiveValue || val instanceof VoidValue
-            || val instanceof StringReference
+            || LValue.isStringable (val)
             || (dumped != null && dumped.contains (val))) {
             Env.noticeln ("%s", LValue.toString (val, format));
             return; 
@@ -2100,4 +2099,3 @@ class Commands implements EventNotifier {
     BufferedReader standardInputReader;
     BreakpointSpec lastBreakpointSet;
 }
-

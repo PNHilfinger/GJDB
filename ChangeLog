@@ -1,3 +1,14 @@
+2017-08-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	Version 6.5.0
+
+	* src/ucb/gjdb/CommandParser.y: Fix dump command.
+	* src/ucb/gjdb/CommandParser.java: Rebuild.
+	* src/ucb/gjdb/Commands.java: Print enumerals and wrapped values more
+	nicely.
+	* src/ucb/gjdb/LValue.java: Improve toString to return better results
+	for enumerals and wrapped values.
+
 2015-09-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	Version 6.4.2

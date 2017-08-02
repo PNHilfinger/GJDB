@@ -224,10 +224,14 @@ abstract class LValue {
         }
     }
 
-    public static String toString (Value v, char format) {
+    /** The printed representation of V. Use FORMAT to indicate format,
+     *  if applicable. */
+    public static String toString(Value v, char format) {
         if (v == null)
             return "null";
-        else if (v instanceof LongValue)
+        else if (!isStringable(v)) {
+            return v.toString();
+        } else if (v instanceof LongValue)
             return formattedInt (((PrimitiveValue) v).longValue (), 
                                  format);
         else if (v instanceof IntegerValue
@@ -238,8 +242,29 @@ abstract class LValue {
             return formattedChar (((PrimitiveValue) v).charValue (), format);
         else if (v instanceof StringReference)
             return formattedString (((StringReference) v).value (), format);
-        else
-            return v.toString ();
+        else if (isEnumeral(v)) {
+            Field nameField = fieldByName((ReferenceType) v.type(),
+                                          "name", INSTANCE);
+            if (nameField == null) {
+                return v.toString();
+            }
+            String raw = toString(((ObjectReference) v).getValue(nameField),
+                                  format);
+            if (raw.length() > 2) {
+                return raw.substring(1, raw.length() - 1);
+            } else {
+                return raw;
+            }
+        } else if (isWrapper(v)) {
+            Field nameField = fieldByName((ReferenceType) v.type(),
+                                          "value", INSTANCE);
+            if (nameField == null) {
+                return v.toString();
+            }
+            return toString(((ObjectReference) v).getValue(nameField),
+                               format);
+        }            
+        return v.toString ();
     }
 
     public String toString (char format) {
@@ -1448,5 +1473,57 @@ abstract class LValue {
         else
             return " " + msg;
     }
+
+    /** Return true iff V should be printed using its .toString() value. */
+    static boolean isStringable(Value v) {
+        return v == null
+            || STRINGABLE_TYPE_NAMES.contains(v.type().name())
+            || isEnumeral(v);
+    }
+
+    /** Return true iff V's type is a subtype of java.lang.Enum. */
+    static boolean isEnumeral(Value v) {
+        Type typ = v.type();
+        if (!(typ instanceof ClassType)) {
+            return false;
+        }
+        ClassType ctyp = (ClassType) typ;
+        while (ctyp != null) {
+            if (ctyp.name().equals("java.lang.Enum")) {
+                return true;
+            }
+            ctyp = ctyp.superclass();
+        }
+        return false;
+    }
+
+    /** Return true iff V's type is a standard Java wrapper type for a
+     *  primitive value. */
+    static boolean isWrapper(Value v) {
+        if (v == null) {
+            return false;
+        }
+        Type typ = v.type();
+        if (!(typ instanceof ClassType)) {
+            return false;
+        }
+        ClassType ctyp = (ClassType) typ;
+        return WRAPPER_TYPE_NAMES.contains(ctyp.name());
+    }
+
+    private static final List<String> STRINGABLE_TYPE_NAMES =
+        Arrays.asList("long", "int", "short", "byte", "char",
+                      "double", "float", "boolean", "java.lang.String",
+                      "java.lang.Long", "java.lang.Integer",
+                      "java.lang.Short", "java.lang.Byte",
+                      "java.lang.Character", "java.lang.Double",
+                      "java.lang.Float", "java.lang.Boolean");
+
+    private static final List<String> WRAPPER_TYPE_NAMES =
+        Arrays.asList("java.lang.Long", "java.lang.Integer",
+                      "java.lang.Short", "java.lang.Byte",
+                      "java.lang.Character", "java.lang.Double",
+                      "java.lang.Float", "java.lang.Boolean");
+        
 
 }
