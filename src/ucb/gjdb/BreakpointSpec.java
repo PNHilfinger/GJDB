@@ -81,7 +81,7 @@ class BreakpointSpec extends EventRequestSpec {
         return lineNumber;
     }
 
-    List methodArgs() {
+    List<String> methodArgs() {
         return methodArgs;
     }
 
@@ -285,10 +285,10 @@ class BreakpointSpec extends EventRequestSpec {
                NoSuchMethodException {
 
         // Normalize the argument string once before looping below.
-        List argTypeNames = null;
+        List<String> argTypeNames = null;
         if (methodArgs() != null) {
-            argTypeNames = new ArrayList(methodArgs().size());
-            Iterator iter = methodArgs().iterator();
+            argTypeNames = new ArrayList<>(methodArgs().size());
+            Iterator<String> iter = methodArgs().iterator();
             while (iter.hasNext()) {
                 String name = (String)iter.next();
                 name = normalizeArgTypeName(name);

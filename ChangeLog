@@ -1,3 +1,18 @@
+2018-08-15  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
+
+	Version 6.5.1
+
+	* configure, Makefile.in, src/ucb/gjdb/BreakpointSpec.java,
+	src/ucb/gjdb/CommandParser.java, src/ucb/gjdb/CommandParser.y,
+	src/ucb/gjdb/Commands.java, src/ucb/gjdb/Env.java,
+	src/ucb/gjdb/EventRequestSpecList.java,
+	src/ucb/gjdb/ExpressionParser.java,
+	src/ucb/gjdb/ExpressionParser.y, src/ucb/gjdb/LValue.java,
+	src/ucb/gjdb/SourceMapper.java, src/ucb/gjdb/ThreadGroupIterator.java,
+	src/ucb/gjdb/ThreadInfo.java, src/ucb/gjdb/ThreadIterator.java,
+	src/ucb/gjdb/VMConnection.java,:  Update to Java 10. Remove some
+	unchecked conversion warnings.
+
 2017-08-01  Paul Hilfinger  <hilfingr@tully.CS.Berkeley.EDU>
 
 	Version 6.5.0

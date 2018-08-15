@@ -99,7 +99,7 @@ majorversion=`echo $rawjavaversion | sed -e '1s/^.*"\([0-9]*\)\.[0-9]*.*$/\1/' -
 minorversion=`echo $rawjavaversion | sed -e '1s/^.*"[0-9]*\.\([0-9]*\).*$/\1/' -e 1q`
 jdk=`echo $rawjavaversion | sed -e '1s/^.*"\([-0-9a-zA-Z._]*\)".*$/\1/' -e 1q`
 
-if [ "$majorversion" != "1" -o "0$minorversion" -lt 3 ]; then
+if [ "$majorversion" -lt "7" ]; then
     echo "Error: Unrecognized Java version: \"$rawjavaversion\""
     exit 1
 else

@@ -26,7 +26,7 @@ abstract class LValue {
                IncompatibleThreadStateException,
                ClassNotLoadedException;
 
-    abstract void invokeWith(List arguments);
+    abstract void invokeWith(List<Value> arguments);
 
     void setValue(Value value) {
         try {
@@ -286,18 +286,18 @@ abstract class LValue {
         return field;
     }
 
-    static List methodsByName(ReferenceType refType, String name, int kind) {
-        List list = refType.methodsByName(name);
-        Iterator iter = list.iterator();
+    static List<Method> methodsByName(ReferenceType refType, String name, int kind) {
+        List<Method> list = refType.methodsByName(name);
+        Iterator<Method> iter = list.iterator();
         while (iter.hasNext()) {
-            Method method = (Method)iter.next();
+            Method method = iter.next();
             if ((kind & (method.isStatic() ? STATIC : INSTANCE)) == 0)
                 iter.remove();
         }
         return list;
     }
 
-    static List primitiveTypeNames = new ArrayList();
+    static List<String> primitiveTypeNames = new ArrayList<>();
     static {
         primitiveTypeNames.add("boolean");
         primitiveTypeNames.add("byte");
@@ -310,12 +310,13 @@ abstract class LValue {
     }
 
     static Value invokeMethod (ObjectReference obj, ThreadReference thread,
-                               List overloads, List arguments, int options) 
+                               List<Method> overloads, List<Value> arguments,
+                               int options) 
         throws InvocationException, ClassNotLoadedException, 
                IncompatibleThreadStateException, CommandException {
 
-        for (Iterator it = overloads.iterator (); it.hasNext (); ) {
-            Method method = (Method) it.next ();
+        for (Iterator<Method> it = overloads.iterator (); it.hasNext (); ) {
+            Method method = it.next ();
             try {
                 return obj.invokeMethod (thread, method, arguments, options);
             } catch (InvalidTypeException e) { 
@@ -328,12 +329,13 @@ abstract class LValue {
     }
 
     static Value invokeMethod (ClassType type, ThreadReference thread,
-                               List overloads, List arguments, int options) 
+                               List<Method> overloads, List<Value> arguments,
+                               int options) 
         throws InvocationException, ClassNotLoadedException, 
                IncompatibleThreadStateException, CommandException {
 
-        for (Iterator it = overloads.iterator (); it.hasNext (); ) {
-            Method method = (Method) it.next ();
+        for (Iterator<Method> it = overloads.iterator (); it.hasNext (); ) {
+            Method method = it.next ();
             try {
                 return type.invokeMethod (thread, method, arguments, options);
             } catch (InvalidTypeException e) {
@@ -346,7 +348,8 @@ abstract class LValue {
     }
 
     static ObjectReference newInstance (ClassType type, ThreadReference thread,
-                                        List overloads, List arguments)
+                                        List<Method> overloads,
+                                        List<Value> arguments)
         throws InvocationException, ClassNotLoadedException, 
                IncompatibleThreadStateException, CommandException {
     
@@ -403,7 +406,7 @@ abstract class LValue {
             frameGetter.get().setValue(var, val);
         }
 
-        void invokeWith(List arguments) {
+        void invokeWith(List<Value> arguments) {
             throw ERROR("%s is not a method", var.name());
         }
     }
@@ -413,9 +416,9 @@ abstract class LValue {
         final ObjectReference obj;
         final ThreadReference thread;
         final Field matchingField;
-        final List overloads;
+        final List<Method> overloads;
         final int options;
-        List methodArguments = null;
+        List<Value> methodArguments = null;
 
         LValueInstanceMember(Value value, 
                              String memberName, 
@@ -466,7 +469,8 @@ abstract class LValue {
         }
         
         Value getValue() throws InvocationException, CommandException,
-                                ClassNotLoadedException, IncompatibleThreadStateException {
+                                ClassNotLoadedException,
+                                IncompatibleThreadStateException {
             if (methodArguments == null) {
                 return obj.getValue(matchingField);
             } else {
@@ -484,7 +488,7 @@ abstract class LValue {
             obj.setValue(matchingField, val);
         }
 
-        void invokeWith(List arguments) {
+        void invokeWith(List<Value> arguments) {
             if (methodArguments != null) {
                 throw ERROR("Invalid consecutive invocations");
             }
@@ -497,8 +501,8 @@ abstract class LValue {
         final ReferenceType refType;
         final ThreadReference thread;
         final Field matchingField;
-        final List overloads;
-        List methodArguments = null;
+        final List<Method> overloads;
+        List<Value> methodArguments = null;
 
         LValueStaticMember(ReferenceType refType, 
                            String memberName,
@@ -541,7 +545,7 @@ abstract class LValue {
             ((ClassType)refType).setValue(matchingField, val);
         }
 
-        void invokeWith(List arguments) {
+        void invokeWith(List<Value> arguments) {
             if (methodArguments != null) {
                 throw ERROR("Invalid consecutive invocations");
             }
@@ -571,7 +575,7 @@ abstract class LValue {
             array.setValue(index, val);
         }
 
-        void invokeWith(List arguments) {
+        void invokeWith(List<Value> arguments) {
             throw ERROR("Array element is not a method");
         }
     }
@@ -592,7 +596,7 @@ abstract class LValue {
             throw ERROR("Cannot set constant: %s", value);
         }
 
-        void invokeWith(List arguments) {
+        void invokeWith(List<Value> arguments) {
             throw ERROR("Constant is not a method");
         }
     }
@@ -871,7 +875,7 @@ abstract class LValue {
             }
             LValue instanceOfCall = 
                 classVal.memberLValue(frameGetter, "isInstance");
-            List args = new ArrayList (1);
+            List<Value> args = new ArrayList<> (1);
             args.add (thisVal);
             instanceOfCall.invokeWith (args);
             return makeConstant (instanceOfCall.interiorGetValue ());
@@ -884,7 +888,7 @@ abstract class LValue {
 
     static LValue makeNewObject(VirtualMachine vm, 
                                 GetFrame frameGetter, 
-                                String className, List arguments) {
+                                String className, List<Value> arguments) {
         ReferenceType refType = classByName (vm, className);
 
         if (!(refType instanceof ClassType)) {
@@ -892,10 +896,10 @@ abstract class LValue {
         }
 
         ClassType classType = (ClassType)refType;
-        List methods = new ArrayList(classType.methods()); // writable
-        Iterator iter = methods.iterator();
+        List<Method> methods = new ArrayList<>(classType.methods()); // writable
+        Iterator<Method> iter = methods.iterator();
         while (iter.hasNext()) {
-            Method method = (Method)iter.next();
+            Method method = iter.next();
             if (!method.isConstructor()) {
                 iter.remove();
             }
@@ -1099,7 +1103,7 @@ abstract class LValue {
             } else if (val instanceof ObjectReference && 
                        frameGetter != null) {
                 ObjectReference obj = (ObjectReference) val;
-                List toStrings =
+                List<Method> toStrings =
                     obj.referenceType ()
                     .methodsByName ("toString", 
                                     "()Ljava/lang/String;");
@@ -1107,7 +1111,7 @@ abstract class LValue {
                     break SpecialCases;
                 Value str = 
                     invokeMethod (obj, frameGetter.get ().thread (),
-                                  toStrings, Collections.EMPTY_LIST, 0);
+                                  toStrings, Collections.emptyList(), 0);
                 if (str == null)
                     return "null";
                 else if (str instanceof StringReference)

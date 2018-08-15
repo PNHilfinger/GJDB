@@ -147,7 +147,7 @@ class EventRequestSpecList {
         
     EventRequestSpec createBreakpoint(String classPattern, 
                                       String methodId, 
-                                      List methodArgs) 
+                                      List<String> methodArgs) 
         throws BadMemberNameException,  ClassNotFoundException {
         ReferenceTypeSpec refSpec = 
             new PatternReferenceTypeSpec(classPattern);

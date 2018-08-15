@@ -18,7 +18,7 @@ class ThreadIterator implements Iterator {
         tgi = new ThreadGroupIterator(tg);
     }
 
-    ThreadIterator(List tgl) {
+    ThreadIterator(List<ThreadGroupReference> tgl) {
         tgi = new ThreadGroupIterator(tgl);
     }
 

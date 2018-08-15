@@ -1,5 +1,37 @@
-/* A Bison parser, made by GNU Bison 2.3j6.  */
+/* Copyright (C) 1991-2016 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
 
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <http://www.gnu.org/licenses/>.  */
+/* This header is separate from features.h so that the compiler can
+   include it implicitly at the start of every compilation.  It must
+   not itself include <features.h> or any other header that includes
+   <features.h> because the implicit include comes before any feature
+   test macros that may be defined in a source file before it first
+   explicitly includes a system header.  GCC knows the name of this
+   header in order to preinclude it.  */
+/* glibc's intent is to support the IEC 559 math functionality, real
+   and complex.  If the GCC (4.9 and later) predefined macros
+   specifying compiler intent are available, use them to determine
+   whether the overall intent is to support these features; otherwise,
+   presume an older compiler has intent to support these features and
+   define these macros by default.  */
+/* wchar_t uses Unicode 8.0.0.  Version 8.0 of the Unicode Standard is
+   synchronized with ISO/IEC 10646:2014, plus Amendment 1 (published
+   2015-05-15).  */
+/* We do not support C11 <threads.h>.  */
+/* A Bison parser, made by GNU Bison 2.3j6.  */
 /* Skeleton parser for Yacc-like parsing with Bison, Java version
 
    Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005 Free
@@ -19,7 +51,6 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
-
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
    under terms of your choice, so long as that work isn't itself a
@@ -32,56 +63,34 @@
 
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
-
 /* As a special exception, when this file is copied by Bison into a
    Bison output file, you may use that output file without restriction.
    This special exception was added by the Free Software Foundation
    in version 1.24 of Bison.  */
-
 /* Written by Richard Stallman by simplifying the original so called
    ``semantic'' parser.  Adopted for Java by P. N. Hilfinger */
-
 /* All symbols defined below should begin with yy or YY, to avoid
    infringing on user name space.  This should be done even for local
    variables, as they might otherwise be expanded by user macros.
    There are some unavoidable exceptions within include files to
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
-
 /* Identify Bison output.  */
-
-
 /* Bison version.  */
-
-
 /* Skeleton name.  */
-
-
 /* Pure parsers.  */
-
-
 /* Using locations.  */
-
-
-
-
-
    package ucb.gjdb;
-
    import com.sun.jdi.*;
-
    import java.util.Stack;
    import java.util.Collections;
    import java.util.Stack;
    import java.util.List;
    import java.util.ArrayList;
    import java.util.HashMap;
-
    import static ucb.gjdb.CommandException.ERROR;
-
    class ExpressionParser
 {
-
 /* Tokens.  */
    public static final int
      BOOLEAN = 258,
@@ -100,7 +109,6 @@
      INTERNALVAR = 271,
      HISTORYVAR = 272,
      POSTFIX = 296;
-
 /* Copy the first part of user declarations.  */
 // _line_ 62 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
 /* End first part of user declarations.  */
@@ -1118,7 +1126,7 @@ case yyreduce:
     { if (eval) {
         LValue v = ((LValue)yyvsa[yyvsp+(-3)]).memberLValue (framer, ((String)yyvsa[yyvsp+(-1)]));
         yyval = v;
-        v.invokeWith (((List)yyvsa[yyvsp+(0)]));
+        v.invokeWith (((List<Value>)yyvsa[yyvsp+(0)]));
     }
   ;}
     break;
@@ -1126,7 +1134,7 @@ case yyreduce:
 // _line_ 265 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
         LValue v = LValue.makeName (vm, framer, ((String)yyvsa[yyvsp+(-1)]));
-        v.invokeWith (((List)yyvsa[yyvsp+(0)]));
+        v.invokeWith (((List<Value>)yyvsa[yyvsp+(0)]));
         yyval = v;
     }
   ;}
@@ -1136,7 +1144,7 @@ case yyreduce:
     { if (eval) {
         LValue v = LValue.makeName (vm, framer,
                ((String)yyvsa[yyvsp+(-3)]) + "." + ((String)yyvsa[yyvsp+(-1)]));
-        v.invokeWith (((List)yyvsa[yyvsp+(0)]));
+        v.invokeWith (((List<Value>)yyvsa[yyvsp+(0)]));
         yyval = v;
      }
   ;}
@@ -1199,7 +1207,7 @@ case yyreduce:
   case 89:
 // _line_ 336 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval
-    ? LValue.makeArray (vm, ((String)yyvsa[yyvsp+(-1)]), framer, ((List)yyvsa[yyvsp+(0)]))
+    ? LValue.makeArray (vm, ((String)yyvsa[yyvsp+(-1)]), framer, ((List<Value>)yyvsa[yyvsp+(0)]))
            : null; ;}
     break;
   case 90:
@@ -1213,13 +1221,13 @@ case yyreduce:
   case 92:
 // _line_ 344 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval
-          ? LValue.makeNewObject (vm, framer, ((String)yyvsa[yyvsp+(-1)]), ((List)yyvsa[yyvsp+(0)]))
+          ? LValue.makeNewObject (vm, framer, ((String)yyvsa[yyvsp+(-1)]), ((List<Value>)yyvsa[yyvsp+(0)]))
           : null; ;}
     break;
   case 93:
 // _line_ 348 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { yyval = eval
-    ? LValue.makeArray (vm, ((String)yyvsa[yyvsp+(-1)]), framer, ((List)yyvsa[yyvsp+(0)]))
+    ? LValue.makeArray (vm, ((String)yyvsa[yyvsp+(-1)]), framer, ((List<Value>)yyvsa[yyvsp+(0)]))
            : null; ;}
     break;
   case 94:
@@ -1233,7 +1241,7 @@ case yyreduce:
   case 97:
 // _line_ 359 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
-         yyval = ((List)yyvsa[yyvsp+(-1)]); ((List)yyvsa[yyvsp+(-1)]).add (null);
+         yyval = ((List<Value>)yyvsa[yyvsp+(-1)]); ((List<Value>)yyvsa[yyvsp+(-1)]).add (null);
       }
     ;}
     break;
@@ -1250,8 +1258,8 @@ case yyreduce:
   case 99:
 // _line_ 374 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
-         ((List)yyvsa[yyvsp+(-3)]).add (((LValue)yyvsa[yyvsp+(-1)]).interiorGetValue ());
-         yyval = ((List)yyvsa[yyvsp+(-3)]);
+         ((List<Value>)yyvsa[yyvsp+(-3)]).add (((LValue)yyvsa[yyvsp+(-1)]).interiorGetValue ());
+         yyval = ((List<Value>)yyvsa[yyvsp+(-3)]);
       }
     ;}
     break;
@@ -1289,11 +1297,11 @@ case yyreduce:
     break;
   case 110:
 // _line_ 399 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
-    { yyval = ((List)yyvsa[yyvsp+(-1)]); ;}
+    { yyval = ((List<Value>)yyvsa[yyvsp+(-1)]); ;}
     break;
   case 111:
 // _line_ 400 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
-    { yyval = Collections.EMPTY_LIST; ;}
+    { yyval = Collections.emptyList(); ;}
     break;
   case 112:
 // _line_ 404 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
@@ -1308,8 +1316,8 @@ case yyreduce:
   case 113:
 // _line_ 411 "/home/cs/hilfingr/src/gjdb/src/ucb/gjdb/ExpressionParser.y"
     { if (eval) {
-          ((List)yyvsa[yyvsp+(-2)]).add (((LValue)yyvsa[yyvsp+(0)]).interiorGetValue ());
-          yyval = ((List)yyvsa[yyvsp+(-2)]);
+          ((List<Value>)yyvsa[yyvsp+(-2)]).add (((LValue)yyvsa[yyvsp+(0)]).interiorGetValue ());
+          yyval = ((List<Value>)yyvsa[yyvsp+(-2)]);
       }
     ;}
     break;

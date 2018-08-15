@@ -20,7 +20,7 @@ class SourceMapper {
 
     SourceMapper(String sourcepath) {
         StringTokenizer st = new StringTokenizer(sourcepath, File.pathSeparator);
-        List dlist = new ArrayList();
+        List<String> dlist = new ArrayList<>();
 
         String homePrefix = "~" + File.separator;
         String homeDir;

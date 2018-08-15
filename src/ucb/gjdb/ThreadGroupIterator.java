@@ -17,14 +17,14 @@ import java.util.Iterator;
  * @author Robert G. Field
  */
 class ThreadGroupIterator implements Iterator {
-    private final Stack stack = new Stack();
+    private final Stack<Iterator<ThreadGroupReference>> stack = new Stack<>();
 
-    ThreadGroupIterator(List tgl) {
+    ThreadGroupIterator(List<ThreadGroupReference> tgl) {
         push(tgl);
     }
 
     ThreadGroupIterator(ThreadGroupReference tg) {
-        List tgl = new ArrayList();
+        List<ThreadGroupReference> tgl = new ArrayList<>();
         tgl.add(tg);
         push(tgl);
     }
@@ -43,7 +43,7 @@ class ThreadGroupIterator implements Iterator {
      * empty, there is no top.  This method assures
      * this invariant.
      */
-    private void push(List tgl) {
+    private void push(List<ThreadGroupReference> tgl) {
         stack.push(tgl.iterator());
         while (!stack.isEmpty() && !top().hasNext()) {
             stack.pop();

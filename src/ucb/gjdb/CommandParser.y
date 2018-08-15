@@ -9,7 +9,9 @@
 %token<String> INTLIT CHARLIT STRINGLIT
 %token<String> IDENT 
 
-%type<List> thread_id_list delete_breakpoint_spec_list int_list
+%type<List<String>> thread_id_list
+%type<List<BreakpointSpec>> delete_breakpoint_spec_list
+%type<List<Integer>>  int_list
 %type<String> connector_args thread_id
 %type<Integer> address address_opt intlit intlit_dflt1 intlit_dflt_m1
 %type<Integer> suspend_policy
@@ -17,7 +19,9 @@
 %type<EventRequestSpec> exception_spec
 %type<String> class_id break_class_id watch_type id_pattern
 %type<String> if_clause_opt formal_type
-%type<List> formal_types_opt formal_types watchpoint_spec exclude_class_id_list
+%type<List<EventRequestSpec>> watchpoint_spec
+%type<List<String>> formal_types_opt formal_types
+%type<List<String>> exclude_class_id_list
 %type<String> expr
 
 %header{

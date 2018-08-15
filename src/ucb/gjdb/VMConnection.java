@@ -30,7 +30,7 @@ class VMConnection {
     static final int DUMPSTREAM_BUFFER_SIZE = 256;
 
     private VirtualMachine vm;    
-    private List classPath;
+    private List<String> classPath;
     private Thread inputTransferThread;
     private Process process = null;
     private int outputCompleteCount = 0;
@@ -47,7 +47,7 @@ class VMConnection {
     private int lastClearedValueId;
 
     private final Connector connector;
-    private final Map connectorArgs;
+    private final Map<String, Connector.Argument> connectorArgs;
     private final String inputFileName, outputFileName, errorFileName;
     private final int traceFlags;
     private final boolean IOFromDebuggerPossible;
@@ -85,9 +85,10 @@ class VMConnection {
         return null;
     }
 
-    private Map parseConnectorArgs(Connector connector, String argString) {
+    private Map<String, Connector.Argument>
+        parseConnectorArgs(Connector connector, String argString) {
         StringTokenizer tokenizer = new StringTokenizer(argString, ",");
-        Map arguments = connector.defaultArguments();
+        Map<String, Connector.Argument> arguments = connector.defaultArguments();
 
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
@@ -170,7 +171,7 @@ class VMConnection {
             if (vm instanceof PathSearchingVirtualMachine) {
                 PathSearchingVirtualMachine vm1 = 
                     (PathSearchingVirtualMachine) vm;
-                classPath = new ArrayList ();
+                classPath = new ArrayList<> ();
                 classPath.addAll (vm1.classPath ());
                 classPath.addAll (vm1.bootClassPath ());
                 for (int i = 0; i < classPath.size (); i += 1)
@@ -581,7 +582,7 @@ class VMConnection {
 
         String fileName;
         fileName = name.replace ('.', File.separatorChar) + ".class";
-        List classFileNames = new ArrayList (name.length () / 4);
+        List<String> classFileNames = new ArrayList<> (name.length () / 4);
         while (true) {
             classFileNames.add (fileName);
             int k = fileName.lastIndexOf (File.separatorChar);

@@ -58,7 +58,7 @@ class ThreadInfo {
     static synchronized ThreadInfo[] threads() {
         if (threads == null) {
             ThreadIterator ti = threadIterator();
-            List tlist = new ArrayList();
+            List<ThreadInfo> tlist = new ArrayList<>();
             while (ti.hasNext()) {
                 ThreadInfo tinfo = new ThreadInfo(ti.nextThread());
                 tlist.add(tinfo);

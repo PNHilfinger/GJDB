@@ -12,7 +12,6 @@ import com.sun.jdi.*;
 import com.sun.jdi.request.StepRequest;
 import com.sun.jdi.request.MethodEntryRequest;
 import com.sun.jdi.request.MethodExitRequest;
-import com.sun.tools.jdi.*;
 import java.util.*;
 import java.io.*;
 
@@ -31,7 +30,7 @@ class Env {
     private static ArrayList<String> excludes = new ArrayList<String> ();
 
     private static final int SOURCE_CACHE_SIZE = 5;
-    private static List sourceCache = new LinkedList();
+    private static List<SourceCode> sourceCache = new LinkedList<>();
 
     static boolean annotate;
     static String connectSpec;
@@ -392,7 +391,7 @@ class Env {
 
     static class SourceCode {
         private String fileName;
-        private List sourceLines = new ArrayList();
+        private List<String> sourceLines = new ArrayList<>();
 
         SourceCode(String fileName, BufferedReader reader)  throws IOException {
             this.fileName = fileName;

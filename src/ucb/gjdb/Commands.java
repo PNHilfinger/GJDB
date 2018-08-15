@@ -1113,8 +1113,8 @@ class Commands implements EventNotifier {
         /* Note: Spec is unclear as to whether deleting 
          * erm.methodEntryRequests () directly will work, so I take the 
          * precaution of copying it first. */
-        erm.deleteEventRequests (new ArrayList (erm.methodEntryRequests ()));
-        erm.deleteEventRequests (new ArrayList (erm.methodExitRequests()));
+        erm.deleteEventRequests (new ArrayList<> (erm.methodEntryRequests ()));
+        erm.deleteEventRequests (new ArrayList<> (erm.methodExitRequests()));
     }
     
     void commandList(int lineno, String methodId) {
@@ -1264,7 +1264,7 @@ class Commands implements EventNotifier {
         }
         try {
             frame = ThreadInfo.current.getCurrentFrame();
-            List vars = frame.visibleVariables();
+            List<LocalVariable> vars = frame.visibleVariables();
     
             if (vars.size() == 0) {
                 Env.noticeln("No local variables");
@@ -1747,7 +1747,7 @@ class Commands implements EventNotifier {
     }
 
     void commandExcludeClear () {
-        Env.setExcludes(Collections.EMPTY_LIST);
+        Env.setExcludes(Collections.emptyList());
     }
 
     void commandExcludeReset () {

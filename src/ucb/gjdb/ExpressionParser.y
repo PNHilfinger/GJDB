@@ -36,7 +36,7 @@
 %type<LValue> expr primary cast create unary unary_no_pm postfix
 %type<LValue> array_initializer 
 %type<Integer> dims 
-%type<List> params expr_list dimensions dimensions_prefix
+%type<List<Value>> dimensions dimensions_prefix params expr_list
 
 
 %header{
@@ -397,7 +397,7 @@ array_items:
 
 params:
 	  '(' expr_list ')'	{ $$ = $2; }
-	| '(' ')'		{ $$ = Collections.EMPTY_LIST; }
+	| '(' ')'		{ $$ = Collections.emptyList(); }
 	;
 
 expr_list:
