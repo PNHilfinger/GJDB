@@ -25,7 +25,7 @@ subset of the Java expression language.  For example
 
 or 
 
-	(gjdb) print x.f ()
+	(gjdb) print x.f()
 
 At the moment, proper documentation is missing.  Type 'help' in the debugger.
 
@@ -73,12 +73,12 @@ if you have put DIR on Emacs's load path.
 DIRECTORIES
 -----------
 
-src:  Contains Java class sources, Bison sources, and JFlex sources.
+src: Contains Java class sources, Bison sources, and JFlex sources.
 
-lib: Contains the Emacs definitions supporing gjdb mode.
+lib: Contains the Emacs definitions supporting gjdb mode.
 
 doc: gjdb.tex and supporting LaTeX definition files (from the introductory
-          data-structures course CS61B).
+     data-structures course CS61B).
 
 bin: Supporting shell scripts.
 
