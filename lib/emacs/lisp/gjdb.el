@@ -10,7 +10,7 @@
 
 (require 'gud)
 (require 'cc-engine)
-(require 'cl)
+(require 'cl-lib)
 
 
 ;; ======================================================================
@@ -33,7 +33,7 @@
       s-subst)))
 
 (defun gjdb-massage-args (file args)
-  (cons "-f" (map 'list 'gjdb-shell-subst args)))
+  (cons "-f" (cl-map 'list 'gjdb-shell-subst args)))
 
 (defvar gjdb-marker-regexp
     (concat "\032\032\\([^" path-separator "\n]*\\)" path-separator
